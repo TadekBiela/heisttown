@@ -1,7 +1,7 @@
 if(UNIX)
-  set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/tests/ut)
+  set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/unittests/ut)
 else()
-  set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/tests/ut.exe)
+  set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/unittests/ut.exe)
 endif()
 
 add_custom_target(buildut)
