@@ -7,3 +7,4 @@ project("Heist Town")
 enable_testing()
 
 add_subdirectory(app)
+add_subdirectory(unittests)
