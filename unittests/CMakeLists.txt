@@ -2,6 +2,7 @@ if(UNIX)
   set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/tests/ut)
 else()
   set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/tests/ut.exe)
+endif()
 
 add_custom_target(buildut)
 add_custom_target(runut COMMAND exec ${EXEC_COMMAND})
