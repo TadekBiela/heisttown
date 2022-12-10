@@ -7,6 +7,6 @@ RUN git clone https://github.com/TadekBiela/heisttown.git
 
 # Set to working directory and build heisttown
 WORKDIR /usr/src/heisttown/build
-RUN cmake ../ -G "Unix Makefiles" && make -j4 app
+RUN cmake ../ && make -j4 app
 
 LABEL Name=heisttown Version=0.0.1
