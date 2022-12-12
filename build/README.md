@@ -1,20 +1,21 @@
-#Build commands
+# Build commands
 
-## 1. Build game
-  * Run this commands combination to build game as `heisttown` file in Git Bash console: \
-      `cmake ../ -G "Unix Makefiles" && make -j4 app`
+### 1. Build Game Application
 
-  * Game `heisttown` file is in `app/` folder. **Enjoy!**
+* To build game application, run this commands: \
+`cmake ../ && make -j app`
 
+* Game will be in `app/` folder as `heisttown` file.
 
-## 2. Build and run Unit Tests
-  * Run this commands combination to build Unit Tests as `ut` file: \
-      `cmake ../ -G "Unix Makefiles" && make -j4 buildut`
+### 2. Build and Run Unit Tests
 
-  * If you want run only one or part of UTs just use `gtest_filter`: \
-      `cmake ../ -G "Unix Makefiles" && make -j4 buildut && tests/ut --gtest_filter="*Client*"`
+* To build unit tests as `ut` executable file, run this command: \
+`cmake ../ && make -j buildut`
 
-  * If you want build and run Uts use this command: \
-      `cmake ../ -G "Unix Makefiles" && make -j4 runut`
+* To build and run all unit tests, use this command: \
+`cmake ../ && make -j runut`
+
+* If you want run only one or part of unit tests you can use `gtest_filter`: \
+`cmake ../ && make -j buildut && unittests/ut --gtest_filter="*Client*"`
 
 
