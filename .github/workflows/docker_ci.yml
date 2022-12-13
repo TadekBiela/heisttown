@@ -1,0 +1,37 @@
+name: CI
+on: push
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    container:
+      image: tadekbiela/heisttown:heisttown
+      env:
+        DISPLAY: :0
+    env:
+      CI: true
+    steps:
+      - name: build app
+        run: |
+          git pull
+          cmake ../
+          make -j app
+
+      - name:  build ut
+        run: |
+          git pull
+          cmake ../
+          make -j buildut
+
+      - name: run ut
+        run: |
+          apt-get update
+          apt-get install -y xvfb
+          Xvfb :0 -screen 0 800x600x24 &
+          git pull
+          cmake ../
+          make -j runut
+
+defaults:
+  run:
+    working-directory: /usr/src/heisttown/build
