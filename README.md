@@ -14,10 +14,9 @@ Heist Town is a 2D sandbox multiplayer crime game inspired by GTA 2.
 * Run VcXsrv Windows X Server with default configuration.
 * Run command prompt ( `cmd` ) and check PC IP address using `ipconfig` command.
 * Stay in command prompt and run Docker container using this command: \
-`docker run --name heisttown -e DISPLAY=<your-pc-ip-address>:0 --expose 3000 -p 3000:3000 -v C:\Users\<your-user-name>\:\src -it tadekbiela/heisttown:heisttown /bin/bash`
+`docker run --name heisttown -e DISPLAY=<your-pc-ip-address>:0 -it tadekbiela/heisttown:heisttown /bin/bash`
 
 * `<your-pc-ip-address>` - put here you own PC IP address.
-* `<your-user-name>` - put here your own PC user name.
 * When Docker container will run, do not forget to pull all new changes using `git pull` command.
 * You can stay in command prompt or move to Docker Desktop terminal.
 * QtCreator is used as default IDE. You can run it using `qtcreator` command.
