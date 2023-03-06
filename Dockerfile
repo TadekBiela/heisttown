@@ -9,4 +9,4 @@ RUN git clone https://github.com/TadekBiela/heisttown.git
 WORKDIR /usr/src/heisttown/build
 RUN cmake ../ && make -j4 app
 
-LABEL Name=heisttown Version=0.0.1
+LABEL Name=heisttown
