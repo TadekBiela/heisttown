@@ -10,7 +10,6 @@ jobs:
         DISPLAY: :0
     env:
       CI: true
-      working-directory: /usr/src/heisttown/build
     steps:
       - name: build app
         run: |
@@ -31,28 +30,6 @@ jobs:
           cmake ../
           make -j runut
 
-  windows:
-    runs-on: windows-latest
-    container:
-      image: tadekbiela/heisttown:heisttown_win
-    env:
-      CI: true
-      working-directory: C:\heisttown\build
-    steps:
-      - name: build app
-        run: |
-          git pull
-          cmake ../
-          make -j app
-
-      - name:  build ut
-        run: |
-          git pull
-          cmake ../
-          make -j buildut
-
-      - name: run ut
-        run: |
-          git pull
-          cmake ../
-          make -j runut
+defaults:
+  run:
+    working-directory: /usr/src/heisttown/build
