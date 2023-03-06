@@ -1,11 +1,11 @@
+add_custom_target(buildut)
+
 if(UNIX)
-  set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/unittests/ut)
+  add_custom_target(runut COMMAND exec ${CMAKE_BINARY_DIR}/unittests/ut)
 else()
   set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/unittests/ut.exe)
+  add_custom_target(runut COMMAND powershell ${CMAKE_BINARY_DIR}/unittests/ut.exe)
 endif()
-
-add_custom_target(buildut)
-add_custom_target(runut COMMAND exec ${EXEC_COMMAND})
 
 set(PROJECT_NAME ut)
 
@@ -14,6 +14,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Multimedia Network)
 find_package(Qt6Test REQUIRED)
+find_package(GTest REQUIRED)
 
 enable_testing()
 
