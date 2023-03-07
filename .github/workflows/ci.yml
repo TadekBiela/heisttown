@@ -10,7 +10,10 @@ jobs:
         DISPLAY: :0
     env:
       CI: true
-      working-directory: /usr/src/heisttown/build
+    defaults:
+      run:
+        shell: bash
+        working-directory: /usr/src/heisttown/build
     steps:
       - name: build app
         run: |
