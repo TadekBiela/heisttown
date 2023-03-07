@@ -10,6 +10,7 @@ jobs:
         DISPLAY: :0
     env:
       CI: true
+      working-directory: /usr/src/heisttown/build
     steps:
       - name: build app
         run: |
@@ -30,6 +31,14 @@ jobs:
           cmake ../
           make -j runut
 
-defaults:
-  run:
-    working-directory: /usr/src/heisttown/build
+  windows:
+    runs-on: windows-latest
+    steps:
+    - name: build app
+      run: docker run --name ht --rm tadekbiela/heisttown:heisttown_win powershell "git pull; cmake ..; make -j app"
+
+    - name: build ut
+      run: docker run --name ht --rm tadekbiela/heisttown:heisttown_win powershell "git pull; cmake ..; make -j buildut"
+
+    - name: run ut
+      run: docker run --name ht --rm tadekbiela/heisttown:heisttown_win powershell "git pull; cmake ..; make -j runut"
