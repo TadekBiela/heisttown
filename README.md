@@ -4,15 +4,17 @@ Heist Town is a 2D sandbox multiplayer crime game inspired by GTA 2.
 
 ## 1. Windows development
 
-### 1.1. Requirements
+### 1.1 Development using Linux Docker container
+
+#### 1.1.1. Requirements
 
 * Docker Desktop: https://www.docker.com/products/docker-desktop/ 
 * VcXsrv Windows X Server: https://sourceforge.net/projects/vcxsrv/ 
 
-### 1.2. Prepare Project to Build
+#### 1.1.2 Prepare Project to Build
 
 * Run VcXsrv Windows X Server with default configuration.
-* Run command prompt ( `cmd` ) and check PC IP address using `ipconfig` command.
+* Run command prompt ( `cmd` or `PowerShell` ) and check PC IP address using `ipconfig` command.
 * Stay in command prompt and run Docker container using this command: \
 `docker run --name heisttown -e DISPLAY=<your-pc-ip-address>:0 -it tadekbiela/heisttown:heisttown /bin/bash`
 
@@ -20,6 +22,21 @@ Heist Town is a 2D sandbox multiplayer crime game inspired by GTA 2.
 * When Docker container will run, do not forget to pull all new changes using `git pull` command.
 * You can stay in command prompt or move to Docker Desktop terminal.
 * QtCreator is used as default IDE. You can run it using `qtcreator` command.
+
+### 1.2 Development using Windows Docker container - only for terminal testing!
+
+#### 1.2.1. Requirements
+
+* Docker Desktop: https://www.docker.com/products/docker-desktop/ 
+
+#### 1.2.2 Prepare Project to Build
+
+* Switch Docker Desktop to Windows Container.
+* Run command prompt ( `cmd` or `PowerShell` ) and run Docker container using this command: \
+`docker run --name heisttown -it tadekbiela/heisttown:heisttown_win powershell`
+
+* When Docker container will run, do not forget to pull all new changes using `git pull` command.
+* You can stay in command prompt or move to Docker Desktop terminal.
 
 ## 2. Linux development
 
