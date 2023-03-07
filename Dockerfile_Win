@@ -9,5 +9,6 @@ WORKDIR "C:\heisttown\build"
 RUN powershell -Command "cmake .."
 RUN powershell -Command "make -j app"
 RUN powershell -Command "make -j runut"
+RUN powershell -Command "git config --global --add safe.directory C:/heisttown"
 
 LABEL Name=heisttown_win
