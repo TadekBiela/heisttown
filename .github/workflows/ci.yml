@@ -37,11 +37,23 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
+    - name: Initialize containers
+      run: |
+        cmd "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchWindowsEngine
+        docker pull tadekbiela/heisttown:heisttown_win
+        docker create --name ht -i tadekbiela/heisttown:heisttown_win
+        docker start ht
+      
     - name: build app
-      run: docker run --name ht --rm tadekbiela/heisttown:heisttown_win powershell "git pull; cmake ..; make -j app"
+      run: docker exec ht powershell "git pull; cmake ..; make -j app"
 
     - name: build ut
-      run: docker run --name ht --rm tadekbiela/heisttown:heisttown_win powershell "git pull; cmake ..; make -j buildut"
+      run: docker exec ht powershell "git pull; cmake ..; make -j buildut"
 
     - name: run ut
-      run: docker run --name ht --rm tadekbiela/heisttown:heisttown_win powershell "git pull; cmake ..; make -j runut"
+      run: docker exec ht powershell "git pull; cmake ..; make -j runut"
+      
+    - name: Stop containers
+      run: |
+        docker stop ht
+        docker rm ht
