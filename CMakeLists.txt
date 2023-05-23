@@ -17,7 +17,7 @@ set(CMAKE_DEBUG_POSTFIX d)
 
 enable_testing()
 
-add_subdirectory(app)
+add_subdirectory(src)
 
 add_custom_target(RunAllTests
         COMMAND "${CMAKE_COMMAND}" --build . --target all
