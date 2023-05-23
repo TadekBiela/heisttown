@@ -1,14 +1,15 @@
-add_custom_target(app)
+#add_subdirectory(client)
 
-set(PROJECT_NAME heisttown)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
+set(PROJECT_NAME app LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Multimedia Network)
+find_package(Qt6 COMPONENTS Core Widgets Gui Multimedia Network REQUIRED)
 
-add_executable(${PROJECT_NAME} WIN32 main.cpp)
+set(APP_NAME MainApp)
 
-target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Gui Qt6::Multimedia Qt6::Network)
+aux_source_directory(. SRC_FILES)
 
-add_dependencies(app ${PROJECT_NAME})
+add_executable(${APP_NAME} MACOSX_BUNDLE ${SRC_FILES})
+
+target_link_libraries(${APP_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui Qt6::Multimedia Qt6::Network)
+
+set_target_properties(${APP_NAME} PROPERTIES AUTOMOC ON)
