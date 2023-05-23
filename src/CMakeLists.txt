@@ -4,7 +4,7 @@ set(PROJECT_NAME app LANGUAGES CXX)
 
 find_package(Qt6 COMPONENTS Core Widgets Gui Multimedia Network REQUIRED)
 
-set(APP_NAME MainApp)
+set(APP_NAME HeistTown)
 
 aux_source_directory(. SRC_FILES)
 

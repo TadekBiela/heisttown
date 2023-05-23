@@ -11,6 +11,6 @@ add_library(${LIB_NAME} STATIC ${SRC_FILES})
 target_include_directories(${LIB_NAME} INTERFACE .)
 
 target_link_libraries(${LIB_NAME} PRIVATE Qt6::Widgets)
-target_link_libraries(${LIB_NAME} PUBLIC MainApp)
+target_link_libraries(${LIB_NAME} PUBLIC HeistTown)
 
 set_target_properties(${LIB_NAME} PROPERTIES AUTOMOC ON)
