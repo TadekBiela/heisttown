@@ -56,17 +56,18 @@ Heist Town is a 2D sandbox multiplayer crime game inspired by GTA 2.
 ## 3. Build Game Application
 
 * To build game application, run this commands: \
-`cmake ../ && make -j app`
+`cmake .. && cmake --build . --target all`
 
-* Game will be in `app/` folder as `heisttown` file.
+* Game will be in `src/` folder as `HeistTown` file.
 
 ## 4. Build and Run Unit Tests
 
 * To build unit tests as `ut` executable file, run this command: \
-`cmake ../ && make -j buildut`
+`cmake .. && cmake --build . --target all`
 
 * To build and run all unit tests, use this command: \
-`cmake ../ && make -j runut`
+`cmake .. && cmake --build . --target all && cmake --build . --target test`
 
 * If you want run only one or part of unit tests you can use `gtest_filter`: \
-`cmake ../ && make -j buildut && unittests/ut --gtest_filter="*Client*"`
+`for example: \
+	src/client/mousecursor/tests/MouseCursorTests --gtest_filter="*Default*"`
