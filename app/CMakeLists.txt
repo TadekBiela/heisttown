@@ -1,4 +1,4 @@
-#add_subdirectory(client)
+add_subdirectory(client)
 
 set(PROJECT_NAME app LANGUAGES CXX)
 
