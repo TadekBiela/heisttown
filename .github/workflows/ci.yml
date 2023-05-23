@@ -15,24 +15,19 @@ jobs:
         shell: bash
         working-directory: /usr/src/heisttown/build
     steps:
-      - name: build app
+      - name: build all
         run: |
           git pull
-          cmake ../
-          make -j app
-
-      - name:  build ut
-        run: |
-          git pull
-          cmake ../
-          make -j buildut
+          cmake ..
+          cmake --build . --target all
 
       - name: run ut
         run: |
           Xvfb :0 -screen 0 800x600x24 &
           git pull
-          cmake ../
-          make -j runut
+          cmake ..
+          cmake --build . --target all
+          cmake --build . --target test
 
   windows:
     runs-on: windows-2019
@@ -44,14 +39,11 @@ jobs:
         docker create --name ht -i tadekbiela/heisttown:heisttown_win
         docker start ht
       
-    - name: build app
-      run: docker exec ht powershell "git pull; cmake ..; make -j app"
-
-    - name: build ut
-      run: docker exec ht powershell "git pull; cmake ..; make -j buildut"
+    - name: build all
+      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all"
 
     - name: run ut
-      run: docker exec ht powershell "git pull; cmake ..; make -j runut"
+      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all; cmake --build . --target test"
       
     - name: Stop containers
       run: |
