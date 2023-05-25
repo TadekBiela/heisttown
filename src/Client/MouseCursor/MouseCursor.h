@@ -1,5 +1,5 @@
-#ifndef MOUSE_CURSOR_HPP
-#define MOUSE_CURSOR_HPP
+#ifndef MOUSE_CURSOR_H
+#define MOUSE_CURSOR_H
 
 #include <QApplication>
 
@@ -10,4 +10,4 @@ public:
     virtual ~MouseCursor();
 };
 
-#endif //MOUSE_CURSOR_HPP
+#endif //MOUSE_CURSOR_H

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../MouseCursor.hpp"
+#include <MouseCursor.h>
 
 class MouseCursorTests : public testing::Test
 {
