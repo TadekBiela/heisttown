@@ -1,4 +1,4 @@
-#include "mousecursor.hpp"
+#include "MouseCursor.hpp"
 
 MouseCursor::MouseCursor()
 {
