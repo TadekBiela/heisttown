@@ -1,4 +1,4 @@
-add_subdirectory(mousecursor)
+add_subdirectory(MouseCursor)
 
 find_package(Qt6 COMPONENTS Core Widgets Gui Multimedia Network REQUIRED)
 

@@ -1,4 +1,4 @@
-add_subdirectory(tests)
+add_subdirectory(Tests)
 
 find_package(Qt6 COMPONENTS Core Widgets Gui Multimedia Network REQUIRED)
 
