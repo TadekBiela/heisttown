@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <FilesStorage.h>
+#include <StubFileLoader.h>
 #include <QImage>
 #include <memory>
 
