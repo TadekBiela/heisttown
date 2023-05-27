@@ -67,16 +67,28 @@ protected:
     std::map<FileName, File> loadedData;
 };
 
+template<typename File>
 class FilesStorage
 {
 public:
-    FilesStorage(IFileLoader<QImage> const* fileLoader);
-    virtual ~FilesStorage();
+    FilesStorage(IFileLoader<QImage> const* fileLoader)
+    {
+        data = fileLoader->getLoadedData();
+    }
 
-    QImage getFile(FileName name) const;
+    virtual ~FilesStorage() {}
+
+    File getFile(FileName name) const
+    {
+        if(auto file = data.find(name); file != data.end())
+        {
+            return file->second;
+        }
+        return QImage();
+    }
 
 protected:
-    std::map<FileName, QImage> data;
+    std::map<FileName, File> data;
 };
 
 #endif //FILES_STORAGE_H

@@ -17,7 +17,7 @@ TEST_F(FilesStorageTests, getFile_OnlyDefaultValue_ShouldReturnEmptyImageFile)
 {
     QImage expected;
     std::unique_ptr<StubFileLoader<QImage>> loader = std::make_unique<StubFileLoader<QImage>>(std::filesystem::path());
-    FilesStorage storage{loader.get()};
+    FilesStorage<QImage> storage{loader.get()};
 
     QImage result = storage.getFile("default");
 
@@ -31,7 +31,7 @@ TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetItByName_ShouldR
     std::unique_ptr<StubFileLoader<QImage>> loader = std::make_unique<StubFileLoader<QImage>>(std::filesystem::path());
     std::map<FileName, QImage> filesMapWithOneFile{ {"fileOne", expected} };
     loader->setLoadedData(filesMapWithOneFile);
-    FilesStorage storage{loader.get()};
+    FilesStorage<QImage> storage{loader.get()};
 
     QImage result = storage.getFile("fileOne");
 
@@ -45,7 +45,7 @@ TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetFileThatNotExist
     std::unique_ptr<StubFileLoader<QImage>> loader = std::make_unique<StubFileLoader<QImage>>(std::filesystem::path());
     std::map<FileName, QImage> filesMapWithOneFile{ {"fileOne", expected} };
     loader->setLoadedData(filesMapWithOneFile);
-    FilesStorage storage{loader.get()};
+    FilesStorage<QImage> storage{loader.get()};
 
     QImage result = storage.getFile("fileThatShoudn'tExist");
 
@@ -63,7 +63,7 @@ TEST_F(FilesStorageTests, getFile_DirectoryContainThreeFilesMiddleFileName_Shoul
         {"backFile", QImage(QSize{40, 80}, QImage::Format_RGB32)}
     };
     loader->setLoadedData(filesMapWithOneFile);
-    FilesStorage storage{loader.get()};
+    FilesStorage<QImage> storage{loader.get()};
 
     QImage result = storage.getFile("middleFile");
 
