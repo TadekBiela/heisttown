@@ -5,54 +5,78 @@
 #include <map>
 #include <string>
 #include <QImage>
-
-typedef QImage File;
+#include <QString>
 
 typedef std::filesystem::path Directory;
 typedef std::string FileName;
-typedef std::map<FileName, File> FilesMap;
 
+template<typename File>
 class IFileLoader
 {
 public:
     virtual ~IFileLoader() {}
 
-    virtual FilesMap getLoadedData() const = 0;
+    virtual const std::map<FileName, File>& getLoadedData() const = 0;
+};
+
+
+template<typename File>
+class FileLoader : public IFileLoader<File>
+{
+public:
+    FileLoader(const Directory& directory)
+    {
+        //    const std::filesystem::path filesDirectory{std::filesystem::current_path().string().append(directory)};
+        std::string fileDirectory = directory.string();
+        for (const auto& file : std::filesystem::directory_iterator(directory)) {
+            std::string fullFileName = file.path().filename().string();
+            std::string filePath(fileDirectory + fullFileName);
+            std::string fileName = file.path().stem().string();
+            loadedData[fileName] = File(QString(filePath.c_str()));
+        }
+    }
+
+    virtual ~FileLoader() {}
+
+    const std::map<FileName, File>& getLoadedData() const override
+    {
+        return loadedData;
+    }
 
 protected:
-    FilesMap loadedData;
+    std::map<FileName, File> loadedData;
 };
 
-class FileLoader : public IFileLoader
+template<typename File>
+class StubFileLoader : public IFileLoader<File>
 {
 public:
-    FileLoader(const Directory& directory);
-    virtual ~FileLoader();
+    StubFileLoader(const Directory& directory) {}
+    virtual ~StubFileLoader() {}
 
-    FilesMap getLoadedData() const override;
+    const std::map<FileName, File>& getLoadedData() const override
+    {
+        return loadedData;
+    }
+    void setLoadedData(const std::map<FileName, File>& newData)
+    {
+        loadedData = newData;
+    }
+
+protected:
+    std::map<FileName, File> loadedData;
 };
-
-class StubFileLoader : public IFileLoader
-{
-public:
-    StubFileLoader(const Directory& directory);
-    virtual ~StubFileLoader();
-
-    FilesMap getLoadedData() const override;
-    void setLoadedData(FilesMap newData);
-};
-
 
 class FilesStorage
 {
 public:
-    FilesStorage(const IFileLoader* fileLoader);
+    FilesStorage(IFileLoader<QImage> const* fileLoader);
     virtual ~FilesStorage();
 
-    File getFile(FileName name) const;
+    QImage getFile(FileName name) const;
 
 protected:
-    FilesMap data;
+    std::map<FileName, QImage> data;
 };
 
 #endif //FILES_STORAGE_H
