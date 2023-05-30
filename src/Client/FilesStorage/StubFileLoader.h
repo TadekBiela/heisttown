@@ -1,7 +1,7 @@
 #ifndef STUB_FILE_STORAGE_H
 #define STUB_FILE_STORAGE_H
 
-#include <IFileLoader.h>
+#include "IFileLoader.h"
 
 template<typename File>
 class StubFileLoader : public IFileLoader<File>
