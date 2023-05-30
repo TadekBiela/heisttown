@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <FilesStorage.h>
 #include <StubFileLoader.h>
-#include <QImage>
+#include "TextFile.h"
 #include <memory>
 
 class FilesStorageTests : public testing::Test
@@ -16,58 +16,58 @@ class FilesStorageTests : public testing::Test
 
 TEST_F(FilesStorageTests, getFile_OnlyDefaultValue_ShouldReturnEmptyImageFile)
 {
-    QImage expected;
-    std::unique_ptr<StubFileLoader<QImage>> loader = std::make_unique<StubFileLoader<QImage>>(std::filesystem::path());
-    FilesStorage<QImage> storage{loader.get()};
+    TextFile expected;
+    std::unique_ptr<StubFileLoader<TextFile>> loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
+    FilesStorage<TextFile> storage{loader.get()};
 
-    QImage result = storage.getFile("default");
+    TextFile result = storage.getFile("default");
 
-    EXPECT_EQ(expected.size().width(), result.size().width());
-    EXPECT_EQ(expected.size().height(), result.size().height());
+    EXPECT_EQ(expected.getContent(), result.getContent());
+    EXPECT_EQ(expected.getPath(), result.getPath());
 }
 
 TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetItByName_ShouldReturnCorrectImageFile)
 {
-    QImage expected{QSize{50, 30}, QImage::Format_RGB32};
-    std::unique_ptr<StubFileLoader<QImage>> loader = std::make_unique<StubFileLoader<QImage>>(std::filesystem::path());
-    std::map<FileName, QImage> filesMapWithOneFile{ {"fileOne", expected} };
+    TextFile expected{"/file/path/text1.txt", "testText"};
+    std::unique_ptr<StubFileLoader<TextFile>> loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
+    std::map<FileName, TextFile> filesMapWithOneFile{ {"fileOne", expected} };
     loader->setLoadedData(filesMapWithOneFile);
-    FilesStorage<QImage> storage{loader.get()};
+    FilesStorage<TextFile> storage{loader.get()};
 
-    QImage result = storage.getFile("fileOne");
+    TextFile result = storage.getFile("fileOne");
 
-    EXPECT_EQ(expected.size().width(), result.size().width());
-    EXPECT_EQ(expected.size().height(), result.size().height());
+    EXPECT_EQ(expected.getContent(), result.getContent());
+    EXPECT_EQ(expected.getPath(), result.getPath());
 }
 
 TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetFileThatNotExist_ShouldReturnEmptyImageFile)
 {
-    QImage expected;
-    std::unique_ptr<StubFileLoader<QImage>> loader = std::make_unique<StubFileLoader<QImage>>(std::filesystem::path());
-    std::map<FileName, QImage> filesMapWithOneFile{ {"fileOne", expected} };
+    TextFile expected;
+    std::unique_ptr<StubFileLoader<TextFile>> loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
+    std::map<FileName, TextFile> filesMapWithOneFile{ {"fileOne", expected} };
     loader->setLoadedData(filesMapWithOneFile);
-    FilesStorage<QImage> storage{loader.get()};
+    FilesStorage<TextFile> storage{loader.get()};
 
-    QImage result = storage.getFile("fileThatShoudn'tExist");
+    TextFile result = storage.getFile("fileThatShoudn'tExist");
 
-    EXPECT_EQ(expected.size().width(), result.size().width());
-    EXPECT_EQ(expected.size().height(), result.size().height());
+    EXPECT_EQ(expected.getPath(), result.getPath());
+    EXPECT_EQ(expected.getContent(), result.getContent());
 }
 
 TEST_F(FilesStorageTests, getFile_DirectoryContainThreeFilesMiddleFileName_ShouldReturnMiddleImageFile)
 {
-    QImage expected{QSize{50, 30}, QImage::Format_RGB32};
-    std::unique_ptr<StubFileLoader<QImage>> loader = std::make_unique<StubFileLoader<QImage>>(std::filesystem::path());
-    std::map<FileName, QImage> filesMapWithOneFile{
-        {"frontFile", QImage(QSize{50, 30}, QImage::Format_RGB32)},
+    TextFile expected{"/file/path/text1.txt", "testText"};
+    std::unique_ptr<StubFileLoader<TextFile>> loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
+    std::map<FileName, TextFile> filesMapWithOneFile{
+        {"frontFile", TextFile{"/file/path/text0.txt", "000000000"}},
         {"middleFile", expected},
-        {"backFile", QImage(QSize{40, 80}, QImage::Format_RGB32)}
+        {"backFile", TextFile{"/file/path/text2.txt", "2222222"}}
     };
     loader->setLoadedData(filesMapWithOneFile);
-    FilesStorage<QImage> storage{loader.get()};
+    FilesStorage<TextFile> storage{loader.get()};
 
-    QImage result = storage.getFile("middleFile");
+    TextFile result = storage.getFile("middleFile");
 
-    EXPECT_EQ(expected.size().width(), result.size().width());
-    EXPECT_EQ(expected.size().height(), result.size().height());
+    EXPECT_EQ(expected.getPath(), result.getPath());
+    EXPECT_EQ(expected.getContent(), result.getContent());
 }
