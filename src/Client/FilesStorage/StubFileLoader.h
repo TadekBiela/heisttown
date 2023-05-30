@@ -7,7 +7,7 @@ template<typename File>
 class StubFileLoader : public IFileLoader<File>
 {
 public:
-    StubFileLoader(const Directory& directory) {}
+    StubFileLoader([[maybe_unused]]const Directory& directory) {}
     virtual ~StubFileLoader() {}
 
     const std::map<FileName, File>& getLoadedData() const override
