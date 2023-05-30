@@ -9,8 +9,10 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 option(SANITIZE "Enable sanitizers" OFF)
 
+set(COMMON_COMPILE_FLAGS " -Wall -Wextra -Werror -Wdouble-promotion -Wmisleading-indentation ")
+
 if(SANITIZE)
-    set(SANITIZE_FLAGS " -O0 -Wall -Wextra -g -fno-omit-frame-pointer \
+    set(SANITIZE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -g -fno-omit-frame-pointer \
         -fsanitize=address \
         -fsanitize=undefined \
         -fsanitize=shift \
@@ -30,7 +32,7 @@ if(SANITIZE)
     string(APPEND CMAKE_CXX_FLAGS "${SANITIZE_FLAGS}")
     string(APPEND CMAKE_EXE_LINKER_FLAGS "${SANITIZE_FLAGS}")
 else()
-    set(RELEASE_FLAGS " -O2 -Wall -Wextra")
+    set(RELEASE_FLAGS " -O2 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
     string(APPEND CMAKE_C_FLAGS "${RELEASE_FLAGS}")
     string(APPEND CMAKE_CXX_FLAGS "${RELEASE_FLAGS}")
     string(APPEND CMAKE_EXE_LINKER_FLAGS "${RELEASE_FLAGS}")
