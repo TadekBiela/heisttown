@@ -10,7 +10,22 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 option(SANITIZE "Enable sanitizers" OFF)
 
 if(SANITIZE)
-    set(SANITIZE_FLAGS " -O0 -Wall -Wextra -g -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined")
+    set(SANITIZE_FLAGS " -O0 -Wall -Wextra -g -fno-omit-frame-pointer \
+        -fsanitize=address \
+        -fsanitize=undefined \
+        -fsanitize=shift \
+        -fsanitize=integer-divide-by-zero \
+        -fsanitize=vla-bound \
+        -fsanitize=null \
+        -fsanitize=return \
+        -fsanitize=signed-integer-overflow \
+        -fsanitize=bounds-strict \
+        -fsanitize=float-divide-by-zero \
+        -fsanitize=float-cast-overflow \
+        -fsanitize=nonnull-attribute \
+        -fsanitize=returns-nonnull-attribute \
+        -fsanitize=enum \
+        -fsanitize=vptr")
     string(APPEND CMAKE_C_FLAGS "${SANITIZE_FLAGS}")
     string(APPEND CMAKE_CXX_FLAGS "${SANITIZE_FLAGS}")
     string(APPEND CMAKE_EXE_LINKER_FLAGS "${SANITIZE_FLAGS}")
