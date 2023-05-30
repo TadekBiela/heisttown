@@ -29,6 +29,14 @@ jobs:
           cmake --build . --target all
           cmake --build . --target test
 
+      - name: run sanitizers
+        run: |
+          Xvfb :0 -screen 0 800x600x24 &
+          git pull
+          cmake -DSANITIZE=ON ..
+          cmake --build .
+          cmake --build . --target test
+
   windows:
     runs-on: windows-2019
     steps:
@@ -44,6 +52,9 @@ jobs:
 
     - name: run ut
       run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all; cmake --build . --target test"
+
+    - name: run sanitizers
+      run: docker exec ht powershell "git pull; cmake -DSANITIZE=ON ..; cmake --build .; cmake --build . --target test"
       
     - name: Stop containers
       run: |
