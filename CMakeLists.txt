@@ -74,7 +74,7 @@ add_custom_target(RunAllTests
 
 set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1")
 add_custom_target(Valgrind
-        COMMAND "${CMAKE_COMMAND}" -DVALGRIND=ON .
+        COMMAND "${CMAKE_COMMAND}" -DVALGRIND=ON ..
         COMMAND "${CMAKE_COMMAND}" --build .
         COMMAND "${CMAKE_CTEST_COMMAND}" --verbose --overwrite MemoryCheckCommandOptions=${CTEST_MEMORYCHECK_COMMAND_OPTIONS} -T memcheck
         COMMENT "Running Valgrind"
