@@ -40,6 +40,7 @@ jobs:
       - name: run valgrind
         run: |
           git pull
+          cmake ..
           cmake --build . --target Valgrind
 
   windows:
