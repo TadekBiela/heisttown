@@ -7,7 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+include(CTest)
+
 option(SANITIZE "Enable sanitizers" OFF)
+option(VALGRIND "Enable valgrind" OFF)
 
 set(COMMON_COMPILE_FLAGS " -Wall -Wextra -Werror -Wdouble-promotion -Wmisleading-indentation ")
 
@@ -31,6 +34,18 @@ if(SANITIZE)
     string(APPEND CMAKE_C_FLAGS "${SANITIZE_FLAGS}")
     string(APPEND CMAKE_CXX_FLAGS "${SANITIZE_FLAGS}")
     string(APPEND CMAKE_EXE_LINKER_FLAGS "${SANITIZE_FLAGS}")
+elseif(VALGRIND)
+    find_program(VALGRIND_EXECUTABLE valgrind)
+    if(VALGRIND_EXECUTABLE)
+        message(STATUS "Valgrind found: ${VALGRIND_EXECUTABLE}")
+        message(STATUS "Configuring Valgrind")
+        set(VALGRIND_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
+        string(APPEND CMAKE_C_FLAGS "${VALGRIND_FLAGS}")
+        string(APPEND CMAKE_CXX_FLAGS "${VALGRIND_FLAGS}")
+        string(APPEND CMAKE_EXE_LINKER_FLAGS "${VALGRIND_FLAGS}")
+    else()
+        message(WARNING "Valgrind not found")
+    endif()
 else()
     set(RELEASE_FLAGS " -O2 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
     string(APPEND CMAKE_C_FLAGS "${RELEASE_FLAGS}")
@@ -54,5 +69,14 @@ add_custom_target(RunAllTests
         COMMAND "${CMAKE_COMMAND}" --build . --target all
         COMMAND "${CMAKE_COMMAND}" --build . --target test
         COMMENT "Running tests"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+        VERBATIM)
+
+set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1")
+add_custom_target(Valgrind
+        COMMAND "${CMAKE_COMMAND}" -DVALGRIND=ON .
+        COMMAND "${CMAKE_COMMAND}" --build .
+        COMMAND "${CMAKE_CTEST_COMMAND}" --verbose --overwrite MemoryCheckCommandOptions=${CTEST_MEMORYCHECK_COMMAND_OPTIONS} -T memcheck
+        COMMENT "Running Valgrind"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         VERBATIM)

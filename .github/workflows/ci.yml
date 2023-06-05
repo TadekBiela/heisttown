@@ -37,6 +37,11 @@ jobs:
           cmake --build .
           cmake --build . --target test
 
+      - name: run valgrind
+        run: |
+          git pull
+          cmake --build . --target Valgrind
+
   windows:
     runs-on: windows-2019
     steps:
