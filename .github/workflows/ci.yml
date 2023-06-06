@@ -17,30 +17,28 @@ jobs:
     steps:
       - name: build all
         run: |
+          Xvfb :0 -screen 0 800x600x24 &
           git pull
           cmake ..
           cmake --build . --target all
 
       - name: run ut
         run: |
-          Xvfb :0 -screen 0 800x600x24 &
-          git pull
+          rm -rf *
           cmake ..
-          cmake --build . --target all
-          cmake --build . --target test
+          cmake --build .
+          ctest
 
       - name: run sanitizers
         run: |
-          Xvfb :0 -screen 0 800x600x24 &
-          git pull
+          rm -rf *
           cmake -DSANITIZE=ON ..
           cmake --build .
-          cmake --build . --target test
+          ctest
 
       - name: run valgrind
         run: |
-          git pull
-          cmake ..
+          rm -rf *
           cmake --build . --target Valgrind
 
   windows:
@@ -57,10 +55,10 @@ jobs:
       run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all"
 
     - name: run ut
-      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all; cmake --build . --target test"
+      run: docker exec ht powershell "git pull; cmake ..; cmake --build .; ctest"
 
     - name: run sanitizers
-      run: docker exec ht powershell "git pull; cmake -DSANITIZE=ON ..; cmake --build .; cmake --build . --target test"
+      run: docker exec ht powershell "git pull; cmake -DSANITIZE=ON ..; cmake --build .; ctest"
       
     - name: Stop containers
       run: |
