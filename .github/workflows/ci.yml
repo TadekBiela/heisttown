@@ -39,6 +39,8 @@ jobs:
       - name: run valgrind
         run: |
           rm -rf *
+          cmake -DVALGRIND=ON ..
+          cmake --build .
           cmake --build . --target Valgrind
 
   windows:
