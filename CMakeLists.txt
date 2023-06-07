@@ -15,6 +15,7 @@ option(VALGRIND "Enable valgrind" OFF)
 set(COMMON_COMPILE_FLAGS " -Wall -Wextra -Werror -Wdouble-promotion -Wmisleading-indentation ")
 
 if(SANITIZE)
+    message(STATUS "Configuring Sanitizers")
     set(SANITIZE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -g -fno-omit-frame-pointer \
         -fsanitize=address \
         -fsanitize=undefined \
@@ -73,16 +74,16 @@ add_custom_target(RunAllTests
         VERBATIM)
 
 add_custom_target(Sanitizers
-        COMMAND "${CMAKE_COMMAND}" -DSANITIZE=ON ..
+        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=ON ..
         COMMAND "${CMAKE_COMMAND}" --build .
-        COMMAND "${CMAKE_CTEST_COMMAND}"
+        COMMAND "${CMAKE_CTEST_COMMAND}" --verbose
         COMMENT "Running Sanitizers"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         VERBATIM)
 
 set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1")
 add_custom_target(Valgrind
-        COMMAND "${CMAKE_COMMAND}" -DVALGRIND=ON ..
+        COMMAND "${CMAKE_COMMAND}" -D VALGRIND=ON ..
         COMMAND "${CMAKE_COMMAND}" --build .
         COMMAND "${CMAKE_CTEST_COMMAND}" --verbose --overwrite MemoryCheckCommandOptions=${CTEST_MEMORYCHECK_COMMAND_OPTIONS} -T memcheck
         COMMENT "Running Valgrind"
