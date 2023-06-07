@@ -11,6 +11,7 @@ include(CTest)
 
 option(SANITIZE "Enable sanitizers" OFF)
 option(VALGRIND "Enable valgrind" OFF)
+option(RELEASE "Build Release" OFF)
 
 set(COMMON_COMPILE_FLAGS " -Wall -Wextra -Werror -Wdouble-promotion -Wmisleading-indentation ")
 
@@ -47,12 +48,19 @@ elseif(VALGRIND)
     else()
         message(WARNING "Valgrind not found")
     endif()
-else()
+elseif(RELEASE)
     set(RELEASE_FLAGS " -O2 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
     string(APPEND CMAKE_C_FLAGS "${RELEASE_FLAGS}")
     string(APPEND CMAKE_CXX_FLAGS "${RELEASE_FLAGS}")
     string(APPEND CMAKE_EXE_LINKER_FLAGS "${RELEASE_FLAGS}")
+else()
+    set(DEBUG_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
+    string(APPEND CMAKE_C_FLAGS "${DEBUG_FLAGS}")
+    string(APPEND CMAKE_CXX_FLAGS "${DEBUG_FLAGS}")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS "${DEBUG_FLAGS}")
 endif()
+
+message(STATUS "Setuped compile flags: ${CMAKE_CXX_FLAGS}")
 
 set(BUILD_SHARED_LIBS OFF)
 
@@ -74,7 +82,7 @@ add_custom_target(RunAllTests
         VERBATIM)
 
 add_custom_target(Sanitizers
-        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=ON ..
+        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=ON -D VALGRIND=OFF -D RELEASE=OFF ..
         COMMAND "${CMAKE_COMMAND}" --build .
         COMMAND "${CMAKE_CTEST_COMMAND}" --verbose
         COMMENT "Running Sanitizers"
@@ -83,9 +91,16 @@ add_custom_target(Sanitizers
 
 set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1")
 add_custom_target(Valgrind
-        COMMAND "${CMAKE_COMMAND}" -D VALGRIND=ON ..
+        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=ON -D RELEASE=OFF ..
         COMMAND "${CMAKE_COMMAND}" --build .
         COMMAND "${CMAKE_CTEST_COMMAND}" --verbose --overwrite MemoryCheckCommandOptions=${CTEST_MEMORYCHECK_COMMAND_OPTIONS} -T memcheck
+        COMMENT "Running Valgrind"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+        VERBATIM)
+
+add_custom_target(Release
+        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=ON ..
+        COMMAND "${CMAKE_COMMAND}" --build . --target all
         COMMENT "Running Valgrind"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         VERBATIM)
