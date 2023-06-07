@@ -72,6 +72,14 @@ add_custom_target(RunAllTests
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         VERBATIM)
 
+add_custom_target(Sanitizers
+        COMMAND "${CMAKE_COMMAND}" -DSANITIZE=ON ..
+        COMMAND "${CMAKE_COMMAND}" --build .
+        COMMAND "${CMAKE_CTEST_COMMAND}"
+        COMMENT "Running Sanitizers"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+        VERBATIM)
+
 set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1")
 add_custom_target(Valgrind
         COMMAND "${CMAKE_COMMAND}" -DVALGRIND=ON ..

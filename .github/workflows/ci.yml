@@ -24,23 +24,14 @@ jobs:
 
       - name: run ut
         run: |
-          rm -rf *
-          cmake ..
-          cmake --build .
-          ctest
+          cmake --build . --target RunAllTests
 
       - name: run sanitizers
         run: |
-          rm -rf *
-          cmake -DSANITIZE=ON ..
-          cmake --build .
-          ctest
+          cmake --build . --target Sanitizers
 
       - name: run valgrind
         run: |
-          rm -rf *
-          cmake -DVALGRIND=ON ..
-          cmake --build .
           cmake --build . --target Valgrind
 
   windows:
@@ -57,10 +48,10 @@ jobs:
       run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all"
 
     - name: run ut
-      run: docker exec ht powershell "git pull; cmake ..; cmake --build .; ctest"
+      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target RunAllTests"
 
     - name: run sanitizers
-      run: docker exec ht powershell "git pull; cmake -DSANITIZE=ON ..; cmake --build .; ctest"
+      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target Sanitizers"
       
     - name: Stop containers
       run: |

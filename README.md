@@ -66,7 +66,13 @@ Heist Town is a 2D sandbox multiplayer crime game inspired by GTA 2.
 `cmake .. && cmake --build . --target all`
 
 * To build and run all unit tests, use this command: \
-`cmake .. && cmake --build . --target all && cmake --build . --target test`
+`cmake .. && cmake --build . --target RunAllTests`
+
+* To build and run all unit tests with Sanitizers, use this command: \
+`cmake .. && cmake --build . --target Sanitizers`
+
+* To build and run all unit tests with Valgrind, use this command: \
+`cmake .. && cmake --build . --target Valgrind`
 
 * If you want run only one or part of unit tests you can use `gtest_filter`: \
 `for example: \
