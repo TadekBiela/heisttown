@@ -11,13 +11,14 @@ include(CTest)
 
 option(SANITIZE "Enable sanitizers" OFF)
 option(VALGRIND "Enable valgrind" OFF)
-option(RELEASE "Build Release" OFF)
+option(RELEASE "Build release" OFF)
 
 set(COMMON_COMPILE_FLAGS " -Wall -Wextra -Werror -Wdouble-promotion -Wmisleading-indentation ")
+set(COMPILE_FLAGS "")
 
 if(SANITIZE)
     message(STATUS "Configuring Sanitizers")
-    set(SANITIZE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -g -fno-omit-frame-pointer \
+    set(COMPILE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -g -fno-omit-frame-pointer \
         -fsanitize=address \
         -fsanitize=undefined \
         -fsanitize=shift \
@@ -33,34 +34,27 @@ if(SANITIZE)
         -fsanitize=returns-nonnull-attribute \
         -fsanitize=enum \
         -fsanitize=vptr")
-    string(APPEND CMAKE_C_FLAGS "${SANITIZE_FLAGS}")
-    string(APPEND CMAKE_CXX_FLAGS "${SANITIZE_FLAGS}")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS "${SANITIZE_FLAGS}")
 elseif(VALGRIND)
     find_program(VALGRIND_EXECUTABLE valgrind)
     if(VALGRIND_EXECUTABLE)
         message(STATUS "Valgrind found: ${VALGRIND_EXECUTABLE}")
         message(STATUS "Configuring Valgrind")
-        set(VALGRIND_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
-        string(APPEND CMAKE_C_FLAGS "${VALGRIND_FLAGS}")
-        string(APPEND CMAKE_CXX_FLAGS "${VALGRIND_FLAGS}")
-        string(APPEND CMAKE_EXE_LINKER_FLAGS "${VALGRIND_FLAGS}")
+        set(COMPILE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
     else()
         message(WARNING "Valgrind not found")
     endif()
 elseif(RELEASE)
-    set(RELEASE_FLAGS " -O2 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
-    string(APPEND CMAKE_C_FLAGS "${RELEASE_FLAGS}")
-    string(APPEND CMAKE_CXX_FLAGS "${RELEASE_FLAGS}")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS "${RELEASE_FLAGS}")
+    message(STATUS "Configuring Release")
+    set(COMPILE_FLAGS " -O2 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
 else()
-    set(DEBUG_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
-    string(APPEND CMAKE_C_FLAGS "${DEBUG_FLAGS}")
-    string(APPEND CMAKE_CXX_FLAGS "${DEBUG_FLAGS}")
-    string(APPEND CMAKE_EXE_LINKER_FLAGS "${DEBUG_FLAGS}")
+    message(STATUS "Configuring Debug")
+    set(COMPILE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
 endif()
 
-message(STATUS "Setuped compile flags: ${CMAKE_CXX_FLAGS}")
+string(APPEND CMAKE_C_FLAGS "${COMPILE_FLAGS}")
+string(APPEND CMAKE_CXX_FLAGS "${COMPILE_FLAGS}")
+string(APPEND CMAKE_EXE_LINKER_FLAGS "${COMPILE_FLAGS}")
+message(STATUS "Seted compile flags: ${CMAKE_CXX_FLAGS}")
 
 set(BUILD_SHARED_LIBS OFF)
 
@@ -75,6 +69,7 @@ enable_testing()
 add_subdirectory(src)
 
 add_custom_target(RunAllTests
+        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF ..
         COMMAND "${CMAKE_COMMAND}" --build . --target all
         COMMAND "${CMAKE_COMMAND}" --build . --target test
         COMMENT "Running tests"
@@ -101,6 +96,6 @@ add_custom_target(Valgrind
 add_custom_target(Release
         COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=ON ..
         COMMAND "${CMAKE_COMMAND}" --build . --target all
-        COMMENT "Running Valgrind"
+        COMMENT "Running Relese"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         VERBATIM)
