@@ -22,20 +22,20 @@ jobs:
           cmake ..
           cmake --build . --target all
 
+      - name: run release
+        run: |
+          cmake --build . --target Release
+
       - name: run ut
         run: |
           cmake --build . --target RunAllTests
 
       - name: run sanitizers
         run: |
-          rm -rf *
-          cmake ..
           cmake --build . --target Sanitizers
 
       - name: run valgrind
         run: |
-          rm -rf *
-          cmake ..
           cmake --build . --target Valgrind
 
   windows:
@@ -50,6 +50,9 @@ jobs:
       
     - name: build all
       run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all"
+
+    - name: build release
+      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target Release"
 
     - name: run ut
       run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all; cmake --build . --target test"
