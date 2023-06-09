@@ -74,6 +74,9 @@ Heist Town is a 2D sandbox multiplayer crime game inspired by GTA 2.
 * To build and run all unit tests with Valgrind, use this command: \
 `cmake .. && cmake --build . --target Valgrind`
 
+* To create code coverage report, use this command: \
+`cmake .. && cmake --build . --target CodeCoverage`
+
 * If you want run only one or part of unit tests you can use `gtest_filter`: \
 `for example: \
 	src/client/mousecursor/tests/MouseCursorTests --gtest_filter="*Default*"`
