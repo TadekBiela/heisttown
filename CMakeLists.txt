@@ -12,6 +12,7 @@ include(CTest)
 option(SANITIZE "Enable sanitizers" OFF)
 option(VALGRIND "Enable valgrind" OFF)
 option(RELEASE "Build release" OFF)
+option(CODE_COVERAGE "Enable code coverage" OFF)
 
 set(COMMON_COMPILE_FLAGS " -Wall -Wextra -Werror -Wdouble-promotion -Wmisleading-indentation ")
 set(COMPILE_FLAGS "")
@@ -46,6 +47,9 @@ elseif(VALGRIND)
 elseif(RELEASE)
     message(STATUS "Configuring Release")
     set(COMPILE_FLAGS " -O2 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
+elseif(CODE_COVERAGE)
+    message(STATUS "Configuring Code Coverage")
+    set(COMPILE_FLAGS " -O0 -g --coverage -fprofile-arcs -ftest-coverage")
 else()
     message(STATUS "Configuring Debug")
     set(COMPILE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
@@ -99,3 +103,19 @@ add_custom_target(Release
         COMMENT "Running Relese"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         VERBATIM)
+
+set(COVERAGE_LEVEL "80")
+add_custom_target(CodeCoverage
+	COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=ON ..
+	COMMAND "${CMAKE_COMMAND}" --build . --target all
+	COMMAND "${CMAKE_CTEST_COMMAND}"
+	COMMAND lcov --directory . --capture --output-file coverage.info
+	COMMAND lcov --extract coverage.info "/usr/src/heisttown/src/*" -o coverage_filtered.info
+	COMMAND lcov --list coverage_filtered.info
+	COMMAND lcov --list coverage_filtered.info | grep Total:*.*% | grep -o .[0-9].[0-9]% | grep -o .[0-9].[0-9] > coverage_level.txt
+	COMMAND sh -c " awk '{ for (i=1; i<=NF; i++) { if ($i < ${COVERAGE_LEVEL}) { print \"Coverage level is to low! Required minimum ${COVERAGE_LEVEL}%\"; exit 1 } } }' coverage_level.txt"
+	COMMENT "Running Code Coverage"
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+	VERBATIM
+)
+
