@@ -37,6 +37,10 @@ jobs:
       - name: run valgrind
         run: |
           cmake --build . --target Valgrind
+          
+      - name: run code coverage
+        run: |
+          cmake --build . --target CodeCoverage
 
   windows:
     runs-on: windows-2019
