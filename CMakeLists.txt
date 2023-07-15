@@ -13,6 +13,7 @@ option(SANITIZE "Enable sanitizers" OFF)
 option(VALGRIND "Enable valgrind" OFF)
 option(RELEASE "Build release" OFF)
 option(CODE_COVERAGE "Enable code coverage" OFF)
+option(CLANG_TIDY "Enable clang-tidy" OFF)
 
 set(COMMON_COMPILE_FLAGS " -Wall -Wextra -Werror -Wdouble-promotion -Wmisleading-indentation ")
 set(COMPILE_FLAGS "")
@@ -50,6 +51,9 @@ elseif(RELEASE)
 elseif(CODE_COVERAGE)
     message(STATUS "Configuring Code Coverage")
     set(COMPILE_FLAGS " -O0 -g --coverage -fprofile-arcs -ftest-coverage")
+elseif(CLANG_TIDY)
+    message(STATUS "Configuring Clang-Tidy")
+    set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
 else()
     message(STATUS "Configuring Debug")
     set(COMPILE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
@@ -118,4 +122,11 @@ add_custom_target(CodeCoverage
 	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 	VERBATIM
 )
+
+add_custom_target(ClangTidy
+	COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=ON ..
+	COMMAND "${CMAKE_COMMAND}" --build . --target all
+	COMMENT "Running Clang-Tidy"
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+	VERBATIM)
 
