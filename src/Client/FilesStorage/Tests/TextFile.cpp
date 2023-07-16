@@ -1,21 +1,17 @@
 #include "TextFile.h"
 
-TextFile::TextFile(std::string filepath, std::string filecontent) :
-    path(filepath),
-    content(filecontent)
+TextFile::TextFile(std::string filepath, std::string filecontent)
+    : path(std::move(filepath))
+    , content(std::move(filecontent))
 {
 }
 
-TextFile::~TextFile()
-{
-}
-
-std::string TextFile::getContent() const
+auto TextFile::getContent() const -> std::string
 {
     return content;
 }
 
-std::string TextFile::getPath() const
+auto TextFile::getPath() const -> std::string
 {
     return path;
 }

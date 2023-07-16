@@ -1,13 +1,13 @@
 #ifndef MOUSE_CURSOR_H
 #define MOUSE_CURSOR_H
 
-#include <QApplication>
+#include <QPixmap>
 
 class MouseCursor
 {
 public:
-    MouseCursor();
-    virtual ~MouseCursor();
+    MouseCursor() = default;
+    virtual ~MouseCursor() = default;
 };
 
 #endif //MOUSE_CURSOR_H

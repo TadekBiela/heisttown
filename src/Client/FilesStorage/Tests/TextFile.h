@@ -8,10 +8,10 @@ class TextFile
 public:
     TextFile() = default;
     TextFile(std::string filepath, std::string filecontent);
-    virtual ~TextFile();
+    virtual ~TextFile() = default;
 
-    std::string getPath() const;
-    std::string getContent() const;
+    auto getPath() const -> std::string;
+    auto getContent() const -> std::string;
 
 private:
     std::string path;

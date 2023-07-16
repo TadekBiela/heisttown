@@ -2,14 +2,16 @@
 #include <QMainWindow>
 #include <QSize>
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
-    QApplication a(argc, argv);
+    QApplication mainApplication(argc, argv);
 
     QMainWindow mainWindow;
-    mainWindow.setFixedSize(QSize(800, 600));
+    const int screenWidth{800};
+    const int screenHeight{800};
+    mainWindow.setFixedSize(QSize(screenWidth, screenHeight));
     mainWindow.show();
 
-    return a.exec();
+    return QApplication::exec();
 }
 

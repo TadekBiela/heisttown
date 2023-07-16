@@ -7,14 +7,12 @@ template<typename File>
 class FilesStorage
 {
 public:
-    FilesStorage(IFileLoader<File> const* fileLoader)
-    {
-        data = fileLoader->getLoadedData();
-    }
+    explicit FilesStorage(IFileLoader<File> const* fileLoader)
+        : data(fileLoader->getLoadedData())
+    {}
+    virtual ~FilesStorage() = default;
 
-    virtual ~FilesStorage() {}
-
-    File getFile(FileName name) const
+    auto getFile(FileName name) const
     {
         if(auto file = data.find(name); file != data.end())
         {
@@ -27,4 +25,4 @@ protected:
     std::map<FileName, File> data;
 };
 
-#endif //FILES_STORAGE_H
+#endif //FILE_STORAGE_H
