@@ -1,0 +1,2 @@
+Checks: 'bugprone-*,cert-*,clang-*,cppcoreguidelines-*,hicpp-*,misc-*,modernize-*,performance-*,portability-*,readability-*'
+WarningsAsErrors: '*'
