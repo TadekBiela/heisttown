@@ -120,8 +120,7 @@ add_custom_target(CodeCoverage
 	COMMAND sh -c " awk '{ for (i=1; i<=NF; i++) { if ($i < ${COVERAGE_LEVEL}) { print \"Coverage level is to low! Required minimum ${COVERAGE_LEVEL}%\"; exit 1 } } }' coverage_level.txt"
 	COMMENT "Running Code Coverage"
 	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-	VERBATIM
-)
+	VERBATIM)
 
 add_custom_target(ClangTidy
 	COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=ON ..
