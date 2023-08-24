@@ -8,7 +8,7 @@
 using Directory = std::filesystem::path;
 using FileName = std::string;
 
-template<typename File>
+template <typename File>
 class IFileLoader
 {
 public:
@@ -17,4 +17,4 @@ public:
     virtual const std::map<FileName, File>& getLoadedData() const = 0;
 };
 
-#endif //IFILE_STORAGE_H
+#endif // IFILE_STORAGE_H

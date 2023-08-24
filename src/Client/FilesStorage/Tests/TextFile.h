@@ -18,4 +18,4 @@ private:
     std::string content;
 };
 
-#endif //TEXT_FILE_H
+#endif // TEXT_FILE_H

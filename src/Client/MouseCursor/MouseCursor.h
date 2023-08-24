@@ -10,4 +10,4 @@ public:
     virtual ~MouseCursor() = default;
 };
 
-#endif //MOUSE_CURSOR_H
+#endif // MOUSE_CURSOR_H

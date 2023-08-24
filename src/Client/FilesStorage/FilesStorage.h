@@ -3,18 +3,19 @@
 
 #include "IFileLoader.h"
 
-template<typename File>
+template <typename File>
 class FilesStorage
 {
 public:
     explicit FilesStorage(IFileLoader<File> const* fileLoader)
         : data(fileLoader->getLoadedData())
-    {}
+    {
+    }
     virtual ~FilesStorage() = default;
 
     auto getFile(FileName name) const
     {
-        if(auto file = data.find(name); file != data.end())
+        if (auto file = data.find(name); file != data.end())
         {
             return file->second;
         }
@@ -25,4 +26,4 @@ protected:
     std::map<FileName, File> data;
 };
 
-#endif //FILE_STORAGE_H
+#endif // FILE_STORAGE_H

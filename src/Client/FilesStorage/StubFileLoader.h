@@ -3,12 +3,13 @@
 
 #include "IFileLoader.h"
 
-template<typename File>
+template <typename File>
 class StubFileLoader : public IFileLoader<File>
 {
 public:
-    explicit StubFileLoader([[maybe_unused]]const Directory& directory)
-    {}
+    explicit StubFileLoader([[maybe_unused]] const Directory& directory)
+    {
+    }
     virtual ~StubFileLoader() = default;
 
     const std::map<FileName, File>& getLoadedData() const override
@@ -24,4 +25,4 @@ protected:
     std::map<FileName, File> loadedData;
 };
 
-#endif //STUB_FILE_STORAGE_H
+#endif // STUB_FILE_STORAGE_H
