@@ -77,55 +77,60 @@ enable_testing()
 add_subdirectory(src)
 
 add_custom_target(RunAllTests
-        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF ..
-        COMMAND "${CMAKE_COMMAND}" --build . --target all
-        COMMAND "${CMAKE_COMMAND}" --build . --target test
-        COMMENT "Running tests"
-        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-        VERBATIM)
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF ..
+    COMMAND "${CMAKE_COMMAND}" --build . --target all
+    COMMAND "${CMAKE_COMMAND}" --build . --target test
+    COMMENT "Running tests"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    VERBATIM)
 
 add_custom_target(Sanitizers
-        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=ON -D VALGRIND=OFF -D RELEASE=OFF ..
-        COMMAND "${CMAKE_COMMAND}" --build .
-        COMMAND "${CMAKE_CTEST_COMMAND}" --verbose
-        COMMENT "Running Sanitizers"
-        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-        VERBATIM)
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=ON -D VALGRIND=OFF -D RELEASE=OFF ..
+    COMMAND "${CMAKE_COMMAND}" --build .
+    COMMAND "${CMAKE_CTEST_COMMAND}" --verbose
+    COMMENT "Running Sanitizers"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    VERBATIM)
 
 set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1")
 add_custom_target(Valgrind
-        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=ON -D RELEASE=OFF ..
-        COMMAND "${CMAKE_COMMAND}" --build .
-        COMMAND "${CMAKE_CTEST_COMMAND}" --verbose --overwrite MemoryCheckCommandOptions=${CTEST_MEMORYCHECK_COMMAND_OPTIONS} -T memcheck
-        COMMENT "Running Valgrind"
-        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-        VERBATIM)
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=ON -D RELEASE=OFF ..
+    COMMAND "${CMAKE_COMMAND}" --build .
+    COMMAND "${CMAKE_CTEST_COMMAND}" --verbose --overwrite MemoryCheckCommandOptions=${CTEST_MEMORYCHECK_COMMAND_OPTIONS} -T memcheck
+    COMMENT "Running Valgrind"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    VERBATIM)
 
 add_custom_target(Release
-        COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=ON ..
-        COMMAND "${CMAKE_COMMAND}" --build . --target all
-        COMMENT "Running Relese"
-        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-        VERBATIM)
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=ON ..
+    COMMAND "${CMAKE_COMMAND}" --build . --target all
+    COMMENT "Running Relese"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    VERBATIM)
 
 set(COVERAGE_LEVEL "80")
 add_custom_target(CodeCoverage
-	COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=ON ..
-	COMMAND "${CMAKE_COMMAND}" --build . --target all
-	COMMAND "${CMAKE_CTEST_COMMAND}"
-	COMMAND lcov --directory . --capture --output-file coverage.info
-	COMMAND lcov --extract coverage.info "/usr/src/heisttown/src/*" -o coverage_filtered.info
-	COMMAND lcov --list coverage_filtered.info
-	COMMAND lcov --list coverage_filtered.info | grep Total:*.*% | grep -o .[0-9].[0-9]% | grep -o .[0-9].[0-9] > coverage_level.txt
-	COMMAND sh -c " awk '{ for (i=1; i<=NF; i++) { if ($i < ${COVERAGE_LEVEL}) { print \"Coverage level is to low! Required minimum ${COVERAGE_LEVEL}%\"; exit 1 } } }' coverage_level.txt"
-	COMMENT "Running Code Coverage"
-	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-	VERBATIM)
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=ON ..
+    COMMAND "${CMAKE_COMMAND}" --build . --target all
+    COMMAND "${CMAKE_CTEST_COMMAND}"
+    COMMAND lcov --directory . --capture --output-file coverage.info
+    COMMAND lcov --extract coverage.info "/usr/src/heisttown/src/*" -o coverage_filtered.info
+    COMMAND lcov --list coverage_filtered.info
+    COMMAND lcov --list coverage_filtered.info | grep Total:*.*% | grep -o .[0-9].[0-9]% | grep -o .[0-9].[0-9] > coverage_level.txt
+    COMMAND sh -c " awk '{ for (i=1; i<=NF; i++) { if ($i < ${COVERAGE_LEVEL}) { print \"Coverage level is to low! Required minimum ${COVERAGE_LEVEL}%\"; exit 1 } } }' coverage_level.txt"
+    COMMENT "Running Code Coverage"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    VERBATIM)
 
 add_custom_target(ClangTidy
-	COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=ON ..
-	COMMAND "${CMAKE_COMMAND}" --build . --target all
-	COMMENT "Running Clang-Tidy"
-	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-	VERBATIM)
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=ON ..
+    COMMAND "${CMAKE_COMMAND}" --build . --target all
+    COMMENT "Running Clang-Tidy"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    VERBATIM)
 
+add_custom_target(ClangFormat
+    COMMAND find src/ -name "*.cpp" -o -name "*.h" | xargs clang-format -i -style=file
+    COMMENT "Running clang-format on source files"
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    VERBATIM)
