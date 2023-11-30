@@ -1,2 +1,2 @@
-Checks: 'bugprone-*,cert-*,clang-*,cppcoreguidelines-*,hicpp-*,misc-*,modernize-*,performance-*,portability-*,readability-*'
+Checks: 'bugprone-*,cert-*,clang-*,cppcoreguidelines-*,hicpp-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-readability-identifier-length'
 WarningsAsErrors: '*'
