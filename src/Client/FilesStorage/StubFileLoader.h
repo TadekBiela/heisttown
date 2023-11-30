@@ -1,5 +1,5 @@
-#ifndef STUB_FILE_STORAGE_H
-#define STUB_FILE_STORAGE_H
+#ifndef STUB_FILE_LOADER_H
+#define STUB_FILE_LOADER_H
 
 #include "IFileLoader.h"
 
@@ -25,4 +25,4 @@ protected:
     std::map<FileName, File> loadedData;
 };
 
-#endif // STUB_FILE_STORAGE_H
+#endif // STUB_FILE_LOADER_H

@@ -1,5 +1,5 @@
-#ifndef IFILE_STORAGE_H
-#define IFILE_STORAGE_H
+#ifndef IFILE_LOADER_H
+#define IFILE_LOADER_H
 
 #include <filesystem>
 #include <map>
@@ -17,4 +17,4 @@ public:
     virtual const std::map<FileName, File>& getLoadedData() const = 0;
 };
 
-#endif // IFILE_STORAGE_H
+#endif // IFILE_LOADER_H

@@ -26,4 +26,4 @@ protected:
     std::map<FileName, File> data;
 };
 
-#endif // FILE_STORAGE_H
+#endif // FILES_STORAGE_H

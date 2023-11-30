@@ -1,5 +1,5 @@
-#ifndef FILE_STORAGE_H
-#define FILE_STORAGE_H
+#ifndef FILE_LOADER_H
+#define FILE_LOADER_H
 
 #include "IFileLoader.h"
 
@@ -32,4 +32,4 @@ protected:
     std::map<FileName, File> loadedData;
 };
 
-#endif // FILE_STORAGE_H
+#endif // FILE_LOADER_H
