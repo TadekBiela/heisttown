@@ -1,12 +1,11 @@
 #include "Button.h"
-#include <QString>
 
 Button::Button(
     const WidgetGeometry& geometry,
     const std::string& text,
     const std::string& style
 )
-    : buttonImpl(std::make_unique<QPushButton>(QString(text.c_str())))
+    : buttonImpl(std::make_unique<QPushButton>())
 {
     buttonImpl->setGeometry(
         geometry.x,
@@ -14,6 +13,7 @@ Button::Button(
         geometry.width,
         geometry.height
     );
+    buttonImpl->setText(text.c_str());
     buttonImpl->setStyleSheet(style.c_str());
 }
 
