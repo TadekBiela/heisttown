@@ -9,10 +9,10 @@ auto QtWidgetsFactory::create(
 ) const -> std::unique_ptr<Widget>
 {
     switch (type)
-        {
-            case WidgetType::BUTTON:
-                return std::make_unique<Button>(geometry, text, style);
-        }
+    {
+        case WidgetType::BUTTON:
+            return std::make_unique<Button>(geometry, text, style);
+    }
 
     return std::make_unique<Button>(geometry, text, style);
 }

@@ -1,6 +1,9 @@
 #include "TextFile.h"
 
-TextFile::TextFile(std::string filepath, std::string filecontent)
+TextFile::TextFile(
+    std::string filepath,
+    std::string filecontent
+)
     : path(std::move(filepath))
     , content(std::move(filecontent))
 {

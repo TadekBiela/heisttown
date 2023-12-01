@@ -7,7 +7,10 @@ class TextFile
 {
 public:
     TextFile() = default;
-    TextFile(std::string filepath, std::string filecontent);
+    TextFile(
+        std::string filepath,
+        std::string filecontent
+    );
     virtual ~TextFile() = default;
 
     auto getPath() const -> std::string;
