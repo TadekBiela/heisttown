@@ -1,66 +1,48 @@
 #include "Button.h"
-#include <QPushButton>
+#include <QString>
 
-Button::Button()
-    : buttonImpl(std::make_unique<QPushButton>())
+Button::Button(
+    const WidgetGeometry& geometry,
+    const std::string& text,
+    const std::string& style
+)
+    : buttonImpl(std::make_unique<QPushButton>(QString(text.c_str())))
 {
+    buttonImpl->setGeometry(
+        geometry.x,
+        geometry.y,
+        geometry.width,
+        geometry.height
+    );
+    buttonImpl->setStyleSheet(style.c_str());
 }
 
-auto Button::type() const->WidgetType
+auto Button::type() const -> WidgetType
 {
     return WidgetType::BUTTON;
 }
 
-auto Button::x() const->int
+auto Button::geometry() const -> WidgetGeometry
 {
-    return buttonImpl->x();
+    return WidgetGeometry {
+        buttonImpl->x(),
+        buttonImpl->y(),
+        buttonImpl->width(),
+        buttonImpl->height()
+    };
 }
 
-void Button::setX(int x)
+void Button::setGeometry(const WidgetGeometry& geometry)
 {
-    _x = x;
-    updateGeometry();
+    buttonImpl->setGeometry(
+        geometry.x,
+        geometry.y,
+        geometry.width,
+        geometry.height
+    );
 }
 
-void Button::updateGeometry()
-{
-    buttonImpl->setGeometry(_x, _y, _width, _height);
-}
-
-auto Button::y() const->int
-{
-    return buttonImpl->y();
-}
-
-void Button::setY(int y)
-{
-    _y = y;
-    updateGeometry();
-}
-
-auto Button::width() const->int
-{
-    return buttonImpl->width();
-}
-
-void Button::setWidth(int width)
-{
-    _width = width;
-    updateGeometry();
-}
-
-auto Button::height() const->int
-{
-    return buttonImpl->height();
-}
-
-void Button::setHeight(int height)
-{
-    _height = height;
-    updateGeometry();
-}
-
-auto Button::text() const->std::string
+auto Button::text() const -> std::string
 {
     return buttonImpl->text().toStdString();
 }
@@ -70,7 +52,7 @@ void Button::setText(const std::string& text)
     buttonImpl->setText(text.c_str());
 }
 
-auto Button::style() const->std::string
+auto Button::style() const -> std::string
 {
     return buttonImpl->styleSheet().toStdString();
 }
