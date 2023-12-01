@@ -2,8 +2,8 @@
 #include <QPushButton>
 
 Button::Button()
+    : buttonImpl(std::make_unique<QPushButton>())
 {
-    buttonImpl = std::make_unique<QPushButton>();
 }
 
 auto Button::type() const->WidgetType

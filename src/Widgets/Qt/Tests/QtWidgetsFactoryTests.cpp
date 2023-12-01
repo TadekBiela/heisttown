@@ -17,7 +17,7 @@ TEST_F(QtWidgetsFactoryTests, create_ButtonType_ShouldReturnButtonObject)
 {
     QtWidgetsFactory factory;
 
-    auto result = std::move(factory.create(WidgetType::BUTTON));
+    auto result = factory.create(WidgetType::BUTTON);
 
     EXPECT_EQ(WidgetType::BUTTON, result->type());
 }

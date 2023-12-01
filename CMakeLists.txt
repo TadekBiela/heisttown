@@ -95,7 +95,7 @@ add_custom_target(ThreadSanitizers
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     VERBATIM)
 
-set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1")
+set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1 --suppressions=${CMAKE_CURRENT_SOURCE_DIR}/suppressions.supp")
 add_custom_target(Valgrind
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=ON ..
     COMMAND "${CMAKE_COMMAND}" --build .
