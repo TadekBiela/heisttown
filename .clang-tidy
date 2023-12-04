@@ -1,2 +1,14 @@
-Checks: 'bugprone-*,cert-*,clang-*,cppcoreguidelines-*,hicpp-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-readability-identifier-length'
+Checks: 'bugprone-*
+         cert-*,
+         clang-*,
+         cppcoreguidelines-*,
+         hicpp-*,
+         misc-*,
+         modernize-*,
+         performance-*,
+         portability-*,
+         readability-*,
+         -cppcoreguidelines-avoid-magic-numbers,
+         -readability-magic-numbers'
+
 WarningsAsErrors: '*'
