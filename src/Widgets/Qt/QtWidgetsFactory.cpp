@@ -1,5 +1,6 @@
 #include "QtWidgetsFactory.h"
 #include "Button.h"
+#include "Label.h"
 
 auto QtWidgetsFactory::create(
     const WidgetType& type,
@@ -12,6 +13,8 @@ auto QtWidgetsFactory::create(
     {
         case WidgetType::BUTTON:
             return std::make_unique<Button>(geometry, text, style);
+        case WidgetType::LABEL:
+            return std::make_unique<Label>(geometry, text, style);
     }
 
     return std::make_unique<Button>(geometry, text, style);

@@ -3,7 +3,8 @@
 
 enum class WidgetType
 {
-    BUTTON = 0
+    BUTTON = 0,
+    LABEL
 };
 
 #endif // WIDGET_TYPE_H
