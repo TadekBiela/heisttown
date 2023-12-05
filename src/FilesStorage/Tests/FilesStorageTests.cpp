@@ -1,6 +1,6 @@
-#include "TextFile.h"
 #include <FilesStorage.h>
 #include <StubFileLoader.h>
+#include <TextFile.h>
 #include <gtest/gtest.h>
 #include <memory>
 
