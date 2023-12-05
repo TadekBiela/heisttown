@@ -17,8 +17,8 @@ public:
     auto getContent() const -> std::string;
 
 private:
-    std::string path;
-    std::string content;
+    std::string path{""};
+    std::string content{""};
 };
 
 #endif // TEXT_FILE_H
