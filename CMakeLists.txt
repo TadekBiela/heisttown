@@ -51,7 +51,7 @@ elseif(CLANG_TIDY)
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;--config-file=${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy")
 else()
     message(STATUS "Configuring Debug")
-    set(COMPILE_FLAGS " -O0 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
+    set(COMPILE_FLAGS " -O0 -g ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
 endif()
 
 string(APPEND CMAKE_C_FLAGS "${COMPILE_FLAGS}")
@@ -66,13 +66,14 @@ if(NOT CMAKE_OSX_ARCHITECTURES)
 endif()
 
 set(CMAKE_DEBUG_POSTFIX d)
+set(CMAKE_CTEST_ARGUMENTS "--verbose")
 
 enable_testing()
 
 add_subdirectory(src)
 
 add_custom_target(RunAllTests
-    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF ..
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
     COMMAND "${CMAKE_COMMAND}" --build . --target all
     COMMAND "${CMAKE_COMMAND}" --build . --target test
     COMMENT "Running tests"
@@ -80,7 +81,7 @@ add_custom_target(RunAllTests
     VERBATIM)
 
 add_custom_target(Sanitizers
-    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=ON ..
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=ON -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
     COMMAND "${CMAKE_COMMAND}" --build .
     COMMAND "${CMAKE_CTEST_COMMAND}" --verbose
     COMMENT "Running Sanitizers"
@@ -88,7 +89,7 @@ add_custom_target(Sanitizers
     VERBATIM)
 
 add_custom_target(ThreadSanitizers
-    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=ON ..
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=ON -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
     COMMAND "${CMAKE_COMMAND}" --build .
     COMMAND "${CMAKE_CTEST_COMMAND}" --verbose
     COMMENT "Running Thread Sanitizers"
@@ -97,7 +98,7 @@ add_custom_target(ThreadSanitizers
 
 set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1 --suppressions=${CMAKE_CURRENT_SOURCE_DIR}/suppressions.supp")
 add_custom_target(Valgrind
-    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=ON ..
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=ON -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
     COMMAND "${CMAKE_COMMAND}" --build .
     COMMAND "${CMAKE_CTEST_COMMAND}" --verbose --overwrite MemoryCheckCommandOptions=${CTEST_MEMORYCHECK_COMMAND_OPTIONS} -T memcheck
     COMMENT "Running Valgrind"
@@ -105,7 +106,7 @@ add_custom_target(Valgrind
     VERBATIM)
 
 add_custom_target(Release
-    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=ON ..
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=ON -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
     COMMAND "${CMAKE_COMMAND}" --build . --target all
     COMMENT "Running Relese"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
@@ -113,7 +114,7 @@ add_custom_target(Release
 
 set(COVERAGE_LEVEL "80")
 add_custom_target(CodeCoverage
-    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=ON ..
+    COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=ON -D CLANG_TIDY=OFF ..
     COMMAND "${CMAKE_COMMAND}" --build . --target all
     COMMAND "${CMAKE_CTEST_COMMAND}"
     COMMAND lcov --directory . --capture --output-file coverage.info
