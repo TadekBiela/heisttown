@@ -6,12 +6,6 @@
 
 class FilesStorageTests : public testing::Test
 {
-    void SetUp() override
-    {
-    }
-    void TearDown() override
-    {
-    }
 };
 
 TEST_F(FilesStorageTests, getFile_OnlyDefaultValue_ShouldReturnEmptyImageFile)

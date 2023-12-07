@@ -6,12 +6,6 @@
 class QtWidgetsFactoryTests : public testing::Test
 {
 public:
-    void SetUp() override
-    {
-    }
-    void TearDown() override
-    {
-    }
 };
 
 TEST_F(QtWidgetsFactoryTests, create_ButtonType_ShouldReturnButtonObject)
