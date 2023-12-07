@@ -5,8 +5,8 @@
 auto QtWidgetsFactory::create(
     const WidgetType& type,
     const WidgetGeometry& geometry,
-    const std::string& text,
-    const std::string& style
+    const WidgetText& text,
+    const WidgetStyle& style
 ) const -> std::unique_ptr<Widget>
 {
     switch (type)

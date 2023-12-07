@@ -2,8 +2,8 @@
 
 Label::Label(
     const WidgetGeometry& geometry,
-    const std::string& text,
-    const std::string& style
+    const WidgetText& text,
+    const WidgetStyle& style
 )
     : labelImpl(std::make_unique<QLabel>())
 {
@@ -42,22 +42,22 @@ void Label::setGeometry(const WidgetGeometry& geometry)
     );
 }
 
-auto Label::text() const -> std::string
+auto Label::text() const -> WidgetText
 {
     return labelImpl->text().toStdString();
 }
 
-void Label::setText(const std::string& text)
+void Label::setText(const WidgetText& text)
 {
     labelImpl->setText(text.c_str());
 }
 
-auto Label::style() const -> std::string
+auto Label::style() const -> WidgetStyle
 {
     return labelImpl->styleSheet().toStdString();
 }
 
-void Label::setStyle(const std::string& style)
+void Label::setStyle(const WidgetStyle& style)
 {
     labelImpl->setStyleSheet(style.c_str());
 }

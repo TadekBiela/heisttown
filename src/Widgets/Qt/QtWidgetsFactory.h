@@ -5,7 +5,6 @@
 #include <WidgetGeometry.h>
 #include <WidgetsFactory.h>
 #include <memory>
-#include <string>
 
 class QtWidgetsFactory : public WidgetsFactory
 {
@@ -16,8 +15,8 @@ public:
     virtual auto create(
         const WidgetType& type,
         const WidgetGeometry& geometry,
-        const std::string& text,
-        const std::string& style
+        const WidgetText& text,
+        const WidgetStyle& style
     ) const -> std::unique_ptr<Widget> override;
 };
 
