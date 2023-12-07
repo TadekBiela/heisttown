@@ -19,9 +19,7 @@ public:
         }
     }
 
-    virtual ~FileLoader()
-    {
-    }
+    virtual ~FileLoader() = default;
 
     const std::map<FileName, File>& getLoadedData() const override
     {
