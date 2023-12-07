@@ -1,11 +1,41 @@
 #include "TextFile.h"
 #include <algorithm>
+#include <exception>
+#include <fstream>
 #include <iterator>
 
-TextFile::TextFile(std::string filePath,
-    std::string rawFileContent
+TextFile::TextFile(std::string filePath)
+    : path(std::move(filePath))
+{
+    loadContent(getRawFileContent());
+}
+
+TextFile::TextFile(
+    std::string filePath,
+    const std::string& rawFileContent
 )
     : path(std::move(filePath))
+{
+    loadContent(rawFileContent);
+}
+
+auto TextFile::getRawFileContent() const -> std::string
+{
+    std::ifstream fileStream;
+    fileStream.open(path);
+    if (fileStream.is_open())
+    {
+        std::string rawFileContent;
+        fileStream >> rawFileContent;
+        fileStream.close();
+        return rawFileContent;
+    }
+
+    std::string exceptionMsg { "File " + path + " doesn't exist or file path is wrong." };
+    throw std::runtime_error(exceptionMsg.c_str());
+}
+
+void TextFile::loadContent(const std::string& rawFileContent)
 {
     auto beginLinePos = std::begin(rawFileContent);
     auto endLinePos = beginLinePos;

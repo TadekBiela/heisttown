@@ -1,5 +1,7 @@
 #include <TextFile.h>
+#include <exception>
 #include <gtest/gtest.h>
+#include <iterator>
 
 class TextFileTests : public testing::Test
 {
@@ -26,6 +28,11 @@ TEST_F(TextFileTests, defaultConstructor_OnlyDefaultValues_ShouldReturnEmptyPath
 
     EXPECT_EQ("", file.getPath());
     EXPECT_EQ(0, file.getContent().size());
+}
+
+TEST_F(TextFileTests, constructor_WrongFilePathWithoutRawContent_ShouldThrowException)
+{
+    ASSERT_THROW(TextFile file("wrong/file/path.txt"), std::runtime_error);
 }
 
 TEST_F(TextFileTests, constructor_InputCorrectValues_ShouldReturnFilledPathAndContent)

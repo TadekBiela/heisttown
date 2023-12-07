@@ -11,9 +11,10 @@ class TextFile
 {
 public:
     TextFile() = default;
+    TextFile(std::string filePath);
     TextFile(
         std::string filePath,
-        std::string rawFileContent
+        const std::string& rawFileContent
     );
     virtual ~TextFile() = default;
 
@@ -23,6 +24,9 @@ public:
 private:
     TextFilePath path { "" };
     TextFileContent content {};
+
+    auto getRawFileContent() const -> std::string;
+    void loadContent(const std::string& rawFileContent);
 };
 
 #endif // TEXT_FILE_H
