@@ -2,23 +2,27 @@
 #define TEXT_FILE_H
 
 #include <string>
+#include <vector>
+
+using TextFilePath = std::string;
+using TextFileContent = std::vector<std::string>;
 
 class TextFile
 {
 public:
     TextFile() = default;
     TextFile(
-        std::string filepath,
-        std::string filecontent
+        std::string filePath,
+        std::string rawFileContent
     );
     virtual ~TextFile() = default;
 
-    auto getPath() const -> std::string;
-    auto getContent() const -> std::string;
+    auto getPath() const -> TextFilePath;
+    auto getContent() const -> TextFileContent;
 
 private:
-    std::string path{""};
-    std::string content{""};
+    TextFilePath path { "" };
+    TextFileContent content {};
 };
 
 #endif // TEXT_FILE_H
