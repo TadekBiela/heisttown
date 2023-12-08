@@ -1,5 +1,6 @@
 add_subdirectory(Client)
 add_subdirectory(FilesStorage)
+add_subdirectory(Menu)
 add_subdirectory(Widgets)
 
 set(PROJECT_NAME app LANGUAGES CXX)

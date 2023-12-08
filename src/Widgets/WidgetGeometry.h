@@ -3,10 +3,10 @@
 
 struct WidgetGeometry
 {
-    const int x;
-    const int y;
-    const int width;
-    const int height;
+    const int x { 0 };
+    const int y { 0 };
+    const int width { 0 };
+    const int height { 0 };
 
     bool operator==(const WidgetGeometry& geometry) const
     {
