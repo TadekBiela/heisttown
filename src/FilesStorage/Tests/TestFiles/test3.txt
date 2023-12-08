@@ -1,0 +1,12 @@
+Button: {
+    geometry: 130, 30, 500, 80
+    text: testText1
+    style: none
+}
+
+Button: {
+    geometry: 130, 30, 500, 160
+    text: testText2
+    style: none
+}
+

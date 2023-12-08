@@ -1,5 +1,6 @@
 #include <TextFile.h>
 #include <exception>
+#include <filesystem>
 #include <gtest/gtest.h>
 #include <iterator>
 
@@ -33,6 +34,26 @@ TEST_F(TextFileTests, defaultConstructor_OnlyDefaultValues_ShouldReturnEmptyPath
 TEST_F(TextFileTests, constructor_WrongFilePathWithoutRawContent_ShouldThrowException)
 {
     ASSERT_THROW(TextFile file("wrong/file/path.txt"), std::runtime_error);
+}
+
+TEST_F(TextFileTests, constructor_CorrectFilePathFile_ShouldOpenRealFileAndLoadContent)
+{
+    std::string expectedFilePath { std::filesystem::current_path().string() + "/TestFiles/test3.txt" };
+    TextFileContent expectedContent { "Button: {",
+                                      "    geometry: 130, 30, 500, 80",
+                                      "    text: testText1",
+                                      "    style: none",
+                                      "}",
+                                      "Button: {",
+                                      "    geometry: 130, 30, 500, 160",
+                                      "    text: testText2",
+                                      "    style: none",
+                                      "}" };
+
+    TextFile file(expectedFilePath);
+
+    EXPECT_EQ(expectedFilePath, file.getPath());
+    ASSERT_CONTENT(expectedContent, file.getContent());
 }
 
 TEST_F(TextFileTests, constructor_InputCorrectValues_ShouldReturnFilledPathAndContent)

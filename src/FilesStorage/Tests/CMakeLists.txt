@@ -2,6 +2,9 @@ find_package(GTest REQUIRED)
 
 set(TEST_NAME FilesStorageTests)
 
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TestFiles
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 file(GLOB HEADER_FILES *.h)
 aux_source_directory(. TEST_FILES)
 

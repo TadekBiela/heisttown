@@ -3,6 +3,7 @@
 #include <exception>
 #include <fstream>
 #include <iterator>
+#include <sstream>
 
 TextFile::TextFile(std::string filePath)
     : path(std::move(filePath))
@@ -21,14 +22,14 @@ TextFile::TextFile(
 
 auto TextFile::getRawFileContent() const -> std::string
 {
-    std::ifstream fileStream;
-    fileStream.open(path);
+    std::ifstream fileStream(path);
+
     if (fileStream.is_open())
     {
-        std::string rawFileContent;
-        fileStream >> rawFileContent;
+        std::stringstream buffer;
+        buffer << fileStream.rdbuf();
         fileStream.close();
-        return rawFileContent;
+        return buffer.str();
     }
 
     std::string exceptionMsg { "File " + path + " doesn't exist or file path is wrong." };
