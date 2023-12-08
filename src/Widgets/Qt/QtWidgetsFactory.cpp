@@ -11,11 +11,10 @@ auto QtWidgetsFactory::create(
 {
     switch (type)
     {
-        case WidgetType::BUTTON:
-            return std::make_unique<Button>(geometry, text, style);
         case WidgetType::LABEL:
             return std::make_unique<Label>(geometry, text, style);
+        case WidgetType::BUTTON:
+        default:
+            return std::make_unique<Button>(geometry, text, style);
     }
-
-    return std::make_unique<Button>(geometry, text, style);
 }
