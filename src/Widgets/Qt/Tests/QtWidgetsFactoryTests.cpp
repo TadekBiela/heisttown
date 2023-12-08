@@ -5,7 +5,6 @@
 
 class QtWidgetsFactoryTests : public testing::Test
 {
-public:
 };
 
 TEST_F(QtWidgetsFactoryTests, create_ButtonType_ShouldReturnButtonObject)

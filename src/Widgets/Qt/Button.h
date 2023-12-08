@@ -6,7 +6,6 @@
 #include <WidgetGeometry.h>
 #include <WidgetType.h>
 #include <memory>
-#include <string>
 
 class Button : public Widget
 {

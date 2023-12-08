@@ -1,12 +1,10 @@
 #ifndef WIDGETS_FACTORY_H
 #define WIDGETS_FACTORY_H
 
+#include <Widget.h>
 #include <WidgetGeometry.h>
 #include <WidgetType.h>
 #include <memory>
-#include <string>
-
-class Widget;
 
 class WidgetsFactory
 {
@@ -16,8 +14,8 @@ public:
     virtual auto create(
         const WidgetType& type,
         const WidgetGeometry& geometry,
-        const std::string& text,
-        const std::string& style
+        const WidgetText& text,
+        const WidgetStyle& style
     ) const -> std::unique_ptr<Widget> = 0;
 };
 

@@ -4,6 +4,7 @@
 #include <Widget.h>
 #include <WidgetGeometry.h>
 #include <WidgetsFactory.h>
+#include <WidgetType.h>
 #include <memory>
 
 class QtWidgetsFactory : public WidgetsFactory
