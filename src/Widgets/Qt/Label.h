@@ -2,6 +2,7 @@
 #define LABEL_H
 
 #include <QLabel>
+#include <QWidget>
 #include <Widget.h>
 #include <WidgetGeometry.h>
 #include <WidgetType.h>
@@ -12,19 +13,22 @@ class Label : public Widget
 public:
     Label() = delete;
     Label(
+        const std::shared_ptr<QWidget>& display,
         const WidgetGeometry& geometry,
         const WidgetText& text,
         const WidgetStyle& style
     );
     virtual ~Label() = default;
 
-    virtual auto type() const -> WidgetType override;
-    virtual auto geometry() const -> WidgetGeometry override;
-    virtual void setGeometry(const WidgetGeometry& geometry) override;
-    virtual auto text() const -> WidgetText override;
-    virtual void setText(const WidgetText& text) override;
-    virtual auto style() const -> WidgetStyle override;
-    virtual void setStyle(const WidgetStyle& style) override;
+    auto type() const -> WidgetType override;
+    auto geometry() const -> WidgetGeometry override;
+    void setGeometry(const WidgetGeometry& geometry) override;
+    auto text() const -> WidgetText override;
+    void setText(const WidgetText& text) override;
+    auto style() const -> WidgetStyle override;
+    void setStyle(const WidgetStyle& style) override;
+    void show() override;
+    void hide() override;
 
 private:
     std::unique_ptr<QLabel> labelImpl;

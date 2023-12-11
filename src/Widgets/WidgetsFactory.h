@@ -1,9 +1,9 @@
 #ifndef WIDGETS_FACTORY_H
 #define WIDGETS_FACTORY_H
 
-#include <Widget.h>
-#include <WidgetGeometry.h>
-#include <WidgetType.h>
+#include "Widget.h"
+#include "WidgetGeometry.h"
+#include "WidgetType.h"
 #include <memory>
 
 class WidgetsFactory

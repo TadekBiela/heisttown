@@ -1,8 +1,8 @@
-#ifndef WIDGETS_H
-#define WIDGETS_H
+#ifndef WIDGET_H
+#define WIDGET_H
 
-#include <WidgetGeometry.h>
-#include <WidgetType.h>
+#include "WidgetGeometry.h"
+#include "WidgetType.h"
 #include <string>
 
 using WidgetStyle = std::string;
@@ -20,6 +20,8 @@ public:
     virtual void setText(const WidgetText& text) = 0;
     virtual auto style() const -> WidgetStyle = 0;
     virtual void setStyle(const WidgetStyle& style) = 0;
+    virtual void show() = 0;
+    virtual void hide() = 0;
 };
 
-#endif // WIDGETS_H
+#endif // WIDGET_H

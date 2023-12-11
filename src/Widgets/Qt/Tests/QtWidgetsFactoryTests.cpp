@@ -10,7 +10,8 @@ class QtWidgetsFactoryTests : public testing::Test
 TEST_F(QtWidgetsFactoryTests, create_ButtonType_ShouldReturnButtonObject)
 {
     WidgetGeometry expectedGeometry { 100, 40, 120, 30 };
-    QtWidgetsFactory factory;
+    std::shared_ptr<QWidget> display { std::make_shared<QWidget>() };
+    QtWidgetsFactory factory(display);
 
     auto result = factory.create(WidgetType::BUTTON, expectedGeometry, "", "QPushButton: { border: 5px; }");
 
@@ -23,7 +24,8 @@ TEST_F(QtWidgetsFactoryTests, create_ButtonType_ShouldReturnButtonObject)
 TEST_F(QtWidgetsFactoryTests, create_LabelType_ShouldReturnLabelObject)
 {
     WidgetGeometry expectedGeometry { 140, 80, 80, 20 };
-    QtWidgetsFactory factory;
+    std::shared_ptr<QWidget> display { std::make_shared<QWidget>() };
+    QtWidgetsFactory factory(display);
 
     auto result = factory.create(WidgetType::LABEL, expectedGeometry, "", "QLabel: { border: 3px; }");
 

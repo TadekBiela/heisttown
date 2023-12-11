@@ -1,5 +1,5 @@
 #include <Menu.h>
-#include <QtWidgetsFactory.h>
+#include <StubWidgetsFactory.h>
 #include <WidgetType.h>
 #include <gtest/gtest.h>
 
@@ -22,7 +22,7 @@ public:
 
 TEST_F(MenuTests, addWidget_ButtonWidget_ShouldAddButtonToDynamicWidgets)
 {
-    QtWidgetsFactory factory;
+    StubWidgetsFactory factory;
     MenuTestable menu;
 
     menu.addWidget(factory.create(WidgetType::BUTTON, {}, "", ""));
@@ -34,7 +34,7 @@ TEST_F(MenuTests, addWidget_ButtonWidget_ShouldAddButtonToDynamicWidgets)
 
 TEST_F(MenuTests, addWidget_LabelWidget_ShouldAddLabeToStaticWidgets)
 {
-    QtWidgetsFactory factory;
+    StubWidgetsFactory factory;
     MenuTestable menu;
 
     menu.addWidget(factory.create(WidgetType::LABEL, {}, "", ""));
@@ -46,7 +46,7 @@ TEST_F(MenuTests, addWidget_LabelWidget_ShouldAddLabeToStaticWidgets)
 
 TEST_F(MenuTests, addWidget_DifferentWidgets_ShouldAddWidgetsRegardingToType)
 {
-    QtWidgetsFactory factory;
+    StubWidgetsFactory factory;
     MenuTestable menu;
 
     menu.addWidget(factory.create(WidgetType::LABEL, {}, "", ""));

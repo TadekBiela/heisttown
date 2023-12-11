@@ -1,12 +1,14 @@
 #include "Button.h"
 
 Button::Button(
+    const std::shared_ptr<QWidget>& display,
     const WidgetGeometry& geometry,
     const WidgetText& text,
     const WidgetStyle& style
 )
     : buttonImpl(std::make_unique<QPushButton>())
 {
+    buttonImpl->setParent(display.get());
     buttonImpl->setGeometry(
         geometry.x,
         geometry.y,
@@ -60,4 +62,14 @@ auto Button::style() const -> WidgetStyle
 void Button::setStyle(const WidgetStyle& style)
 {
     buttonImpl->setStyleSheet(style.c_str());
+}
+
+void Button::show()
+{
+    buttonImpl->show();
+}
+
+void Button::hide()
+{
+    buttonImpl->hide();
 }

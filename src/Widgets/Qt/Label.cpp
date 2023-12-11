@@ -1,12 +1,14 @@
 #include "Label.h"
 
 Label::Label(
+    const std::shared_ptr<QWidget>& display,
     const WidgetGeometry& geometry,
     const WidgetText& text,
     const WidgetStyle& style
 )
     : labelImpl(std::make_unique<QLabel>())
 {
+    labelImpl->setParent(display.get());
     labelImpl->setGeometry(
         geometry.x,
         geometry.y,
@@ -60,4 +62,14 @@ auto Label::style() const -> WidgetStyle
 void Label::setStyle(const WidgetStyle& style)
 {
     labelImpl->setStyleSheet(style.c_str());
+}
+
+void Label::show()
+{
+    labelImpl->show();
+}
+
+void Label::hide()
+{
+    labelImpl->hide();
 }
