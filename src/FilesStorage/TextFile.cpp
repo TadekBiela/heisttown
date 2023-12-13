@@ -59,7 +59,7 @@ auto TextFile::getPath() const -> TextFilePath
     return path;
 }
 
-auto TextFile::getContent() const -> TextFileContent
+auto TextFile::getContent() const -> const TextFileContent&
 {
     return content;
 }

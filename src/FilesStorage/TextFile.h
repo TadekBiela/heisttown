@@ -19,7 +19,7 @@ public:
     virtual ~TextFile() = default;
 
     auto getPath() const -> TextFilePath;
-    auto getContent() const -> TextFileContent;
+    auto getContent() const -> const TextFileContent&;
 
 private:
     TextFilePath path { "" };
