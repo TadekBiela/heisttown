@@ -1,6 +1,8 @@
 #ifndef WIDGET_GEOMETRY_H
 #define WIDGET_GEOMETRY_H
 
+#include <string>
+
 struct WidgetGeometry
 {
     int x { 0 };
@@ -15,6 +17,16 @@ struct WidgetGeometry
             this->y == geometry.y &&
             this->width == geometry.width &&
             this->height == geometry.height
+        );
+    }
+
+    std::string toString() const
+    {
+        return std::string(
+            std::to_string(x) + ", " +
+            std::to_string(y) + ", " +
+            std::to_string(width) + ", " +
+            std::to_string(height)
         );
     }
 };
