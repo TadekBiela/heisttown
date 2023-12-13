@@ -8,6 +8,7 @@
 class StubWidget : public Widget
 {
 public:
+    StubWidget() = default;
     StubWidget(
         const WidgetType& type,
         const WidgetGeometry& geometry,
