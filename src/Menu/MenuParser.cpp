@@ -70,13 +70,15 @@ auto MenuParser::parseWidgetGeometry(const std::string& input) -> WidgetGeometry
 {
     const int amoutOfGeometryParams { 4 };
     std::array<int, amoutOfGeometryParams> geometryValues;
-    auto valueStrBegin = std::next(std::find(std::begin(input), std::end(input), ':'));
+    const std::string geometryLabel {"geometry:"};
+    auto valueStrBegin = std::next(std::begin(input), input.find(geometryLabel) + geometryLabel.size());
 
-    for(auto& geometryValuesIdx : geometryValues)
+    for(auto& geometryValue : geometryValues)
     {
-        auto valueStrEnd = std::find(valueStrBegin, std::end(input), ',');
+        const char valueSeparator { ',' };
+        auto valueStrEnd = std::find(valueStrBegin, std::end(input), valueSeparator);
         std::string valueStr(valueStrBegin, valueStrEnd);
-        geometryValuesIdx = std::atoi(valueStr.c_str());
+        geometryValue = std::atoi(valueStr.c_str());
         valueStrBegin = std::next(valueStrEnd);
     }
 

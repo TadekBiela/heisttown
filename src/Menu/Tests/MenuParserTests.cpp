@@ -32,7 +32,7 @@ public:
     {
         return std::string {
             "Button:\n"
-            "    size: " + geometry.toString() + "\n"
+            "    geometry: " + geometry.toString() + "\n"
             "    text: " + text + "\n"
             "    style: " + style + "\n"
         };
