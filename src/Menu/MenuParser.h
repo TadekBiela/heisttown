@@ -6,6 +6,7 @@
 #include <TextFile.h>
 #include <WidgetGeometry.h>
 #include <WidgetsFactory.h>
+#include <iterator>
 #include <memory>
 #include <string>
 
@@ -23,9 +24,20 @@ private:
     const std::shared_ptr<WidgetsFactory> widgetsFactory;
     std::map<WidgetStyleName, WidgetStyle> parsedStyles {};
 
-    auto parseButtonWidget(const TextFileContent& input) -> std::unique_ptr<Widget>;
+    auto parseWidget(
+        const WidgetType& type,
+        const TextFileContent& input
+    ) -> std::unique_ptr<Widget>;
     static auto parseWidgetGeometry(const std::string& input) -> WidgetGeometry;
+    static auto getPositionAfterLabel(
+        const std::string& input,
+        const std::string& label
+    ) -> decltype(std::begin(input));
     static auto parseWidgetText(const std::string& input) -> WidgetText;
+    static auto parseTextAfterLabel(
+        const std::string& input,
+        const std::string& label
+    ) -> std::string;
     auto parseWidgetStyle(const std::string& input) -> WidgetStyle;
 };
 
