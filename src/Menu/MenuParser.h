@@ -24,6 +24,13 @@ private:
     const std::shared_ptr<WidgetsFactory> widgetsFactory;
     std::map<WidgetStyleName, WidgetStyle> parsedStyles {};
 
+    void parseStyles(const TextFile& stylesFile);
+    static auto parseWidgetStyleContent(
+        TextFileContent::const_iterator styleContentBegin,
+        TextFileContent::const_iterator styleContentEnd
+    ) -> WidgetStyle;
+    static auto removeSpaces(const std::string& input) -> std::string;
+    auto parseMainMenu(const TextFile& menuFile) -> Menu;
     auto parseWidget(
         const WidgetType& type,
         const TextFileContent& input

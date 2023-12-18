@@ -17,48 +17,78 @@ auto MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus
 
     if (filesToParse.count("Styles") != 0)
     {
-        TextFile stylesFile { filesToParse.at("Styles") };
-        for (auto line = std::begin(stylesFile.getContent()); line != std::end(stylesFile.getContent()); line++)
-        {
-            if (line->find("@") != std::string::npos)
-            {
-                WidgetStyleName styleName(std::next(std::begin(*line)), std::prev(std::end(*line)));
-                WidgetStyle styleContent;
-                for (auto styleContentIt = std::next(line); styleContentIt != std::end(stylesFile.getContent()); styleContentIt++)
-                {
-                    if (styleContentIt->find("@") != std::string::npos)
-                    {
-                        break;
-                    }
-                    std::string line { *styleContentIt };
-                    line.erase(std::remove(std::begin(line), std::end(line), ' '), std::end(line));
-                    styleContent += line;
-                }
-                parsedStyles[styleName] = styleContent;
-            }
-        }
+        parseStyles(filesToParse.at("Styles"));
     }
 
     if (filesToParse.count("MainMenu") != 0)
     {
-        TextFile menuFile { filesToParse.at("MainMenu") };
-        Menu mainMenu;
-        for (auto line = std::begin(menuFile.getContent()); line != std::end(menuFile.getContent()); line++)
-        {
-            if (line->find("Button:") != std::string::npos)
-            {
-                TextFileContent widgetPartOfContent { std::next(line), std::next(line, 4) };
-                mainMenu.addWidget(parseWidget(WidgetType::BUTTON, widgetPartOfContent));
-            }
-            else if (line->find("Label:") != std::string::npos)
-            {
-                TextFileContent widgetPartOfContent { std::next(line), std::next(line, 4) };
-                mainMenu.addWidget(parseWidget(WidgetType::LABEL, widgetPartOfContent));
-            }
-        }
-        parsedMenus.push_back(std::move(mainMenu));
+        parsedMenus.push_back(parseMainMenu(filesToParse.at("MainMenu")));
     }
     return parsedMenus;
+}
+
+void MenuParser::parseStyles(const TextFile& stylesFile)
+{
+    for (auto line = std::begin(stylesFile.getContent()); line != std::end(stylesFile.getContent()); line++)
+    {
+        if (line->find("@") != std::string::npos)
+        {
+            WidgetStyleName styleName(std::next(std::begin(*line)), std::prev(std::end(*line)));
+            parsedStyles[styleName] = parseWidgetStyleContent(std::next(line), std::end(stylesFile.getContent()));
+        }
+    }
+}
+
+auto MenuParser::parseWidgetStyleContent(
+    TextFileContent::const_iterator styleContentBegin,
+    TextFileContent::const_iterator styleContentEnd
+) -> WidgetStyle
+{
+    WidgetStyle styleContent;
+    for (auto styleContentIt = styleContentBegin; styleContentIt != styleContentEnd; styleContentIt++)
+    {
+        if (styleContentIt->find("@") != std::string::npos)
+        {
+            break;
+        }
+        styleContent += removeSpaces(*styleContentIt);
+    }
+    return styleContent;
+}
+
+auto MenuParser::removeSpaces(const std::string& input) -> std::string
+{
+    std::string line { input };
+    line.erase(std::remove(std::begin(line), std::end(line), ' '), std::end(line));
+    return line;
+}
+
+auto MenuParser::parseMainMenu(const TextFile& menuFile) -> Menu
+{
+    Menu mainMenu;
+
+    for (auto line = std::begin(menuFile.getContent()); line != std::end(menuFile.getContent()); line++)
+    {
+        WidgetType type;
+        if (line->find("Button:") != std::string::npos)
+        {
+            type = WidgetType::BUTTON;
+        }
+        else if (line->find("Label:") != std::string::npos)
+        {
+            type = WidgetType::LABEL;
+        }
+        else
+        {
+            continue;
+        }
+
+        const int amountOfWidgetParams { 4 };
+        TextFileContent widgetPartOfContent { std::next(line), std::next(line, amountOfWidgetParams) };
+        mainMenu.addWidget(parseWidget(type, widgetPartOfContent));
+    }
+
+    return mainMenu;
 }
 
 auto MenuParser::parseWidget(
