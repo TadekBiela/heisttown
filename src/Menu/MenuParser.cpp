@@ -58,10 +58,12 @@ auto MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus
 
 auto MenuParser::parseButtonWidget(const TextFileContent& input) -> std::unique_ptr<Widget>
 {
-    auto widgetGeometry { parseWidgetGeometry(input.at(0)) };
-    auto widgetText { parseWidgetText(input.at(1)) };
-    auto widgetStyle { parseWidgetStyle(parseWidgetText(input.at(2))) };
-    return widgetsFactory->create(WidgetType::BUTTON, widgetGeometry, widgetText, widgetStyle);
+    return widgetsFactory->create(
+        WidgetType::BUTTON,
+        parseWidgetGeometry(input.at(0)),
+        parseWidgetText(input.at(1)),
+        parseWidgetStyle(parseWidgetText(input.at(2)))
+    );
 }
 
 auto MenuParser::parseWidgetGeometry(const std::string& input) -> WidgetGeometry
