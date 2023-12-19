@@ -1,5 +1,7 @@
 add_subdirectory(Qt)
 
+find_package(GTest REQUIRED)
+
 set(LIB_NAME Widgets)
 
 file(GLOB HEADER_FILES *.h)

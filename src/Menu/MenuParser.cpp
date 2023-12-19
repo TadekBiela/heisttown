@@ -69,7 +69,7 @@ auto MenuParser::parseMainMenu(const TextFile& menuFile) -> Menu
 
     for (auto line = std::begin(menuFile.getContent()); line != std::end(menuFile.getContent()); line++)
     {
-        WidgetType type;
+        WidgetType type {};
         if (line->find("Button:") != std::string::npos)
         {
             type = WidgetType::BUTTON;
@@ -107,7 +107,7 @@ auto MenuParser::parseWidget(
 auto MenuParser::parseWidgetGeometry(const std::string& input) -> WidgetGeometry
 {
     const int amoutOfGeometryParams { 4 };
-    std::array<int, amoutOfGeometryParams> geometryValues;
+    std::array<int, amoutOfGeometryParams> geometryValues {};
     auto valueStrBegin = getPositionAfterLabel(input, "geometry: ");
 
     for (auto& geometryValue : geometryValues)
@@ -127,7 +127,7 @@ auto MenuParser::getPositionAfterLabel(
     const std::string& label
 ) -> decltype(std::begin(input))
 {
-    return std::next(std::begin(input), input.find(label) + label.size());
+    return std::next(std::begin(input), static_cast<int>(input.find(label) + label.size()));
 }
 
 auto MenuParser::parseWidgetText(const std::string& input) -> WidgetText
