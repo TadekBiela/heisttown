@@ -1,5 +1,5 @@
 # Get the Qt6 Google Test Windows 10 image from Docker Hub
-FROM tadekbiela/cpp_development:qt6_gtest_cpp_image_win
+FROM tadekbiela/cpp_development:cpp_development_windows
 
 # Clone heisttown repository
 RUN powershell -Command "git clone https://github.com/TadekBiela/heisttown.git C:\heisttown"
@@ -7,8 +7,7 @@ RUN powershell -Command "git clone https://github.com/TadekBiela/heisttown.git C
 # Set to working directory and build heisttown
 WORKDIR "C:\heisttown\build"
 RUN powershell -Command "cmake .."
-RUN powershell -Command "make -j app"
-RUN powershell -Command "make -j runut"
+RUN cmake --build . --target all
 RUN powershell -Command "git config --global --add safe.directory C:/heisttown"
 
 LABEL Name=heisttown_win
