@@ -19,6 +19,7 @@ public:
     Menu& operator=(Menu&& menu) = default;
 
     void addWidget(std::unique_ptr<Widget> widget);
+    void show();
 
 protected:
     DynamicWidgets dynamicWidgets {};

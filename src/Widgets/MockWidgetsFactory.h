@@ -1,4 +1,3 @@
-#include "StubWidget.h"
 #include "Widget.h"
 #include "WidgetGeometry.h"
 #include "WidgetType.h"
