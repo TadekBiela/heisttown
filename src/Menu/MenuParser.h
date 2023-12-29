@@ -1,6 +1,7 @@
 #ifndef MENU_PARSER_H
 #define MENU_PARSER_H
 
+#include "IMenuParser.h"
 #include "Menus.h"
 #include <IFileLoader.h>
 #include <TextFile.h>
@@ -12,7 +13,7 @@
 
 using WidgetStyleName = std::string;
 
-class MenuParser
+class MenuParser : public IMenuParser
 {
 public:
     MenuParser(std::unique_ptr<WidgetsFactory> factory);
