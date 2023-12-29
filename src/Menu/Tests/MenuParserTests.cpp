@@ -17,13 +17,6 @@ using TextFileLoadedData = std::map<FileName, TextFile>;
 class MenuParserTests : public testing::Test
 {
 public:
-    void SetUp() override
-    {
-    }
-    void TearDown() override
-    {
-    }
-
     [[nodiscard]] static auto getWidgetText(
         const std::string& type,
         const WidgetGeometry& geometry,
