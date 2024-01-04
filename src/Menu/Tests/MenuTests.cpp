@@ -3,13 +3,10 @@
 #include <MockWidgetsFactory.h>
 #include <StubWidgetsFactory.h>
 #include <WidgetType.h>
+#include <functional>
 #include <gtest/gtest.h>
 
 using namespace testing;
-
-class MenuTests : public Test
-{
-};
 
 class MenuTestable : public Menu
 {
@@ -21,6 +18,46 @@ public:
     [[nodiscard]] auto getStaticWidgets() const -> const StaticWidgets&
     {
         return staticWidgets;
+    }
+};
+
+using MenuInitList = std::initializer_list<std::pair<WidgetType, WidgetText>>;
+using MockWidgetGetter = const std::function<std::unique_ptr<MockWidget>(const WidgetType&)>&;
+
+class MenuTests : public Test
+{
+public:
+    static auto getPreparedMenu(const MenuInitList& initList, MockWidgetGetter getMockWidget) -> MenuTestable
+    {
+        std::unique_ptr<MockWidgetsFactory> factory { std::make_unique<MockWidgetsFactory>() };
+        MenuTestable menu;
+
+        for (const auto& init : initList)
+        {
+            EXPECT_CALL(*factory, create(init.first, _, init.second, _)).WillOnce(Return(ByMove(getMockWidget(init.first))));
+            menu.addWidget(factory->create(init.first, {}, init.second, ""));
+        }
+
+        return menu;
+    }
+    static auto getMockWidgetWithExpectedShow(const WidgetType& type) -> std::unique_ptr<MockWidget>
+    {
+        std::unique_ptr<MockWidget> widget { getMockWidget(type) };
+        EXPECT_CALL(*widget, show());
+        return widget;
+    }
+    static auto getMockWidgetWithExpectedHide(const WidgetType& type) -> std::unique_ptr<MockWidget>
+    {
+        std::unique_ptr<MockWidget> widget { getMockWidget(type) };
+        EXPECT_CALL(*widget, hide());
+        return widget;
+    }
+
+    static auto getMockWidget(const WidgetType& type) -> std::unique_ptr<MockWidget>
+    {
+        std::unique_ptr<MockWidget> widget { std::make_unique<MockWidget>() };
+        EXPECT_CALL(*widget, type()).WillOnce(Return(type));
+        return widget;
     }
 };
 
@@ -66,13 +103,10 @@ TEST_F(MenuTests, addWidget_DifferentWidgets_ShouldAddWidgetsRegardingToType)
 
 TEST_F(MenuTests, show_ContainsOneStaticWidget_ShouldShowWidget)
 {
-    std::unique_ptr<MockWidget> widget { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget, type()).WillOnce(Return(WidgetType::LABEL));
-    EXPECT_CALL(*widget, show());
-    std::unique_ptr<MockWidgetsFactory> factory { std::make_unique<MockWidgetsFactory>() };
-    EXPECT_CALL(*factory, create(_, _, _, _)).WillOnce(Return(ByMove(std::move(widget))));
-    MenuTestable menu;
-    menu.addWidget(factory->create(WidgetType::LABEL, {}, "", ""));
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::LABEL, "" } },
+        getMockWidgetWithExpectedShow
+    ) };
 
     menu.show();
 
@@ -81,23 +115,12 @@ TEST_F(MenuTests, show_ContainsOneStaticWidget_ShouldShowWidget)
 
 TEST_F(MenuTests, show_ContainsThreeStaticWidgets_ShouldShowAllWidgets)
 {
-    std::unique_ptr<MockWidget> widget1 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget1, type()).WillOnce(Return(WidgetType::LABEL));
-    EXPECT_CALL(*widget1, show());
-    std::unique_ptr<MockWidget> widget2 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget2, type()).WillOnce(Return(WidgetType::LABEL));
-    EXPECT_CALL(*widget2, show());
-    std::unique_ptr<MockWidget> widget3 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget3, type()).WillOnce(Return(WidgetType::LABEL));
-    EXPECT_CALL(*widget3, show());
-    std::unique_ptr<MockWidgetsFactory> factory { std::make_unique<MockWidgetsFactory>() };
-    EXPECT_CALL(*factory, create(WidgetType::LABEL, _, "widget1", _)).WillOnce(Return(ByMove(std::move(widget1))));
-    EXPECT_CALL(*factory, create(WidgetType::LABEL, _, "widget2", _)).WillOnce(Return(ByMove(std::move(widget2))));
-    EXPECT_CALL(*factory, create(WidgetType::LABEL, _, "widget3", _)).WillOnce(Return(ByMove(std::move(widget3))));
-    MenuTestable menu;
-    menu.addWidget(factory->create(WidgetType::LABEL, {}, "widget1", ""));
-    menu.addWidget(factory->create(WidgetType::LABEL, {}, "widget2", ""));
-    menu.addWidget(factory->create(WidgetType::LABEL, {}, "widget3", ""));
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::LABEL, "widget1" },
+          { WidgetType::LABEL, "widget2" },
+          { WidgetType::LABEL, "widget3" } },
+        getMockWidgetWithExpectedShow
+    ) };
 
     menu.show();
 
@@ -106,13 +129,10 @@ TEST_F(MenuTests, show_ContainsThreeStaticWidgets_ShouldShowAllWidgets)
 
 TEST_F(MenuTests, show_ContainsOneDynamicWidget_ShouldShowWidget)
 {
-    std::unique_ptr<MockWidget> widget { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget, type()).WillOnce(Return(WidgetType::BUTTON));
-    EXPECT_CALL(*widget, show());
-    std::unique_ptr<MockWidgetsFactory> factory { std::make_unique<MockWidgetsFactory>() };
-    EXPECT_CALL(*factory, create(_, _, _, _)).WillOnce(Return(ByMove(std::move(widget))));
-    MenuTestable menu;
-    menu.addWidget(factory->create(WidgetType::BUTTON, {}, "", ""));
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::BUTTON, "" } },
+        getMockWidgetWithExpectedShow
+    ) };
 
     menu.show();
 
@@ -121,23 +141,12 @@ TEST_F(MenuTests, show_ContainsOneDynamicWidget_ShouldShowWidget)
 
 TEST_F(MenuTests, show_ContainsThreeDynamicWidgets_ShouldShowAllWidgets)
 {
-    std::unique_ptr<MockWidget> widget1 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget1, type()).WillOnce(Return(WidgetType::BUTTON));
-    EXPECT_CALL(*widget1, show());
-    std::unique_ptr<MockWidget> widget2 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget2, type()).WillOnce(Return(WidgetType::BUTTON));
-    EXPECT_CALL(*widget2, show());
-    std::unique_ptr<MockWidget> widget3 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget3, type()).WillOnce(Return(WidgetType::BUTTON));
-    EXPECT_CALL(*widget3, show());
-    std::unique_ptr<MockWidgetsFactory> factory { std::make_unique<MockWidgetsFactory>() };
-    EXPECT_CALL(*factory, create(WidgetType::BUTTON, _, "widget1", _)).WillOnce(Return(ByMove(std::move(widget1))));
-    EXPECT_CALL(*factory, create(WidgetType::BUTTON, _, "widget2", _)).WillOnce(Return(ByMove(std::move(widget2))));
-    EXPECT_CALL(*factory, create(WidgetType::BUTTON, _, "widget3", _)).WillOnce(Return(ByMove(std::move(widget3))));
-    MenuTestable menu;
-    menu.addWidget(factory->create(WidgetType::BUTTON, {}, "widget1", ""));
-    menu.addWidget(factory->create(WidgetType::BUTTON, {}, "widget2", ""));
-    menu.addWidget(factory->create(WidgetType::BUTTON, {}, "widget3", ""));
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::BUTTON, "widget1" },
+          { WidgetType::BUTTON, "widget2" },
+          { WidgetType::BUTTON, "widget3" } },
+        getMockWidgetWithExpectedShow
+    ) };
 
     menu.show();
 
@@ -146,30 +155,83 @@ TEST_F(MenuTests, show_ContainsThreeDynamicWidgets_ShouldShowAllWidgets)
 
 TEST_F(MenuTests, show_ContainsTwoStaticAndDynamicWidgets_ShouldShowAllWidgets)
 {
-    std::unique_ptr<MockWidget> widget1 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget1, type()).WillOnce(Return(WidgetType::LABEL));
-    EXPECT_CALL(*widget1, show());
-    std::unique_ptr<MockWidget> widget2 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget2, type()).WillOnce(Return(WidgetType::LABEL));
-    EXPECT_CALL(*widget2, show());
-    std::unique_ptr<MockWidget> widget3 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget3, type()).WillOnce(Return(WidgetType::BUTTON));
-    EXPECT_CALL(*widget3, show());
-    std::unique_ptr<MockWidget> widget4 { std::make_unique<MockWidget>() };
-    EXPECT_CALL(*widget4, type()).WillOnce(Return(WidgetType::BUTTON));
-    EXPECT_CALL(*widget4, show());
-    std::unique_ptr<MockWidgetsFactory> factory { std::make_unique<MockWidgetsFactory>() };
-    EXPECT_CALL(*factory, create(WidgetType::LABEL, _, "widget1", _)).WillOnce(Return(ByMove(std::move(widget1))));
-    EXPECT_CALL(*factory, create(WidgetType::LABEL, _, "widget2", _)).WillOnce(Return(ByMove(std::move(widget2))));
-    EXPECT_CALL(*factory, create(WidgetType::BUTTON, _, "widget3", _)).WillOnce(Return(ByMove(std::move(widget3))));
-    EXPECT_CALL(*factory, create(WidgetType::BUTTON, _, "widget4", _)).WillOnce(Return(ByMove(std::move(widget4))));
-    MenuTestable menu;
-    menu.addWidget(factory->create(WidgetType::LABEL, {}, "widget1", ""));
-    menu.addWidget(factory->create(WidgetType::LABEL, {}, "widget2", ""));
-    menu.addWidget(factory->create(WidgetType::BUTTON, {}, "widget3", ""));
-    menu.addWidget(factory->create(WidgetType::BUTTON, {}, "widget4", ""));
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::LABEL, "widget1" },
+          { WidgetType::LABEL, "widget2" },
+          { WidgetType::BUTTON, "widget3" },
+          { WidgetType::BUTTON, "widget4" } },
+        getMockWidgetWithExpectedShow
+    ) };
 
     menu.show();
+
+    EXPECT_EQ(2, menu.getStaticWidgets().size());
+    EXPECT_EQ(2, menu.getDynamicWidgets().size());
+}
+
+TEST_F(MenuTests, hide_ContainsOneStaticWidget_ShouldHideWidget)
+{
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::LABEL, "" } },
+        getMockWidgetWithExpectedHide
+    ) };
+
+    menu.hide();
+
+    EXPECT_EQ(1, menu.getStaticWidgets().size());
+}
+
+TEST_F(MenuTests, hide_ContainsThreeStaticWidgets_ShouldHideAllWidgets)
+{
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::LABEL, "widget1" },
+          { WidgetType::LABEL, "widget2" },
+          { WidgetType::LABEL, "widget3" } },
+        getMockWidgetWithExpectedHide
+    ) };
+
+    menu.hide();
+
+    EXPECT_EQ(3, menu.getStaticWidgets().size());
+}
+
+TEST_F(MenuTests, hide_ContainsOneDynamicWidget_ShouldHideWidget)
+{
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::BUTTON, "" } },
+        getMockWidgetWithExpectedHide
+    ) };
+
+    menu.hide();
+
+    EXPECT_EQ(1, menu.getDynamicWidgets().size());
+}
+
+TEST_F(MenuTests, hide_ContainsThreeDynamicWidgets_ShouldHideAllWidgets)
+{
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::BUTTON, "widget1" },
+          { WidgetType::BUTTON, "widget2" },
+          { WidgetType::BUTTON, "widget3" } },
+        getMockWidgetWithExpectedHide
+    ) };
+
+    menu.hide();
+
+    EXPECT_EQ(3, menu.getDynamicWidgets().size());
+}
+
+TEST_F(MenuTests, hide_ContainsTwoStaticAndDynamicWidgets_ShouldShoHideAllWidgets)
+{
+    MenuTestable menu { getPreparedMenu(
+        { { WidgetType::LABEL, "widget1" },
+          { WidgetType::LABEL, "widget2" },
+          { WidgetType::BUTTON, "widget3" },
+          { WidgetType::BUTTON, "widget3" } },
+        getMockWidgetWithExpectedHide
+    ) };
+
+    menu.hide();
 
     EXPECT_EQ(2, menu.getStaticWidgets().size());
     EXPECT_EQ(2, menu.getDynamicWidgets().size());

@@ -20,20 +20,34 @@ auto Menu::isDynamicWidget(const WidgetType& type) -> bool
 
 void Menu::show()
 {
-    std::for_each(
-        std::begin(staticWidgets),
-        std::end(staticWidgets),
+    runOnAllWidgets(
         [](std::unique_ptr<Widget>& widget)
         {
             widget->show();
         }
     );
+}
+
+void Menu::hide()
+{
+    runOnAllWidgets(
+        [](std::unique_ptr<Widget>& widget)
+        {
+            widget->hide();
+        }
+    );
+}
+
+void Menu::runOnAllWidgets(const std::function<void(std::unique_ptr<Widget>&)>& widgetMethod)
+{
+    std::for_each(
+        std::begin(staticWidgets),
+        std::end(staticWidgets),
+        widgetMethod
+    );
     std::for_each(
         std::begin(dynamicWidgets),
         std::end(dynamicWidgets),
-        [](std::unique_ptr<Widget>& widget)
-        {
-            widget->show();
-        }
+        widgetMethod
     );
 }

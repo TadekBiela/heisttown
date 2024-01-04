@@ -2,6 +2,7 @@
 #define MENU_H
 
 #include <Widget.h>
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -20,6 +21,7 @@ public:
 
     void addWidget(std::unique_ptr<Widget> widget);
     void show();
+    void hide();
 
 protected:
     DynamicWidgets dynamicWidgets {};
@@ -27,6 +29,7 @@ protected:
 
 private:
     static auto isDynamicWidget(const WidgetType& type) -> bool;
+    void runOnAllWidgets(const std::function<void(std::unique_ptr<Widget>&)>& widgetMethod);
 };
 
 #endif // MENU_H
