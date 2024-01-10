@@ -1,4 +1,5 @@
 #include "Button.h"
+#include <QObject>
 
 Button::Button(
     const std::shared_ptr<QWidget>& display,
@@ -72,4 +73,16 @@ void Button::show()
 void Button::hide()
 {
     buttonImpl->hide();
+}
+
+void Button::connect(ConnectionOutput output)
+{
+    QObject::connect(
+        buttonImpl.get(),
+        &QPushButton::clicked,
+        [&]()
+        {
+            output(this->text());
+        }
+    );
 }

@@ -1,14 +1,14 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
+#include <DynamicWidget.h>
 #include <QPushButton>
 #include <QWidget>
-#include <Widget.h>
 #include <WidgetGeometry.h>
 #include <WidgetType.h>
 #include <memory>
 
-class Button : public Widget
+class Button : public DynamicWidget
 {
 public:
     Button() = delete;
@@ -29,8 +29,9 @@ public:
     void setStyle(const WidgetStyle& style) override;
     void show() override;
     void hide() override;
+    void connect(ConnectionOutput output) override;
 
-private:
+protected:
     std::unique_ptr<QPushButton> buttonImpl;
 };
 
