@@ -227,7 +227,7 @@ TEST_F(MenuTests, hide_ContainsTwoStaticAndDynamicWidgets_ShouldShoHideAllWidget
         { { WidgetType::LABEL, "widget1" },
           { WidgetType::LABEL, "widget2" },
           { WidgetType::BUTTON, "widget3" },
-          { WidgetType::BUTTON, "widget3" } },
+          { WidgetType::BUTTON, "widget4" } },
         getMockWidgetWithExpectedHide
     ) };
 
