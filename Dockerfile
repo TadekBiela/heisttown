@@ -5,6 +5,8 @@ FROM tadekbiela/cpp_development:cpp_development_linux
 WORKDIR /usr/src
 RUN git clone https://github.com/TadekBiela/heisttown.git
 
+RUN export LSAN_OPTIONS="suppressions=/usr/src/heisttown/sanitizer_suppressions.supp"
+
 # Set to working directory and build heisttown
 WORKDIR /usr/src/heisttown/build
 RUN cmake ../
