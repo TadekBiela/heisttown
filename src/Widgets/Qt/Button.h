@@ -2,6 +2,7 @@
 #define BUTTON_H
 
 #include <DynamicWidget.h>
+#include <QMetaObject>
 #include <QPushButton>
 #include <QWidget>
 #include <WidgetGeometry.h>
@@ -18,7 +19,7 @@ public:
         const WidgetText& text,
         const WidgetStyle& style
     );
-    virtual ~Button() = default;
+    virtual ~Button();
 
     auto type() const -> WidgetType override;
     auto geometry() const -> WidgetGeometry override;
@@ -29,10 +30,11 @@ public:
     void setStyle(const WidgetStyle& style) override;
     void show() override;
     void hide() override;
-    void connect(ConnectionOutput output) override;
+    void connect(const ConnectionOutput& output) override;
 
 protected:
     std::unique_ptr<QPushButton> buttonImpl;
+    QMetaObject::Connection connection;
 };
 
 #endif // BUTTON_H

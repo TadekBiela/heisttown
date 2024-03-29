@@ -18,6 +18,12 @@ Button::Button(
     );
     buttonImpl->setText(text.c_str());
     buttonImpl->setStyleSheet(style.c_str());
+    buttonImpl->hide();
+}
+
+Button::~Button()
+{
+    QObject::disconnect(connection);
 }
 
 auto Button::type() const -> WidgetType
@@ -75,9 +81,9 @@ void Button::hide()
     buttonImpl->hide();
 }
 
-void Button::connect(ConnectionOutput output)
+void Button::connect(const ConnectionOutput& output)
 {
-    QObject::connect(
+    connection = QObject::connect(
         buttonImpl.get(),
         &QPushButton::clicked,
         [&]()

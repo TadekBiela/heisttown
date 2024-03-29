@@ -4,6 +4,8 @@
 #include <functional>
 #include <gtest/gtest.h>
 
+using namespace testing;
+
 class ButtonTests : public testing::Test
 {
 };
@@ -16,15 +18,17 @@ public:
         const WidgetGeometry& geometry,
         const WidgetText& text,
         const WidgetStyle& style
-    ) : Button(
-            display,
-            geometry,
-            text,
-            style
-        )
-    {}
+    )
+        : Button(
+              display,
+              geometry,
+              text,
+              style
+          )
+    {
+    }
 
-    QPushButton* getImplementation()
+    auto getImplementation() -> QPushButton*
     {
         return buttonImpl.get();
     }
@@ -32,14 +36,13 @@ public:
 
 TEST_F(ButtonTests, connect_MockedConnectedOutput_ShouldExecuteOutputFunctionWithButtonText)
 {
-    const WidgetText expectedText { "ButtonTestText" };
     MockWidget outputWidget;
-    EXPECT_CALL(outputWidget, setText(expectedText));
-    ConnectionOutput outputFunction = std::bind(&MockWidget::setText, &outputWidget, std::placeholders::_1);
+    EXPECT_CALL(outputWidget, setText(_));
+    ConnectionOutput outputFunction = [&](const WidgetMessage& message) { outputWidget.setText(message); };
     ButtonTestable button(
         nullptr,
         { 100, 50, 30, 20 },
-        expectedText,
+        "",
         ""
     );
 
