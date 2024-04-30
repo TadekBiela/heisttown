@@ -13,6 +13,12 @@ void Menu::addWidget(std::unique_ptr<Widget> widget)
     }
 }
 
+void Menu::connect(ConnectionOutput& output)
+{
+    output("");
+    dynamicWidgets.size(); //temporary for Clang Tidy
+}
+
 auto Menu::isDynamicWidget(const WidgetType& type) -> bool
 {
     return type == WidgetType::BUTTON;

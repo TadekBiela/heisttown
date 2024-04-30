@@ -1,6 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include <DynamicWidget.h>
 #include <Widget.h>
 #include <functional>
 #include <memory>
@@ -20,6 +21,7 @@ public:
     Menu& operator=(Menu&& menu) = default;
 
     void addWidget(std::unique_ptr<Widget> widget);
+    void connect(ConnectionOutput& output);
     void show();
     void hide();
 
