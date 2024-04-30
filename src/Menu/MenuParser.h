@@ -19,11 +19,13 @@ public:
     MenuParser(std::unique_ptr<WidgetsFactory> factory);
     virtual ~MenuParser() = default;
 
-    auto parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus;
+    auto parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&&;
 
 private:
     const std::shared_ptr<WidgetsFactory> widgetsFactory;
     std::map<WidgetStyleName, WidgetStyle> parsedStyles {};
+    Menus parsedMenus;
+    Menu mainMenu;
 
     void parseStyles(const TextFile& stylesFile);
     static auto parseWidgetStyleContent(
@@ -31,7 +33,7 @@ private:
         TextFileContent::const_iterator styleContentEnd
     ) -> WidgetStyle;
     static auto removeSpaces(const std::string& input) -> std::string;
-    auto parseMainMenu(const TextFile& menuFile) -> Menu;
+    auto parseMainMenu(const TextFile& menuFile) -> Menu&&;
     auto parseWidget(
         const WidgetType& type,
         const TextFileContent& input

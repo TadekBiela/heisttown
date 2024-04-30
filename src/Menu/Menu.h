@@ -16,7 +16,7 @@ public:
     virtual ~Menu() = default;
     Menu(Menu& menu) = delete;
     Menu(Menu&& menu) = default;
-    void operator=(Menu& menu) = delete;
+    Menu& operator=(Menu& menu) = delete;
     Menu& operator=(Menu&& menu) = default;
 
     void addWidget(std::unique_ptr<Widget> widget);

@@ -10,10 +10,9 @@ MenuParser::MenuParser(std::unique_ptr<WidgetsFactory> factory)
 {
 }
 
-auto MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus
+auto MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&&
 {
     auto filesToParse = input->getLoadedData();
-    Menus parsedMenus;
 
     if (filesToParse.count("Styles") != 0)
     {
@@ -24,7 +23,7 @@ auto MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus
     {
         parsedMenus.push_back(parseMainMenu(filesToParse.at("MainMenu")));
     }
-    return parsedMenus;
+    return std::move(parsedMenus);
 }
 
 void MenuParser::parseStyles(const TextFile& stylesFile)
@@ -63,10 +62,8 @@ auto MenuParser::removeSpaces(const std::string& input) -> std::string
     return line;
 }
 
-auto MenuParser::parseMainMenu(const TextFile& menuFile) -> Menu
+auto MenuParser::parseMainMenu(const TextFile& menuFile) -> Menu&&
 {
-    Menu mainMenu;
-
     for (auto line = std::begin(menuFile.getContent()); line != std::end(menuFile.getContent()); line++)
     {
         WidgetType type {};
@@ -88,7 +85,7 @@ auto MenuParser::parseMainMenu(const TextFile& menuFile) -> Menu
         mainMenu.addWidget(parseWidget(type, widgetPartOfContent));
     }
 
-    return mainMenu;
+    return std::move(mainMenu);
 }
 
 auto MenuParser::parseWidget(
