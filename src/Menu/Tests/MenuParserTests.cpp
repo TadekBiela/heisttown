@@ -25,9 +25,9 @@ public:
     ) -> std::string
     {
         return std::string {
-            type + ":\n"
-            "    geometry: " + geometry.toString() + "\n"
-            "    text: " + text + "\n"
+            type + ":\n" +
+            "    geometry: " + geometry.toString() + "\n" +
+            "    text: " + text + "\n" +
             "    style: " + style + "\n"
         };
     }
