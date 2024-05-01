@@ -30,8 +30,7 @@ protected:
     StaticWidgets staticWidgets {};
 
 private:
-    static auto isDynamicWidget(const WidgetType& type) -> bool;
-    void runOnAllWidgets(const std::function<void(std::unique_ptr<Widget>&)>& widgetMethod);
+    static auto isDynamicWidget(const Widget* widget) -> bool;
 };
 
 #endif // MENU_H

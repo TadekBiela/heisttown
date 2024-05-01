@@ -1,9 +1,9 @@
 #include "Menu.h"
-#include <algorithm>
+#include <typeinfo>
 
 void Menu::addWidget(std::unique_ptr<Widget> widget)
 {
-    if (isDynamicWidget(widget->type()))
+    if (isDynamicWidget(widget.get()))
     {
         dynamicWidgets.push_back(std::move(widget));
     }
@@ -13,47 +13,39 @@ void Menu::addWidget(std::unique_ptr<Widget> widget)
     }
 }
 
-void Menu::connect(ConnectionOutput& output)
+auto Menu::isDynamicWidget(const Widget* widget) -> bool
 {
-    output("");
-    dynamicWidgets.size(); // temporary for Clang Tidy
+    return !(dynamic_cast<const DynamicWidget*>(widget) == nullptr);
 }
 
-auto Menu::isDynamicWidget(const WidgetType& type) -> bool
+void Menu::connect(ConnectionOutput& output)
 {
-    return type == WidgetType::BUTTON;
+    for (auto& widget : dynamicWidgets)
+    {
+        dynamic_cast<DynamicWidget*>(widget.get())->connect(output);
+    }
 }
 
 void Menu::show()
 {
-    runOnAllWidgets(
-        [](std::unique_ptr<Widget>& widget)
-        {
-            widget->show();
-        }
-    );
+    for (auto& widget : staticWidgets)
+    {
+        widget->show();
+    }
+    for (auto& widget : dynamicWidgets)
+    {
+        widget->show();
+    }
 }
 
 void Menu::hide()
 {
-    runOnAllWidgets(
-        [](std::unique_ptr<Widget>& widget)
-        {
-            widget->hide();
-        }
-    );
-}
-
-void Menu::runOnAllWidgets(const std::function<void(std::unique_ptr<Widget>&)>& widgetMethod)
-{
-    std::for_each(
-        std::begin(staticWidgets),
-        std::end(staticWidgets),
-        widgetMethod
-    );
-    std::for_each(
-        std::begin(dynamicWidgets),
-        std::end(dynamicWidgets),
-        widgetMethod
-    );
+    for (auto& widget : staticWidgets)
+    {
+        widget->hide();
+    }
+    for (auto& widget : dynamicWidgets)
+    {
+        widget->hide();
+    }
 }

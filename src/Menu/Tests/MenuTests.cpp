@@ -1,7 +1,6 @@
 #include <Menu.h>
+#include <MockDynamicWidget.h>
 #include <MockWidget.h>
-#include <MockWidgetsFactory.h>
-#include <StubWidgetsFactory.h>
 #include <WidgetType.h>
 #include <functional>
 #include <gtest/gtest.h>
@@ -27,46 +26,61 @@ using MockWidgetGetter = const std::function<std::unique_ptr<MockWidget>(const W
 class MenuTests : public Test
 {
 public:
-    static auto getPreparedMenu(const MenuInitList& initList, MockWidgetGetter getMockWidget) -> MenuTestable
-    {
-        std::unique_ptr<MockWidgetsFactory> factory { std::make_unique<MockWidgetsFactory>() };
-        MenuTestable menu;
-
-        for (const auto& init : initList)
-        {
-            EXPECT_CALL(*factory, create(init.first, _, init.second, _)).WillOnce(Return(ByMove(getMockWidget(init.first))));
-            menu.addWidget(factory->create(init.first, {}, init.second, ""));
-        }
-
-        return menu;
-    }
     static auto getMockWidgetWithExpectedShow(const WidgetType& type) -> std::unique_ptr<MockWidget>
     {
-        std::unique_ptr<MockWidget> widget { getMockWidget(type) };
+        auto widget { getMockWidget(type) };
         EXPECT_CALL(*widget, show());
         return widget;
     }
+
     static auto getMockWidgetWithExpectedHide(const WidgetType& type) -> std::unique_ptr<MockWidget>
     {
-        std::unique_ptr<MockWidget> widget { getMockWidget(type) };
+        auto widget { getMockWidget(type) };
         EXPECT_CALL(*widget, hide());
         return widget;
     }
 
     static auto getMockWidget(const WidgetType& type) -> std::unique_ptr<MockWidget>
     {
-        std::unique_ptr<MockWidget> widget { std::make_unique<MockWidget>() };
-        EXPECT_CALL(*widget, type()).WillOnce(Return(type));
+        auto widget { std::make_unique<MockWidget>() };
+        EXPECT_CALL(*widget, type()).WillRepeatedly(Return(type));
+        return widget;
+    }
+
+    static auto getMockDynamicWidgetWithExpectedShow(const WidgetType& type) -> std::unique_ptr<MockDynamicWidget>
+    {
+        auto widget { getMockDynamicWidget(type) };
+        EXPECT_CALL(*widget, show());
+        return widget;
+    }
+
+    static auto getMockDynamicWidgetWithExpectedHide(const WidgetType& type) -> std::unique_ptr<MockDynamicWidget>
+    {
+        auto widget { getMockDynamicWidget(type) };
+        EXPECT_CALL(*widget, hide());
+        return widget;
+    }
+
+    static auto getMockDynamicWidgetWithExpectedConnect(const WidgetType& type) -> std::unique_ptr<MockDynamicWidget>
+    {
+        auto widget { getMockDynamicWidget(type) };
+        EXPECT_CALL(*widget, connect(_));
+        return widget;
+    }
+
+    static auto getMockDynamicWidget(const WidgetType& type) -> std::unique_ptr<MockDynamicWidget>
+    {
+        auto widget { std::make_unique<MockDynamicWidget>() };
+        EXPECT_CALL(*widget, type()).WillRepeatedly(Return(type));
         return widget;
     }
 };
 
 TEST_F(MenuTests, addWidget_ButtonWidget_ShouldAddButtonToDynamicWidgets)
 {
-    StubWidgetsFactory factory;
     MenuTestable menu;
 
-    menu.addWidget(factory.create(WidgetType::BUTTON, {}, "", ""));
+    menu.addWidget(getMockDynamicWidget(WidgetType::BUTTON));
 
     ASSERT_EQ(1, menu.getDynamicWidgets().size());
     EXPECT_EQ(WidgetType::BUTTON, menu.getDynamicWidgets().at(0)->type());
@@ -75,10 +89,9 @@ TEST_F(MenuTests, addWidget_ButtonWidget_ShouldAddButtonToDynamicWidgets)
 
 TEST_F(MenuTests, addWidget_LabelWidget_ShouldAddLabeToStaticWidgets)
 {
-    StubWidgetsFactory factory;
     MenuTestable menu;
 
-    menu.addWidget(factory.create(WidgetType::LABEL, {}, "", ""));
+    menu.addWidget(getMockWidget(WidgetType::LABEL));
 
     EXPECT_EQ(0, menu.getDynamicWidgets().size());
     ASSERT_EQ(1, menu.getStaticWidgets().size());
@@ -87,15 +100,14 @@ TEST_F(MenuTests, addWidget_LabelWidget_ShouldAddLabeToStaticWidgets)
 
 TEST_F(MenuTests, addWidget_DifferentWidgets_ShouldAddWidgetsRegardingToType)
 {
-    StubWidgetsFactory factory;
     MenuTestable menu;
 
-    menu.addWidget(factory.create(WidgetType::LABEL, {}, "", ""));
-    menu.addWidget(factory.create(WidgetType::BUTTON, {}, "", ""));
-    menu.addWidget(factory.create(WidgetType::BUTTON, {}, "", ""));
-    menu.addWidget(factory.create(WidgetType::BUTTON, {}, "", ""));
-    menu.addWidget(factory.create(WidgetType::LABEL, {}, "", ""));
-    menu.addWidget(factory.create(WidgetType::BUTTON, {}, "", ""));
+    menu.addWidget(getMockWidget(WidgetType::LABEL));
+    menu.addWidget(getMockDynamicWidget(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidget(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidget(WidgetType::BUTTON));
+    menu.addWidget(getMockWidget(WidgetType::LABEL));
+    menu.addWidget(getMockDynamicWidget(WidgetType::BUTTON));
 
     EXPECT_EQ(4, menu.getDynamicWidgets().size());
     EXPECT_EQ(2, menu.getStaticWidgets().size());
@@ -103,10 +115,8 @@ TEST_F(MenuTests, addWidget_DifferentWidgets_ShouldAddWidgetsRegardingToType)
 
 TEST_F(MenuTests, show_ContainsOneStaticWidget_ShouldShowWidget)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::LABEL, "" } },
-        getMockWidgetWithExpectedShow
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockWidgetWithExpectedShow(WidgetType::LABEL));
 
     menu.show();
 
@@ -115,12 +125,10 @@ TEST_F(MenuTests, show_ContainsOneStaticWidget_ShouldShowWidget)
 
 TEST_F(MenuTests, show_ContainsThreeStaticWidgets_ShouldShowAllWidgets)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::LABEL, "widget1" },
-          { WidgetType::LABEL, "widget2" },
-          { WidgetType::LABEL, "widget3" } },
-        getMockWidgetWithExpectedShow
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockWidgetWithExpectedShow(WidgetType::LABEL));
+    menu.addWidget(getMockWidgetWithExpectedShow(WidgetType::LABEL));
+    menu.addWidget(getMockWidgetWithExpectedShow(WidgetType::LABEL));
 
     menu.show();
 
@@ -129,10 +137,8 @@ TEST_F(MenuTests, show_ContainsThreeStaticWidgets_ShouldShowAllWidgets)
 
 TEST_F(MenuTests, show_ContainsOneDynamicWidget_ShouldShowWidget)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::BUTTON, "" } },
-        getMockWidgetWithExpectedShow
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockDynamicWidgetWithExpectedShow(WidgetType::BUTTON));
 
     menu.show();
 
@@ -141,12 +147,10 @@ TEST_F(MenuTests, show_ContainsOneDynamicWidget_ShouldShowWidget)
 
 TEST_F(MenuTests, show_ContainsThreeDynamicWidgets_ShouldShowAllWidgets)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::BUTTON, "widget1" },
-          { WidgetType::BUTTON, "widget2" },
-          { WidgetType::BUTTON, "widget3" } },
-        getMockWidgetWithExpectedShow
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockDynamicWidgetWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidgetWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidgetWithExpectedShow(WidgetType::BUTTON));
 
     menu.show();
 
@@ -155,13 +159,11 @@ TEST_F(MenuTests, show_ContainsThreeDynamicWidgets_ShouldShowAllWidgets)
 
 TEST_F(MenuTests, show_ContainsTwoStaticAndDynamicWidgets_ShouldShowAllWidgets)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::LABEL, "widget1" },
-          { WidgetType::LABEL, "widget2" },
-          { WidgetType::BUTTON, "widget3" },
-          { WidgetType::BUTTON, "widget4" } },
-        getMockWidgetWithExpectedShow
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockWidgetWithExpectedShow(WidgetType::LABEL));
+    menu.addWidget(getMockWidgetWithExpectedShow(WidgetType::LABEL));
+    menu.addWidget(getMockDynamicWidgetWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidgetWithExpectedShow(WidgetType::BUTTON));
 
     menu.show();
 
@@ -171,10 +173,8 @@ TEST_F(MenuTests, show_ContainsTwoStaticAndDynamicWidgets_ShouldShowAllWidgets)
 
 TEST_F(MenuTests, hide_ContainsOneStaticWidget_ShouldHideWidget)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::LABEL, "" } },
-        getMockWidgetWithExpectedHide
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockWidgetWithExpectedHide(WidgetType::LABEL));
 
     menu.hide();
 
@@ -183,12 +183,10 @@ TEST_F(MenuTests, hide_ContainsOneStaticWidget_ShouldHideWidget)
 
 TEST_F(MenuTests, hide_ContainsThreeStaticWidgets_ShouldHideAllWidgets)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::LABEL, "widget1" },
-          { WidgetType::LABEL, "widget2" },
-          { WidgetType::LABEL, "widget3" } },
-        getMockWidgetWithExpectedHide
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockWidgetWithExpectedHide(WidgetType::LABEL));
+    menu.addWidget(getMockWidgetWithExpectedHide(WidgetType::LABEL));
+    menu.addWidget(getMockWidgetWithExpectedHide(WidgetType::LABEL));
 
     menu.hide();
 
@@ -197,10 +195,8 @@ TEST_F(MenuTests, hide_ContainsThreeStaticWidgets_ShouldHideAllWidgets)
 
 TEST_F(MenuTests, hide_ContainsOneDynamicWidget_ShouldHideWidget)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::BUTTON, "" } },
-        getMockWidgetWithExpectedHide
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockDynamicWidgetWithExpectedHide(WidgetType::BUTTON));
 
     menu.hide();
 
@@ -209,30 +205,75 @@ TEST_F(MenuTests, hide_ContainsOneDynamicWidget_ShouldHideWidget)
 
 TEST_F(MenuTests, hide_ContainsThreeDynamicWidgets_ShouldHideAllWidgets)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::BUTTON, "widget1" },
-          { WidgetType::BUTTON, "widget2" },
-          { WidgetType::BUTTON, "widget3" } },
-        getMockWidgetWithExpectedHide
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockDynamicWidgetWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidgetWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidgetWithExpectedHide(WidgetType::BUTTON));
 
     menu.hide();
 
     EXPECT_EQ(3, menu.getDynamicWidgets().size());
 }
 
-TEST_F(MenuTests, hide_ContainsTwoStaticAndDynamicWidgets_ShouldShoHideAllWidgets)
+TEST_F(MenuTests, hide_ContainsTwoStaticAndDynamicWidgets_ShouldHideAllWidgets)
 {
-    MenuTestable menu { getPreparedMenu(
-        { { WidgetType::LABEL, "widget1" },
-          { WidgetType::LABEL, "widget2" },
-          { WidgetType::BUTTON, "widget3" },
-          { WidgetType::BUTTON, "widget4" } },
-        getMockWidgetWithExpectedHide
-    ) };
+    MenuTestable menu;
+    menu.addWidget(getMockWidgetWithExpectedHide(WidgetType::LABEL));
+    menu.addWidget(getMockWidgetWithExpectedHide(WidgetType::LABEL));
+    menu.addWidget(getMockDynamicWidgetWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidgetWithExpectedHide(WidgetType::BUTTON));
 
     menu.hide();
 
     EXPECT_EQ(2, menu.getStaticWidgets().size());
     EXPECT_EQ(2, menu.getDynamicWidgets().size());
+}
+
+TEST_F(MenuTests, connect_ContainsNoWidgets_ShouldDoNothing)
+{
+    MenuTestable menu {};
+    ConnectionOutput connection { [](const WidgetMessage&) {} };
+
+    menu.connect(connection);
+
+    EXPECT_EQ(0, menu.getStaticWidgets().size());
+    EXPECT_EQ(0, menu.getDynamicWidgets().size());
+}
+
+TEST_F(MenuTests, connect_ContainsOneStaticWidget_ShouldDoNothing)
+{
+    MenuTestable menu;
+    menu.addWidget(getMockWidget(WidgetType::LABEL));
+    ConnectionOutput connection { [](const WidgetMessage&) {} };
+
+    menu.connect(connection);
+
+    EXPECT_EQ(1, menu.getStaticWidgets().size());
+    EXPECT_EQ(0, menu.getDynamicWidgets().size());
+}
+
+TEST_F(MenuTests, connect_ContainsOneDynamicWidget_ShouldConnectWidgetToOutput)
+{
+    ConnectionOutput output { [](const WidgetMessage&) {} };
+    MenuTestable menu;
+    menu.addWidget(getMockDynamicWidgetWithExpectedConnect(WidgetType::BUTTON));
+
+    menu.connect(output);
+
+    EXPECT_EQ(0, menu.getStaticWidgets().size());
+    EXPECT_EQ(1, menu.getDynamicWidgets().size());
+}
+
+TEST_F(MenuTests, connect_ContainsThreeDynamicWidget_ShouldConnectAllWidgetsToOutput)
+{
+    ConnectionOutput output { [](const WidgetMessage&) {} };
+    MenuTestable menu;
+    menu.addWidget(getMockDynamicWidgetWithExpectedConnect(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidgetWithExpectedConnect(WidgetType::BUTTON));
+    menu.addWidget(getMockDynamicWidgetWithExpectedConnect(WidgetType::BUTTON));
+
+    menu.connect(output);
+
+    EXPECT_EQ(0, menu.getStaticWidgets().size());
+    EXPECT_EQ(3, menu.getDynamicWidgets().size());
 }
