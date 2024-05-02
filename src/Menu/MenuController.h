@@ -1,6 +1,7 @@
 #ifndef MENU_CONTROLLER_H
 #define MENU_CONTROLLER_H
 
+#include "DynamicWidget.h"
 #include "IMenuParser.h"
 #include "Menus.h"
 #include <IFileLoader.h>
@@ -15,10 +16,16 @@ public:
         std::unique_ptr<IFileLoader<TextFile>> source
     );
 
+    void control(const WidgetMessage& message);
+
 protected:
     Menus menus;
+    Menus::iterator currentMenu;
+    Menus::iterator previousMenu;
 
 private:
+    void connectMenus();
+    void initCurrentMenu();
     void hideAllMenus();
 };
 
