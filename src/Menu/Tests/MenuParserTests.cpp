@@ -275,6 +275,7 @@ TEST_F(MenuParserTests, parse_TwoFilesWithWidgetsNoStyle_ShouldReturnMenusWithTw
         { "SinglePlayer", TextFile { "dummy/path/SinglePlayer.txt", getWidgetText("Button") + getWidgetText("Button") } } }
     );
     auto factory { std::make_unique<MockWidgetsFactory>() };
+    EXPECT_CALL(*factory, create(_, _, _, _)).WillRepeatedly(DoDefault());
     MenuParser parser(std::move(factory));
 
     Menus result = parser.parse(std::move(fileLoader));
