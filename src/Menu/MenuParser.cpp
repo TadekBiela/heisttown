@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <iostream>
 #include <iterator>
 
 MenuParser::MenuParser(std::unique_ptr<WidgetsFactory> factory)
@@ -14,14 +15,19 @@ auto MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&&
 {
     auto filesToParse = input->getLoadedData();
 
-    if (filesToParse.count("Styles") != 0)
+    if (auto styles { filesToParse.find("Styles") }; styles != std::end(filesToParse))
     {
-        parseStyles(filesToParse.at("Styles"));
+        parseStyles(styles->second);
+        filesToParse.erase(styles);
+    }
+    else
+    {
+        std::cerr << "MenuParser::parse - missing Styles.txt file. No styles parsed!\n";
     }
 
-    if (filesToParse.count("MainMenu") != 0)
+    for (const auto& fileToParse : filesToParse)
     {
-        parsedMenus.push_back(parseMainMenu(filesToParse.at("MainMenu")));
+        parsedMenus.push_back(parseMenu(fileToParse.second));
     }
     return std::move(parsedMenus);
 }
@@ -62,8 +68,9 @@ auto MenuParser::removeSpaces(const std::string& input) -> std::string
     return line;
 }
 
-auto MenuParser::parseMainMenu(const TextFile& menuFile) -> Menu&&
+auto MenuParser::parseMenu(const TextFile& menuFile) -> Menu&&
 {
+    menu = {};
     for (auto line = std::begin(menuFile.getContent()); line != std::end(menuFile.getContent()); line++)
     {
         WidgetType type {};
@@ -82,10 +89,10 @@ auto MenuParser::parseMainMenu(const TextFile& menuFile) -> Menu&&
 
         const int amountOfWidgetParams { 4 };
         TextFileContent widgetPartOfContent { std::next(line), std::next(line, amountOfWidgetParams) };
-        mainMenu.addWidget(parseWidget(type, widgetPartOfContent));
+        menu.addWidget(parseWidget(type, widgetPartOfContent));
     }
 
-    return std::move(mainMenu);
+    return std::move(menu);
 }
 
 auto MenuParser::parseWidget(

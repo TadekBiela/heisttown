@@ -19,9 +19,9 @@ class MenuParserTests : public testing::Test
 public:
     [[nodiscard]] static auto getWidgetText(
         const std::string& type,
-        const WidgetGeometry& geometry,
-        const WidgetText& text,
-        const WidgetStyle& style
+        const WidgetGeometry& geometry = { 0, 0, 0, 0 },
+        const WidgetText& text = "",
+        const WidgetStyle& style = "none"
     ) -> std::string
     {
         return std::string {
@@ -252,4 +252,32 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyl
     Menus result = parser.parse(std::move(fileLoader));
 
     ASSERT_EQ(1, result.size());
+}
+
+TEST_F(MenuParserTests, parse_TwoFilesWithoutWidgetsNoStyle_ShouldReturnMenusWithTwoEmptyMenus)
+{
+    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
+    fileLoader->setLoadedData(TextFileLoadedData { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", "" } },
+                                                   { "SinglePlayer", TextFile { "dummy/path/SinglePlayer.txt", "" } } });
+    auto factory { std::make_unique<MockWidgetsFactory>() };
+    MenuParser parser(std::move(factory));
+
+    Menus result = parser.parse(std::move(fileLoader));
+
+    ASSERT_EQ(2, result.size());
+}
+
+TEST_F(MenuParserTests, parse_TwoFilesWithWidgetsNoStyle_ShouldReturnMenusWithTwoFilledMenus)
+{
+    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
+    fileLoader->setLoadedData(TextFileLoadedData {
+        { "MainMenu", TextFile { "dummy/path/MainMenu.txt", getWidgetText("Label") + getWidgetText("Button") + getWidgetText("Button") } },
+        { "SinglePlayer", TextFile { "dummy/path/SinglePlayer.txt", getWidgetText("Button") + getWidgetText("Button") } } }
+    );
+    auto factory { std::make_unique<MockWidgetsFactory>() };
+    MenuParser parser(std::move(factory));
+
+    Menus result = parser.parse(std::move(fileLoader));
+
+    ASSERT_EQ(2, result.size());
 }
