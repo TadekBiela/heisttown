@@ -1,3 +1,6 @@
+#ifndef MOCK_WIDGETS_FACTORY_H
+#define MOCK_WIDGETS_FACTORY_H
+
 #include "Widget.h"
 #include "WidgetGeometry.h"
 #include "WidgetType.h"
@@ -17,3 +20,5 @@ public:
         )
     );
 };
+
+#endif // MOCK_WIDGETS_FACTORY_H
