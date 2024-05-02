@@ -11,7 +11,7 @@ class FilesStorageTests : public testing::Test
 TEST_F(FilesStorageTests, getFile_OnlyDefaultValue_ShouldReturnEmptyImageFile)
 {
     TextFile expected;
-    std::unique_ptr<StubFileLoader<TextFile>> loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
+    auto loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
     FilesStorage<TextFile> storage { loader.get() };
 
     TextFile result = storage.getFile("default");
@@ -23,7 +23,7 @@ TEST_F(FilesStorageTests, getFile_OnlyDefaultValue_ShouldReturnEmptyImageFile)
 TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetItByName_ShouldReturnCorrectImageFile)
 {
     TextFile expected { "/file/path/text1.txt", "testText" };
-    std::unique_ptr<StubFileLoader<TextFile>> loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
+    auto loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
     std::map<FileName, TextFile> filesMapWithOneFile { { "fileOne", expected } };
     loader->setLoadedData(filesMapWithOneFile);
     FilesStorage<TextFile> storage { loader.get() };
@@ -37,7 +37,7 @@ TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetItByName_ShouldR
 TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetFileThatNotExist_ShouldReturnEmptyImageFile)
 {
     TextFile expected;
-    std::unique_ptr<StubFileLoader<TextFile>> loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
+    auto loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
     std::map<FileName, TextFile> filesMapWithOneFile { { "fileOne", expected } };
     loader->setLoadedData(filesMapWithOneFile);
     FilesStorage<TextFile> storage { loader.get() };
@@ -51,7 +51,7 @@ TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetFileThatNotExist
 TEST_F(FilesStorageTests, getFile_DirectoryContainThreeFilesMiddleFileName_ShouldReturnMiddleImageFile)
 {
     TextFile expected { "/file/path/text1.txt", "testText" };
-    std::unique_ptr<StubFileLoader<TextFile>> loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
+    auto loader = std::make_unique<StubFileLoader<TextFile>>(std::filesystem::path());
     std::map<FileName, TextFile> filesMapWithOneFile {
         { "frontFile", TextFile { "/file/path/text0.txt", "000000000" } },
         { "middleFile", expected },
