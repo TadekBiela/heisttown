@@ -22,7 +22,11 @@ void Menu::connect(ConnectionOutput& output)
 {
     for (auto& widget : dynamicWidgets)
     {
-        dynamic_cast<DynamicWidget*>(widget.get())->connect(output);
+        auto* widgetPtr { dynamic_cast<DynamicWidget*>(widget.get()) };
+        if (widgetPtr != nullptr)
+        {
+            widgetPtr->connect(output);
+        }
     }
 }
 
