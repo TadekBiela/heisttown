@@ -9,10 +9,6 @@
 
 using namespace testing;
 
-class MenuControllerTests : public testing::Test
-{
-};
-
 class MenuControllerTestable : public MenuController
 {
 public:
@@ -40,6 +36,23 @@ public:
     [[nodiscard]] auto getPreviousMenu() const -> const Menus::iterator&
     {
         return previousMenu;
+    }
+};
+
+class MenuControllerTests : public testing::Test
+{
+public:
+    static auto prepareMenuControllerWithMenu() -> MenuControllerTestable
+    {
+        auto stubSource { std::make_unique<StubFileLoader<TextFile>>("") };
+        stubSource->setLoadedData({ { "MainMenu", TextFile { "", "" } },
+                                    { "SinglePlayer", TextFile { "", "" } },
+                                    { "Settings", TextFile { "", "" } } });
+        auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
+        auto widget { std::make_unique<MockDynamicWidget>() };
+        auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
+
+        return { std::move(parser), std::move(stubSource) };
     }
 };
 
@@ -72,6 +85,61 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
     MenuControllerTestable controller(std::move(parser), std::move(stubSource));
 
     EXPECT_EQ(1, controller.getMenus().size());
-    EXPECT_EQ(std::begin(controller.getMenus()), controller.getCurrentMenu());
-    EXPECT_EQ(std::begin(controller.getMenus()), controller.getPreviousMenu());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
+}
+
+TEST_F(MenuControllerTests, constructor_ParserReturnsThreeMenus_ShouldContainsAllMenusWithSetCurrentAndPrevMenuAsFirstOne)
+{
+    MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+
+    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
+}
+
+TEST_F(MenuControllerTests, control_SinglePlayer_ShouldSwitchCurrentMenuToSinglePlayer)
+{
+    MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+
+    controller.control("SinglePlayer");
+
+    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
+}
+
+TEST_F(MenuControllerTests, control_Settings_ShouldSwitchCurrentMenuToSettings)
+{
+    MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+
+    controller.control("Settings");
+
+    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("Settings"), controller.getCurrentMenu());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
+}
+
+TEST_F(MenuControllerTests, control_SinglePlayerNextToSettings_ShouldSwitchCurrentMenuToSettingsAndPrevToSinglePlayer)
+{
+    MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+
+    controller.control("SinglePlayer");
+    controller.control("Settings");
+
+    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("Settings"), controller.getCurrentMenu());
+    EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getPreviousMenu());
+}
+
+TEST_F(MenuControllerTests, control_SinglePlayerAndBack_ShouldSwitchCurrentMenuToSinglePlayerAndBackToMainMenu)
+{
+    MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+
+    controller.control("SinglePlayer");
+    controller.control("Back");
+
+    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
+    EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getPreviousMenu());
 }

@@ -2,8 +2,10 @@
 #define MENUS_H
 
 #include "Menu.h"
-#include <vector>
+#include <string>
+#include <unordered_map>
 
-using Menus = std::vector<Menu>;
+using MenuName = std::string;
+using Menus = std::unordered_map<MenuName, Menu>;
 
 #endif // MENUS_H

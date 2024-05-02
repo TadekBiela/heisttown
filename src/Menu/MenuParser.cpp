@@ -27,7 +27,7 @@ auto MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&&
 
     for (const auto& fileToParse : filesToParse)
     {
-        parsedMenus.push_back(parseMenu(fileToParse.second));
+        parsedMenus[fileToParse.first] = parseMenu(fileToParse.second);
     }
     return std::move(parsedMenus);
 }

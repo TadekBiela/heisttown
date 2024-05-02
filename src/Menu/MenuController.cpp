@@ -17,33 +17,51 @@ void MenuController::connectMenus()
     {
         this->control(message);
     };
-    for (auto& menu : menus)
+    for (auto& menuIt : menus)
     {
+        auto& menu = menuIt.second;
         menu.connect(output);
     }
 }
 
 void MenuController::control(const WidgetMessage& message)
 {
-    std::cout << "MenuController::control - message: " << message
-              << " - all menus: " << menus.size() << std::endl;
+    if (auto menu = menus.find(message); menu != std::end(menus))
+    {
+        previousMenu = currentMenu;
+        currentMenu = menu;
+    }
+    else if (message == "Back")
+    {
+        std::swap(currentMenu, previousMenu);
+    }
+    else
+    {
+        std::cerr << "MenuController::control - unknown command: " << message << std::endl;
+    }
+
+    hideAllMenus();
+    currentMenu->second.show();
 }
 
 void MenuController::initCurrentMenu()
 {
-    currentMenu = std::begin(menus);
-    previousMenu = currentMenu;
-
-    if (currentMenu != std::end(menus))
+    if (currentMenu = menus.find("MainMenu"); currentMenu != std::end(menus))
     {
-        currentMenu->show();
+        previousMenu = currentMenu;
+        currentMenu->second.show();
+    }
+    else
+    {
+        std::cerr << "MenuController::initCurrentMenu - missing MainMenu! Control on menus disabled.\n";
     }
 }
 
 void MenuController::hideAllMenus()
 {
-    for (auto& menu : menus)
+    for (auto& menuIt : menus)
     {
+        auto& menu = menuIt.second;
         menu.hide();
     }
 }

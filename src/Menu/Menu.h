@@ -15,9 +15,9 @@ class Menu
 public:
     Menu() = default;
     virtual ~Menu() = default;
-    Menu(Menu& menu) = delete;
+    Menu(const Menu& menu) = delete;
     Menu(Menu&& menu) = default;
-    Menu& operator=(Menu& menu) = delete;
+    Menu& operator=(const Menu& menu) = delete;
     Menu& operator=(Menu&& menu) = default;
 
     void addWidget(std::unique_ptr<Widget> widget);
