@@ -24,7 +24,7 @@ protected:
     Menus::iterator previousMenu;
 
 private:
-    ConnectionOutput output;
+    ControlConnection controlConnection;
 
     void connectMenus();
     void initCurrentMenu();

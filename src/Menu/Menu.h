@@ -21,7 +21,7 @@ public:
     Menu& operator=(Menu&& menu) = default;
 
     void addWidget(std::unique_ptr<Widget> widget);
-    void connect(ConnectionOutput& output);
+    void connect(ControlConnection& controlConnection);
     void show();
     void hide();
 

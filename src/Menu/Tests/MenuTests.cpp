@@ -232,9 +232,9 @@ TEST_F(MenuTests, hide_ContainsTwoStaticAndDynamicWidgets_ShouldHideAllWidgets)
 TEST_F(MenuTests, connect_ContainsNoWidgets_ShouldDoNothing)
 {
     MenuTestable menu {};
-    ConnectionOutput connection { [](const WidgetMessage&) {} };
+    ControlConnection controlConnection { [](const WidgetMessage&) {} };
 
-    menu.connect(connection);
+    menu.connect(controlConnection);
 
     EXPECT_EQ(0, menu.getStaticWidgets().size());
     EXPECT_EQ(0, menu.getDynamicWidgets().size());
@@ -244,9 +244,9 @@ TEST_F(MenuTests, connect_ContainsOneStaticWidget_ShouldDoNothing)
 {
     MenuTestable menu;
     menu.addWidget(getMockWidget(WidgetType::LABEL));
-    ConnectionOutput connection { [](const WidgetMessage&) {} };
+    ControlConnection controlConnection { [](const WidgetMessage&) {} };
 
-    menu.connect(connection);
+    menu.connect(controlConnection);
 
     EXPECT_EQ(1, menu.getStaticWidgets().size());
     EXPECT_EQ(0, menu.getDynamicWidgets().size());
@@ -254,11 +254,11 @@ TEST_F(MenuTests, connect_ContainsOneStaticWidget_ShouldDoNothing)
 
 TEST_F(MenuTests, connect_ContainsOneDynamicWidget_ShouldConnectWidgetToOutput)
 {
-    ConnectionOutput output { [](const WidgetMessage&) {} };
+    ControlConnection controlConnection { [](const WidgetMessage&) {} };
     MenuTestable menu;
     menu.addWidget(getMockDynamicWidgetWithExpectedConnect(WidgetType::BUTTON));
 
-    menu.connect(output);
+    menu.connect(controlConnection);
 
     EXPECT_EQ(0, menu.getStaticWidgets().size());
     EXPECT_EQ(1, menu.getDynamicWidgets().size());
@@ -266,13 +266,13 @@ TEST_F(MenuTests, connect_ContainsOneDynamicWidget_ShouldConnectWidgetToOutput)
 
 TEST_F(MenuTests, connect_ContainsThreeDynamicWidget_ShouldConnectAllWidgetsToOutput)
 {
-    ConnectionOutput output { [](const WidgetMessage&) {} };
+    ControlConnection controlConnection { [](const WidgetMessage&) {} };
     MenuTestable menu;
     menu.addWidget(getMockDynamicWidgetWithExpectedConnect(WidgetType::BUTTON));
     menu.addWidget(getMockDynamicWidgetWithExpectedConnect(WidgetType::BUTTON));
     menu.addWidget(getMockDynamicWidgetWithExpectedConnect(WidgetType::BUTTON));
 
-    menu.connect(output);
+    menu.connect(controlConnection);
 
     EXPECT_EQ(0, menu.getStaticWidgets().size());
     EXPECT_EQ(3, menu.getDynamicWidgets().size());

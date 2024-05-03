@@ -18,14 +18,14 @@ auto Menu::isDynamicWidget(const Widget* widget) -> bool
     return !(dynamic_cast<const DynamicWidget*>(widget) == nullptr);
 }
 
-void Menu::connect(ConnectionOutput& output)
+void Menu::connect(ControlConnection& controlConnection)
 {
     for (auto& widget : dynamicWidgets)
     {
         auto* widgetPtr { dynamic_cast<DynamicWidget*>(widget.get()) };
         if (widgetPtr != nullptr)
         {
-            widgetPtr->connect(output);
+            widgetPtr->connect(controlConnection);
         }
     }
 }

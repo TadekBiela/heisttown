@@ -14,14 +14,14 @@ MenuController::MenuController(
 
 void MenuController::connectMenus()
 {
-    output = [&](const WidgetMessage& message)
+    controlConnection = [&](const WidgetMessage& message)
     {
         this->control(message);
     };
     for (auto& menuIt : menus)
     {
         auto& menu = menuIt.second;
-        menu.connect(output);
+        menu.connect(controlConnection);
     }
 }
 

@@ -30,7 +30,7 @@ public:
     void setStyle(const WidgetStyle& style) override;
     void show() override;
     void hide() override;
-    void connect(const ConnectionOutput& output) override;
+    void connect(const ControlConnection& controlConnection) override;
 
 protected:
     std::unique_ptr<QPushButton> buttonImpl;

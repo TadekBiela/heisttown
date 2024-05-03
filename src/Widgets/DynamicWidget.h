@@ -6,14 +6,14 @@
 #include <string>
 
 using WidgetMessage = std::string;
-using ConnectionOutput = std::function<void(const WidgetMessage&)>;
+using ControlConnection = std::function<void(const WidgetMessage&)>;
 
 class DynamicWidget : public Widget
 {
 public:
     virtual ~DynamicWidget() = default;
 
-    virtual void connect(const ConnectionOutput& output) = 0;
+    virtual void connect(const ControlConnection& controlConnection) = 0;
 };
 
 #endif // DYNAMIC_WIDGET_H

@@ -19,7 +19,7 @@ public:
     MOCK_METHOD1(setStyle, void(const WidgetStyle& style));
     MOCK_METHOD0(show, void());
     MOCK_METHOD0(hide, void());
-    MOCK_METHOD1(connect, void(const ConnectionOutput& output));
+    MOCK_METHOD1(connect, void(const ControlConnection& output));
 };
 
 #endif // MOCK_DYNAMIC_WIDGET_H

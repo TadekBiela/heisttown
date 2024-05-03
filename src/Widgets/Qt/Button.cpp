@@ -81,14 +81,14 @@ void Button::hide()
     buttonImpl->hide();
 }
 
-void Button::connect(const ConnectionOutput& output)
+void Button::connect(const ControlConnection& controlConnection)
 {
     connection = QObject::connect(
         buttonImpl.get(),
         &QPushButton::clicked,
         [&]()
         {
-            output(this->text());
+            controlConnection(this->text());
         }
     );
 }
