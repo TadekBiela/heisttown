@@ -24,6 +24,8 @@ protected:
     Menus::iterator previousMenu;
 
 private:
+    ConnectionOutput output;
+
     void connectMenus();
     void initCurrentMenu();
     void hideAllMenus();

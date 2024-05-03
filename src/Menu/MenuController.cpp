@@ -7,13 +7,14 @@ MenuController::MenuController(
 )
 {
     menus = parser->parse(std::move(source));
+    hideAllMenus();
     connectMenus();
     initCurrentMenu();
 }
 
 void MenuController::connectMenus()
 {
-    ConnectionOutput output = [&](const WidgetMessage& message)
+    output = [&](const WidgetMessage& message)
     {
         this->control(message);
     };

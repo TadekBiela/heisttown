@@ -1,0 +1,20 @@
+Label:
+    geometry: 350, 50, 100, 30
+    text: HEIST TOWN
+    style: none
+
+Label:
+    geometry: 360, 80, 80, 20
+    text: Single Player
+    style: none
+
+Button:
+    geometry: 360, 130, 80, 30
+    text: Play
+    style: none
+
+Button:
+    geometry: 360, 190, 80, 30
+    text: Back
+    style: none
+

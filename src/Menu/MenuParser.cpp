@@ -71,6 +71,7 @@ auto MenuParser::removeSpaces(const std::string& input) -> std::string
 auto MenuParser::parseMenu(const TextFile& menuFile) -> Menu&&
 {
     menu = {};
+    std::cout << "parsing: " << menuFile.getPath() << std::endl;
     for (auto line = std::begin(menuFile.getContent()); line != std::end(menuFile.getContent()); line++)
     {
         WidgetType type {};

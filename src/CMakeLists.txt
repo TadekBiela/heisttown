@@ -14,5 +14,9 @@ aux_source_directory(. SRC_FILES)
 add_executable(${APP_NAME} MACOSX_BUNDLE ${SRC_FILES})
 
 target_link_libraries(${APP_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui Qt6::Multimedia Qt6::Network)
+target_link_libraries(${APP_NAME} PRIVATE FilesStorage)
+target_link_libraries(${APP_NAME} PRIVATE Menu)
+target_link_libraries(${APP_NAME} PRIVATE Widgets)
+target_link_libraries(${APP_NAME} PRIVATE Qt)
 
 set_target_properties(${APP_NAME} PROPERTIES AUTOMOC ON)
