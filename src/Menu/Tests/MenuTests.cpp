@@ -232,7 +232,7 @@ TEST_F(MenuTests, hide_ContainsTwoStaticAndControlWidgets_ShouldHideAllWidgets)
 TEST_F(MenuTests, connect_ContainsNoWidgets_ShouldDoNothing)
 {
     MenuTestable menu {};
-    ControlConnection controlConnection { [](const WidgetMessage&) {} };
+    ControlConnection controlConnection { [](const WidgetCommand&) {} };
 
     menu.connect(controlConnection);
 
@@ -244,7 +244,7 @@ TEST_F(MenuTests, connect_ContainsOneStaticWidget_ShouldDoNothing)
 {
     MenuTestable menu;
     menu.addWidget(getMockWidget(WidgetType::LABEL));
-    ControlConnection controlConnection { [](const WidgetMessage&) {} };
+    ControlConnection controlConnection { [](const WidgetCommand&) {} };
 
     menu.connect(controlConnection);
 
@@ -254,7 +254,7 @@ TEST_F(MenuTests, connect_ContainsOneStaticWidget_ShouldDoNothing)
 
 TEST_F(MenuTests, connect_ContainsOneControlWidget_ShouldConnectWidgetToOutput)
 {
-    ControlConnection controlConnection { [](const WidgetMessage&) {} };
+    ControlConnection controlConnection { [](const WidgetCommand&) {} };
     MenuTestable menu;
     menu.addWidget(getMockControlWidgetWithExpectedConnect(WidgetType::BUTTON));
 
@@ -266,7 +266,7 @@ TEST_F(MenuTests, connect_ContainsOneControlWidget_ShouldConnectWidgetToOutput)
 
 TEST_F(MenuTests, connect_ContainsThreeControlWidget_ShouldConnectAllWidgetsToOutput)
 {
-    ControlConnection controlConnection { [](const WidgetMessage&) {} };
+    ControlConnection controlConnection { [](const WidgetCommand&) {} };
     MenuTestable menu;
     menu.addWidget(getMockControlWidgetWithExpectedConnect(WidgetType::BUTTON));
     menu.addWidget(getMockControlWidgetWithExpectedConnect(WidgetType::BUTTON));

@@ -38,9 +38,9 @@ TEST_F(ButtonTests, connect_MockedConnectedOutput_ShouldExecuteOutputFunctionWit
 {
     MockWidget outputWidget;
     EXPECT_CALL(outputWidget, setText(_));
-    ControlConnection controlConnection = [&](const WidgetMessage& message)
+    ControlConnection controlConnection = [&](const WidgetCommand& command)
     {
-        outputWidget.setText(message);
+        outputWidget.setText(command);
     };
     ButtonTestable button(
         nullptr,

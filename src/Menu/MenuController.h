@@ -16,7 +16,7 @@ public:
         std::unique_ptr<IFileLoader<TextFile>> source
     );
 
-    void control(const WidgetMessage& message);
+    void control(const WidgetCommand& command);
 
 protected:
     Menus menus;

@@ -5,8 +5,8 @@
 #include <functional>
 #include <string>
 
-using WidgetMessage = std::string;
-using ControlConnection = std::function<void(const WidgetMessage&)>;
+using WidgetCommand = std::string;
+using ControlConnection = std::function<void(const WidgetCommand&)>;
 
 class ControlWidget : public Widget
 {

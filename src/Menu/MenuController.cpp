@@ -14,9 +14,9 @@ MenuController::MenuController(
 
 void MenuController::connectMenus()
 {
-    controlConnection = [&](const WidgetMessage& message)
+    controlConnection = [&](const WidgetCommand& command)
     {
-        this->control(message);
+        this->control(command);
     };
     for (auto& menuIt : menus)
     {
@@ -25,20 +25,20 @@ void MenuController::connectMenus()
     }
 }
 
-void MenuController::control(const WidgetMessage& message)
+void MenuController::control(const WidgetCommand& command)
 {
-    if (auto menu = menus.find(message); menu != std::end(menus))
+    if (auto menu = menus.find(command); menu != std::end(menus))
     {
         previousMenu = currentMenu;
         currentMenu = menu;
     }
-    else if (message == "Back")
+    else if (command == "Back")
     {
         std::swap(currentMenu, previousMenu);
     }
     else
     {
-        std::cerr << "MenuController::control - unknown command: " << message << std::endl;
+        std::cerr << "MenuController::control - unknown command: " << command << std::endl;
     }
 
     hideAllMenus();
