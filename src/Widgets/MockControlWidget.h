@@ -1,13 +1,13 @@
-#ifndef MOCK_DYNAMIC_WIDGET_H
-#define MOCK_DYNAMIC_WIDGET_H
+#ifndef MOCK_CONTROL_WIDGET_H
+#define MOCK_CONTROL_WIDGET_H
 
-#include "DynamicWidget.h"
+#include "ControlWidget.h"
 #include "Widget.h"
 #include "WidgetGeometry.h"
 #include "WidgetType.h"
 #include <gmock/gmock.h>
 
-class MockDynamicWidget : public DynamicWidget
+class MockControlWidget : public ControlWidget
 {
 public:
     MOCK_CONST_METHOD0(type, WidgetType());
@@ -22,4 +22,4 @@ public:
     MOCK_METHOD1(connect, void(const ControlConnection& output));
 };
 
-#endif // MOCK_DYNAMIC_WIDGET_H
+#endif // MOCK_CONTROL_WIDGET_H

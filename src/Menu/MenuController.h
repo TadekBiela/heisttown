@@ -1,7 +1,7 @@
 #ifndef MENU_CONTROLLER_H
 #define MENU_CONTROLLER_H
 
-#include "DynamicWidget.h"
+#include "ControlWidget.h"
 #include "IMenuParser.h"
 #include "Menus.h"
 #include <IFileLoader.h>

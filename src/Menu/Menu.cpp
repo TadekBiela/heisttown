@@ -1,11 +1,10 @@
 #include "Menu.h"
-#include <typeinfo>
 
 void Menu::addWidget(std::unique_ptr<Widget> widget)
 {
-    if (isDynamicWidget(widget.get()))
+    if (isControlWidget(widget.get()))
     {
-        dynamicWidgets.push_back(std::move(widget));
+        controlWidgets.push_back(std::move(widget));
     }
     else
     {
@@ -13,16 +12,16 @@ void Menu::addWidget(std::unique_ptr<Widget> widget)
     }
 }
 
-auto Menu::isDynamicWidget(const Widget* widget) -> bool
+auto Menu::isControlWidget(const Widget* widget) -> bool
 {
-    return !(dynamic_cast<const DynamicWidget*>(widget) == nullptr);
+    return !(dynamic_cast<const ControlWidget*>(widget) == nullptr);
 }
 
 void Menu::connect(ControlConnection& controlConnection)
 {
-    for (auto& widget : dynamicWidgets)
+    for (auto& widget : controlWidgets)
     {
-        auto* widgetPtr { dynamic_cast<DynamicWidget*>(widget.get()) };
+        auto* widgetPtr { dynamic_cast<ControlWidget*>(widget.get()) };
         if (widgetPtr != nullptr)
         {
             widgetPtr->connect(controlConnection);
@@ -36,7 +35,7 @@ void Menu::show()
     {
         widget->show();
     }
-    for (auto& widget : dynamicWidgets)
+    for (auto& widget : controlWidgets)
     {
         widget->show();
     }
@@ -48,7 +47,7 @@ void Menu::hide()
     {
         widget->hide();
     }
-    for (auto& widget : dynamicWidgets)
+    for (auto& widget : controlWidgets)
     {
         widget->hide();
     }

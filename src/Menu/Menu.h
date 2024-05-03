@@ -1,13 +1,13 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include <DynamicWidget.h>
+#include <ControlWidget.h>
 #include <Widget.h>
 #include <functional>
 #include <memory>
 #include <vector>
 
-using DynamicWidgets = std::vector<std::unique_ptr<Widget>>;
+using ControlWidgets = std::vector<std::unique_ptr<Widget>>;
 using StaticWidgets = std::vector<std::unique_ptr<Widget>>;
 
 class Menu
@@ -26,11 +26,11 @@ public:
     void hide();
 
 protected:
-    DynamicWidgets dynamicWidgets {};
+    ControlWidgets controlWidgets {};
     StaticWidgets staticWidgets {};
 
 private:
-    static auto isDynamicWidget(const Widget* widget) -> bool;
+    static auto isControlWidget(const Widget* widget) -> bool;
 };
 
 #endif // MENU_H

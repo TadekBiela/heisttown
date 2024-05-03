@@ -1,5 +1,5 @@
-#ifndef DYNAMIC_WIDGET_H
-#define DYNAMIC_WIDGET_H
+#ifndef CONTROL_WIDGET_H
+#define CONTROL_WIDGET_H
 
 #include "Widget.h"
 #include <functional>
@@ -8,12 +8,12 @@
 using WidgetMessage = std::string;
 using ControlConnection = std::function<void(const WidgetMessage&)>;
 
-class DynamicWidget : public Widget
+class ControlWidget : public Widget
 {
 public:
-    virtual ~DynamicWidget() = default;
+    virtual ~ControlWidget() = default;
 
     virtual void connect(const ControlConnection& controlConnection) = 0;
 };
 
-#endif // DYNAMIC_WIDGET_H
+#endif // CONTROL_WIDGET_H

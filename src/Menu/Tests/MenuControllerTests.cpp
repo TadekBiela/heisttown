@@ -1,6 +1,6 @@
 #include <MenuController.h>
 #include <MenuParser.h>
-#include <MockDynamicWidget.h>
+#include <MockControlWidget.h>
 #include <MockWidget.h>
 #include <MockWidgetsFactory.h>
 #include <StubFileLoader.h>
@@ -49,7 +49,7 @@ public:
                                     { "SinglePlayer", TextFile { "", "" } },
                                     { "Settings", TextFile { "", "" } } });
         auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
-        auto widget { std::make_unique<MockDynamicWidget>() };
+        auto widget { std::make_unique<MockControlWidget>() };
         auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
         return { std::move(parser), std::move(stubSource) };
@@ -75,7 +75,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
                                                              "    text: SinglePlayer\n"
                                                              "    style: none\n" } } });
     auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
-    auto widget { std::make_unique<MockDynamicWidget>() };
+    auto widget { std::make_unique<MockControlWidget>() };
     EXPECT_CALL(*widget, type()).WillRepeatedly(Return(WidgetType::BUTTON));
     EXPECT_CALL(*widget, connect(_));
     EXPECT_CALL(*widget, show());

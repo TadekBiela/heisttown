@@ -1,7 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include <DynamicWidget.h>
+#include <ControlWidget.h>
 #include <QMetaObject>
 #include <QPushButton>
 #include <QWidget>
@@ -9,7 +9,7 @@
 #include <WidgetType.h>
 #include <memory>
 
-class Button : public DynamicWidget
+class Button : public ControlWidget
 {
 public:
     Button() = delete;
