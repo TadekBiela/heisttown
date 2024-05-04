@@ -22,7 +22,8 @@ auto main(int argc, char* argv[]) -> int
     auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
     Directory dir { std::filesystem::current_path().string() + std::string("/Menus/") };
     auto fileLoader { std::make_unique<FileLoader<TextFile>>(dir) };
-    MenuController menuController { std::move(parser), std::move(fileLoader) };
+    MainControlConnection mainControl = [](const MainCommand&) {};
+    MenuController menuController { std::move(parser), std::move(fileLoader), mainControl };
 
     mainWindow->show();
 

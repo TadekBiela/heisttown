@@ -3,8 +3,10 @@
 
 MenuController::MenuController(
     std::unique_ptr<IMenuParser> parser,
-    std::unique_ptr<IFileLoader<TextFile>> source
+    std::unique_ptr<IFileLoader<TextFile>> source,
+    const MainControlConnection& mainControlConnection
 )
+    : mainControlConnection(mainControlConnection)
 {
     menus = parser->parse(std::move(source));
     hideAllMenus();
@@ -38,7 +40,8 @@ void MenuController::control(const WidgetCommand& command)
     }
     else
     {
-        std::cerr << "MenuController::control - unknown command: " << command << std::endl;
+        MainCommand mainCommand { currentMenu->first + "->" + command };
+        mainControlConnection(mainCommand);
     }
 
     hideAllMenus();
