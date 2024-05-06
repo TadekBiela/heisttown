@@ -1,4 +1,4 @@
-add_subdirectory(Qt)
+add_subdirectory(QtWidgets)
 
 find_package(GTest REQUIRED)
 

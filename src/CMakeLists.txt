@@ -18,6 +18,6 @@ target_link_libraries(${APP_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui Qt6::M
 target_link_libraries(${APP_NAME} PRIVATE FilesStorage)
 target_link_libraries(${APP_NAME} PRIVATE Menu)
 target_link_libraries(${APP_NAME} PRIVATE Widgets)
-target_link_libraries(${APP_NAME} PRIVATE Qt)
+target_link_libraries(${APP_NAME} PRIVATE QtWidgets)
 
 set_target_properties(${APP_NAME} PROPERTIES AUTOMOC ON)

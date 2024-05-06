@@ -2,7 +2,7 @@ add_subdirectory(Tests)
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
-set(LIB_NAME Qt)
+set(LIB_NAME QtWidgets)
 
 file(GLOB HEADER_FILES *.h)
 aux_source_directory(. SRC_FILES)
