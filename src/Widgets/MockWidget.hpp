@@ -1,9 +1,9 @@
-#ifndef MOCK_WIDGET_H
-#define MOCK_WIDGET_H
+#ifndef MOCK_WIDGET_HPP
+#define MOCK_WIDGET_HPP
 
-#include "Widget.h"
-#include "WidgetGeometry.h"
-#include "WidgetType.h"
+#include "Widget.hpp"
+#include "WidgetGeometry.hpp"
+#include "WidgetType.hpp"
 #include <gmock/gmock.h>
 
 class MockWidget : public Widget
@@ -20,4 +20,4 @@ public:
     MOCK_METHOD0(hide, void());
 };
 
-#endif // MOCK_WIDGET_H
+#endif // MOCK_WIDGET_HPP

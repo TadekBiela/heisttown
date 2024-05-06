@@ -1,8 +1,8 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef MENU_HPP
+#define MENU_HPP
 
-#include <ControlWidget.h>
-#include <Widget.h>
+#include <ControlWidget.hpp>
+#include <Widget.hpp>
 #include <functional>
 #include <memory>
 #include <vector>
@@ -33,4 +33,4 @@ private:
     static auto isControlWidget(const Widget* widget) -> bool;
 };
 
-#endif // MENU_H
+#endif // MENU_HPP

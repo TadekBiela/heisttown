@@ -3,7 +3,7 @@ find_package(Qt6 COMPONENTS Core Widgets REQUIRED)
 
 set(TEST_NAME QtMainApplicationTests)
 
-file(GLOB HEADER_FILES *.h)
+file(GLOB HEADER_FILES *.hpp)
 aux_source_directory(. TEST_FILES)
 
 add_executable(${TEST_NAME} ${HEADER_FILES} ${TEST_FILES})

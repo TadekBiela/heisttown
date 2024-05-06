@@ -1,12 +1,12 @@
-#ifndef MENU_PARSER_H
-#define MENU_PARSER_H
+#ifndef MENU_PARSER_HPP
+#define MENU_PARSER_HPP
 
-#include "IMenuParser.h"
-#include "Menus.h"
-#include <IFileLoader.h>
-#include <TextFile.h>
-#include <WidgetGeometry.h>
-#include <WidgetsFactory.h>
+#include "IMenuParser.hpp"
+#include "Menus.hpp"
+#include <IFileLoader.hpp>
+#include <TextFile.hpp>
+#include <WidgetGeometry.hpp>
+#include <WidgetsFactory.hpp>
 #include <iterator>
 #include <memory>
 #include <string>
@@ -51,4 +51,4 @@ private:
     auto parseWidgetStyle(const std::string& input) -> WidgetStyle;
 };
 
-#endif // MENU_PARSER_H
+#endif // MENU_PARSER_HPP

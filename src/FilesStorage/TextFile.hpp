@@ -1,5 +1,5 @@
-#ifndef TEXT_FILE_H
-#define TEXT_FILE_H
+#ifndef TEXT_FILE_HPP
+#define TEXT_FILE_HPP
 
 #include <string>
 #include <vector>
@@ -29,4 +29,4 @@ private:
     void loadContent(const std::string& rawFileContent);
 };
 
-#endif // TEXT_FILE_H
+#endif // TEXT_FILE_HPP

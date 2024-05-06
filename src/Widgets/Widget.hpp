@@ -1,8 +1,8 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef WIDGET_HPP
+#define WIDGET_HPP
 
-#include "WidgetGeometry.h"
-#include "WidgetType.h"
+#include "WidgetGeometry.hpp"
+#include "WidgetType.hpp"
 #include <string>
 
 using WidgetStyle = std::string;
@@ -24,4 +24,4 @@ public:
     virtual void hide() = 0;
 };
 
-#endif // WIDGET_H
+#endif // WIDGET_HPP

@@ -1,4 +1,4 @@
-#include "StubWidget.h"
+#include "StubWidget.hpp"
 
 StubWidget::StubWidget(
     const WidgetType& type,

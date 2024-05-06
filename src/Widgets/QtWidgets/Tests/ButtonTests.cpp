@@ -1,6 +1,6 @@
-#include <Button.h>
-#include <MockWidget.h>
-#include <Widget.h>
+#include <Button.hpp>
+#include <MockWidget.hpp>
+#include <Widget.hpp>
 #include <functional>
 #include <gtest/gtest.h>
 

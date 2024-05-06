@@ -1,5 +1,5 @@
-#include "MenuParser.h"
-#include "Menu.h"
+#include "MenuParser.hpp"
+#include "Menu.hpp"
 #include <algorithm>
 #include <array>
 #include <cstdlib>

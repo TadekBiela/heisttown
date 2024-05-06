@@ -1,7 +1,7 @@
-#ifndef CONTROL_WIDGET_H
-#define CONTROL_WIDGET_H
+#ifndef CONTROL_WIDGET_HPP
+#define CONTROL_WIDGET_HPP
 
-#include "Widget.h"
+#include "Widget.hpp"
 #include <functional>
 #include <string>
 
@@ -16,4 +16,4 @@ public:
     virtual void connect(const ControlConnection& controlConnection) = 0;
 };
 
-#endif // CONTROL_WIDGET_H
+#endif // CONTROL_WIDGET_HPP

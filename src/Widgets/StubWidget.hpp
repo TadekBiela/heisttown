@@ -1,9 +1,9 @@
-#ifndef STUB_WIDGET_H
-#define STUB_WIDGET_H
+#ifndef STUB_WIDGET_HPP
+#define STUB_WIDGET_HPP
 
-#include "Widget.h"
-#include "WidgetGeometry.h"
-#include "WidgetType.h"
+#include "Widget.hpp"
+#include "WidgetGeometry.hpp"
+#include "WidgetType.hpp"
 
 class StubWidget : public Widget
 {
@@ -34,4 +34,4 @@ private:
     WidgetStyle stubStyle;
 };
 
-#endif // STUB_WIDGET_H
+#endif // STUB_WIDGET_HPP

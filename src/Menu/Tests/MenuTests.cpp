@@ -1,7 +1,7 @@
-#include <Menu.h>
-#include <MockControlWidget.h>
-#include <MockWidget.h>
-#include <WidgetType.h>
+#include <Menu.hpp>
+#include <MockControlWidget.hpp>
+#include <MockWidget.hpp>
+#include <WidgetType.hpp>
 #include <gtest/gtest.h>
 #include <memory>
 

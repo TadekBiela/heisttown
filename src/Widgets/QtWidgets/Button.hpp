@@ -1,12 +1,12 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#ifndef BUTTON_HPP
+#define BUTTON_HPP
 
-#include <ControlWidget.h>
+#include <ControlWidget.hpp>
 #include <QMetaObject>
 #include <QPushButton>
 #include <QWidget>
-#include <WidgetGeometry.h>
-#include <WidgetType.h>
+#include <WidgetGeometry.hpp>
+#include <WidgetType.hpp>
 #include <memory>
 
 class Button : public ControlWidget
@@ -37,4 +37,4 @@ protected:
     QMetaObject::Connection connection;
 };
 
-#endif // BUTTON_H
+#endif // BUTTON_HPP

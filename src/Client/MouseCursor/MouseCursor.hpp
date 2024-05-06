@@ -1,5 +1,5 @@
-#ifndef MOUSE_CURSOR_H
-#define MOUSE_CURSOR_H
+#ifndef MOUSE_CURSOR_HPP
+#define MOUSE_CURSOR_HPP
 
 #include <QPixmap>
 
@@ -10,4 +10,4 @@ public:
     virtual ~MouseCursor() = default;
 };
 
-#endif // MOUSE_CURSOR_H
+#endif // MOUSE_CURSOR_HPP

@@ -1,10 +1,10 @@
-#ifndef MOCK_WIDGETS_FACTORY_H
-#define MOCK_WIDGETS_FACTORY_H
+#ifndef MOCK_WIDGETS_FACTORY_HPP
+#define MOCK_WIDGETS_FACTORY_HPP
 
-#include "Widget.h"
-#include "WidgetGeometry.h"
-#include "WidgetType.h"
-#include "WidgetsFactory.h"
+#include "Widget.hpp"
+#include "WidgetGeometry.hpp"
+#include "WidgetType.hpp"
+#include "WidgetsFactory.hpp"
 #include <gmock/gmock.h>
 
 class MockWidgetsFactory : public WidgetsFactory
@@ -21,4 +21,4 @@ public:
     );
 };
 
-#endif // MOCK_WIDGETS_FACTORY_H
+#endif // MOCK_WIDGETS_FACTORY_HPP

@@ -1,11 +1,11 @@
-#ifndef MENU_CONTROLLER_H
-#define MENU_CONTROLLER_H
+#ifndef MENU_CONTROLLER_HPP
+#define MENU_CONTROLLER_HPP
 
-#include "ControlWidget.h"
-#include "IMenuParser.h"
-#include "Menus.h"
-#include <IFileLoader.h>
-#include <TextFile.h>
+#include "ControlWidget.hpp"
+#include "IMenuParser.hpp"
+#include "Menus.hpp"
+#include <IFileLoader.hpp>
+#include <TextFile.hpp>
 #include <memory>
 
 using MainCommand = std::string;
@@ -36,4 +36,4 @@ private:
     void hideAllMenus();
 };
 
-#endif // MENU_CONTROLLER_H
+#endif // MENU_CONTROLLER_HPP

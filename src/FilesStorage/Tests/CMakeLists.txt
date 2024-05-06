@@ -5,7 +5,7 @@ set(TEST_NAME FilesStorageTests)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TestFiles
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(GLOB HEADER_FILES *.h)
+file(GLOB HEADER_FILES *.hpp)
 aux_source_directory(. TEST_FILES)
 
 add_executable(${TEST_NAME} ${HEADER_FILES} ${TEST_FILES})

@@ -1,4 +1,4 @@
-#include <MouseCursor.h>
+#include <MouseCursor.hpp>
 #include <gtest/gtest.h>
 
 class MouseCursorTests : public testing::Test

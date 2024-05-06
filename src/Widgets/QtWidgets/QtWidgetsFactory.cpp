@@ -1,6 +1,6 @@
-#include "QtWidgetsFactory.h"
-#include "Button.h"
-#include "Label.h"
+#include "QtWidgetsFactory.hpp"
+#include "Button.hpp"
+#include "Label.hpp"
 
 QtWidgetsFactory::QtWidgetsFactory(std::shared_ptr<QWidget> display)
     : widgetsDisplay(std::move(display))

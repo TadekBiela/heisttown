@@ -1,7 +1,7 @@
-#ifndef FILES_STORAGE_H
-#define FILES_STORAGE_H
+#ifndef FILES_STORAGE_HPP
+#define FILES_STORAGE_HPP
 
-#include "IFileLoader.h"
+#include "IFileLoader.hpp"
 
 template <typename File>
 class FilesStorage
@@ -26,4 +26,4 @@ protected:
     std::map<FileName, File> data;
 };
 
-#endif // FILES_STORAGE_H
+#endif // FILES_STORAGE_HPP

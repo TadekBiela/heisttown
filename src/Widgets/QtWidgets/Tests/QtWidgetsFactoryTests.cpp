@@ -1,6 +1,6 @@
-#include <QtWidgetsFactory.h>
-#include <WidgetGeometry.h>
-#include <WidgetType.h>
+#include <QtWidgetsFactory.hpp>
+#include <WidgetGeometry.hpp>
+#include <WidgetType.hpp>
 #include <gtest/gtest.h>
 
 class QtWidgetsFactoryTests : public testing::Test

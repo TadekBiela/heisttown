@@ -1,11 +1,11 @@
-#ifndef QT_WIDGETS_FACTORY_H
-#define QT_WIDGETS_FACTORY_H
+#ifndef QT_WIDGETS_FACTORY_HPP
+#define QT_WIDGETS_FACTORY_HPP
 
 #include <QWidget>
-#include <Widget.h>
-#include <WidgetGeometry.h>
-#include <WidgetType.h>
-#include <WidgetsFactory.h>
+#include <Widget.hpp>
+#include <WidgetGeometry.hpp>
+#include <WidgetType.hpp>
+#include <WidgetsFactory.hpp>
 #include <memory>
 
 class QtWidgetsFactory : public WidgetsFactory
@@ -25,4 +25,4 @@ private:
     std::shared_ptr<QWidget> widgetsDisplay;
 };
 
-#endif // QT_WIDGETS_FACTORY_H
+#endif // QT_WIDGETS_FACTORY_HPP

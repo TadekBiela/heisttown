@@ -1,4 +1,4 @@
-#include "Menu.h"
+#include "Menu.hpp"
 
 void Menu::addWidget(std::unique_ptr<Widget> widget)
 {

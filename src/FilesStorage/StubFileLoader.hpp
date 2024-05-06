@@ -1,7 +1,7 @@
-#ifndef STUB_FILE_LOADER_H
-#define STUB_FILE_LOADER_H
+#ifndef STUB_FILE_LOADER_HPP
+#define STUB_FILE_LOADER_HPP
 
-#include "IFileLoader.h"
+#include "IFileLoader.hpp"
 
 template <typename File>
 class StubFileLoader : public IFileLoader<File>
@@ -25,4 +25,4 @@ protected:
     std::map<FileName, File> loadedData;
 };
 
-#endif // STUB_FILE_LOADER_H
+#endif // STUB_FILE_LOADER_HPP

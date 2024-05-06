@@ -1,4 +1,4 @@
-#include "Label.h"
+#include "Label.hpp"
 
 Label::Label(
     const std::shared_ptr<QWidget>& display,

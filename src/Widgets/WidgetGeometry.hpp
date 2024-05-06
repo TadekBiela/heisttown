@@ -1,5 +1,5 @@
-#ifndef WIDGET_GEOMETRY_H
-#define WIDGET_GEOMETRY_H
+#ifndef WIDGET_GEOMETRY_HPP
+#define WIDGET_GEOMETRY_HPP
 
 #include <string>
 
@@ -31,4 +31,4 @@ struct WidgetGeometry
     }
 };
 
-#endif // WIDGET_GEOMETRY_H
+#endif // WIDGET_GEOMETRY_HPP

@@ -1,12 +1,12 @@
-#include <MenuParser.h>
-#include <MockWidgetsFactory.h>
-#include <StubFileLoader.h>
-#include <StubWidget.h>
-#include <StubWidgetsFactory.h>
-#include <TextFile.h>
-#include <Widget.h>
-#include <WidgetGeometry.h>
-#include <WidgetType.h>
+#include <MenuParser.hpp>
+#include <MockWidgetsFactory.hpp>
+#include <StubFileLoader.hpp>
+#include <StubWidget.hpp>
+#include <StubWidgetsFactory.hpp>
+#include <TextFile.hpp>
+#include <Widget.hpp>
+#include <WidgetGeometry.hpp>
+#include <WidgetType.hpp>
 #include <gtest/gtest.h>
 
 using namespace testing;

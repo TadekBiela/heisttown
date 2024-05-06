@@ -1,11 +1,11 @@
-#ifndef STUB_WIDGETS_FACTORY_H
-#define STUB_WIDGETS_FACTORY_H
+#ifndef STUB_WIDGETS_FACTORY_HPP
+#define STUB_WIDGETS_FACTORY_HPP
 
-#include "StubWidget.h"
-#include "Widget.h"
-#include "WidgetGeometry.h"
-#include "WidgetType.h"
-#include "WidgetsFactory.h"
+#include "StubWidget.hpp"
+#include "Widget.hpp"
+#include "WidgetGeometry.hpp"
+#include "WidgetType.hpp"
+#include "WidgetsFactory.hpp"
 #include <memory>
 
 class StubWidgetsFactory : public WidgetsFactory
@@ -25,4 +25,4 @@ public:
     }
 };
 
-#endif // STUB_WIDGETS_FACTORY_H
+#endif // STUB_WIDGETS_FACTORY_HPP

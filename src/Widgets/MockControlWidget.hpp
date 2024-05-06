@@ -1,10 +1,10 @@
-#ifndef MOCK_CONTROL_WIDGET_H
-#define MOCK_CONTROL_WIDGET_H
+#ifndef MOCK_CONTROL_WIDGET_HPP
+#define MOCK_CONTROL_WIDGET_HPP
 
-#include "ControlWidget.h"
-#include "Widget.h"
-#include "WidgetGeometry.h"
-#include "WidgetType.h"
+#include "ControlWidget.hpp"
+#include "Widget.hpp"
+#include "WidgetGeometry.hpp"
+#include "WidgetType.hpp"
 #include <gmock/gmock.h>
 
 class MockControlWidget : public ControlWidget
@@ -22,4 +22,4 @@ public:
     MOCK_METHOD1(connect, void(const ControlConnection& output));
 };
 
-#endif // MOCK_CONTROL_WIDGET_H
+#endif // MOCK_CONTROL_WIDGET_HPP

@@ -1,9 +1,9 @@
-#include <MenuController.h>
-#include <MenuParser.h>
-#include <MockControlWidget.h>
-#include <MockWidget.h>
-#include <MockWidgetsFactory.h>
-#include <StubFileLoader.h>
+#include <MenuController.hpp>
+#include <MenuParser.hpp>
+#include <MockControlWidget.hpp>
+#include <MockWidget.hpp>
+#include <MockWidgetsFactory.hpp>
+#include <StubFileLoader.hpp>
 #include <gtest/gtest.h>
 #include <memory>
 

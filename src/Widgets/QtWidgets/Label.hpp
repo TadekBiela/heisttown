@@ -1,11 +1,11 @@
-#ifndef LABEL_H
-#define LABEL_H
+#ifndef LABEL_HPP
+#define LABEL_HPP
 
 #include <QLabel>
 #include <QWidget>
-#include <Widget.h>
-#include <WidgetGeometry.h>
-#include <WidgetType.h>
+#include <Widget.hpp>
+#include <WidgetGeometry.hpp>
+#include <WidgetType.hpp>
 #include <memory>
 
 class Label : public Widget
@@ -34,4 +34,4 @@ private:
     std::unique_ptr<QLabel> labelImpl;
 };
 
-#endif // LABEL_H
+#endif // LABEL_HPP

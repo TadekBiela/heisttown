@@ -1,7 +1,7 @@
-#ifndef FILE_LOADER_H
-#define FILE_LOADER_H
+#ifndef FILE_LOADER_HPP
+#define FILE_LOADER_HPP
 
-#include "IFileLoader.h"
+#include "IFileLoader.hpp"
 
 template <typename File>
 class FileLoader : public IFileLoader<File>
@@ -30,4 +30,4 @@ protected:
     std::map<FileName, File> loadedData;
 };
 
-#endif // FILE_LOADER_H
+#endif // FILE_LOADER_HPP

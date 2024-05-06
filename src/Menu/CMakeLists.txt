@@ -2,7 +2,7 @@ add_subdirectory(Tests)
 
 set(LIB_NAME Menu)
 
-file(GLOB HEADER_FILES *.h)
+file(GLOB HEADER_FILES *.hpp)
 aux_source_directory(. SRC_FILES)
 
 add_library(${LIB_NAME} STATIC ${HEADER_FILES} ${SRC_FILES})

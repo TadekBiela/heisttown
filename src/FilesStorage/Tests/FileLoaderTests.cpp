@@ -1,6 +1,6 @@
-#include <FileLoader.h>
-#include <IFileLoader.h>
-#include <TextFile.h>
+#include <FileLoader.hpp>
+#include <IFileLoader.hpp>
+#include <TextFile.hpp>
 #include <exception>
 #include <gtest/gtest.h>
 

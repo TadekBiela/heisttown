@@ -1,11 +1,11 @@
-#include <FileLoader.h>
-#include <MenuController.h>
-#include <MenuParser.h>
+#include <FileLoader.hpp>
+#include <MenuController.hpp>
+#include <MenuParser.hpp>
 #include <QApplication>
 #include <QMainWindow>
 #include <QSize>
-#include <QtWidgetsFactory.h>
-#include <TextFile.h>
+#include <QtWidgetsFactory.hpp>
+#include <TextFile.hpp>
 #include <filesystem>
 #include <memory>
 
