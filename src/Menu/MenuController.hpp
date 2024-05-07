@@ -16,14 +16,14 @@ class MenuController
 public:
     MenuController(
         std::unique_ptr<IMenuParser> parser,
-        std::unique_ptr<IFileLoader<TextFile>> source,
-        const MainControlConnection& mainControlConnection
+        std::unique_ptr<IFileLoader<TextFile>> source
     );
 
     void control(const WidgetCommand& command);
+    void setMainControl(const MainControlConnection& controlConnection);
 
 protected:
-    const MainControlConnection& mainControlConnection;
+    MainControlConnection mainControlConnection { [](const WidgetCommand&){} };
     Menus menus;
     Menus::iterator currentMenu;
     Menus::iterator previousMenu;

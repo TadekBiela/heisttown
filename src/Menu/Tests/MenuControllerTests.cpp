@@ -14,13 +14,11 @@ class MenuControllerTestable : public MenuController
 public:
     MenuControllerTestable(
         std::unique_ptr<IMenuParser> parser,
-        std::unique_ptr<IFileLoader<TextFile>> source,
-        const MainControlConnection& mainControlConnection
+        std::unique_ptr<IFileLoader<TextFile>> source
     )
         : MenuController(
               std::move(parser),
-              std::move(source),
-              mainControlConnection
+              std::move(source)
           )
     {
     }
@@ -54,16 +52,8 @@ public:
         auto widget { std::make_unique<MockControlWidget>() };
         auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
-        return { std::move(parser), std::move(stubSource), mainControlConnection };
+        return { std::move(parser), std::move(stubSource) };
     }
-
-    void setMainControlConnection(MainControlConnection newMainControlConnection)
-    {
-        mainControlConnection = std::move(newMainControlConnection);
-    }
-
-private:
-    MainControlConnection mainControlConnection { [](const MainCommand&) {} };
 };
 
 TEST_F(MenuControllerTests, constructor_ParserReturnEmptyMenus_ShouldDoNothing)
@@ -72,7 +62,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnEmptyMenus_ShouldDoNothing)
     auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
     auto stubParser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
-    MenuControllerTestable controller(std::move(stubParser), std::move(stubSource), [](const MainCommand&) {});
+    MenuControllerTestable controller(std::move(stubParser), std::move(stubSource));
 
     EXPECT_EQ(0, controller.getMenus().size());
 }
@@ -92,7 +82,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
     EXPECT_CALL(*widgetFactory, create(_, _, _, _)).WillOnce(Return(ByMove(std::move(widget))));
     auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
-    MenuControllerTestable controller(std::move(parser), std::move(stubSource), [](const MainCommand&) {});
+    MenuControllerTestable controller(std::move(parser), std::move(stubSource));
 
     EXPECT_EQ(1, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
@@ -157,9 +147,12 @@ TEST_F(MenuControllerTests, control_SinglePlayerAndBack_ShouldSwitchCurrentMenuT
 TEST_F(MenuControllerTests, control_SinglePlayerAndPlay_ShouldSwitchCurrentMenuToSinglePlayerAndSendMainCommand)
 {
     MainCommand result {};
-    setMainControlConnection([&result](const MainCommand& command)
-                             { result = command; });
+    auto mainControlConnection = [&result](const MainCommand& command)
+    {
+        result = command;
+    };
     MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+    controller.setMainControl(mainControlConnection);
 
     controller.control("SinglePlayer");
     controller.control("Play");

@@ -3,10 +3,8 @@
 
 MenuController::MenuController(
     std::unique_ptr<IMenuParser> parser,
-    std::unique_ptr<IFileLoader<TextFile>> source,
-    const MainControlConnection& mainControlConnection
+    std::unique_ptr<IFileLoader<TextFile>> source
 )
-    : mainControlConnection(mainControlConnection)
 {
     menus = parser->parse(std::move(source));
     hideAllMenus();
