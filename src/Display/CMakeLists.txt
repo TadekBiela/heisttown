@@ -1,3 +1,4 @@
+add_subdirectory(QtDisplay)
 
 find_package(GTest REQUIRED)
 
