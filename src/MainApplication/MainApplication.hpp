@@ -7,12 +7,13 @@
 class MainApplication
 {
 public:
-    MainApplication(std::unique_ptr<IMenuController> menuController);
+    MainApplication(std::unique_ptr<IMenuController> controller);
     virtual ~MainApplication() = default;
 
     void control(const MainCommand& command);
 
 private:
+    MainControlConnection mainControlConnection;
     std::unique_ptr<IMenuController> menuController;
 };
 
