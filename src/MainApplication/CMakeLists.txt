@@ -1,7 +1,5 @@
 add_subdirectory(Tests)
 
-find_package(GTest REQUIRED)
-
 set(LIB_NAME MainApplication)
 
 file(GLOB HEADER_FILES *.hpp)
@@ -13,6 +11,3 @@ target_include_directories(${LIB_NAME} INTERFACE .)
 
 target_link_libraries(${LIB_NAME} PRIVATE Menu)
 target_link_libraries(${LIB_NAME} PRIVATE Widgets)
-
-set_target_properties(${LIB_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-
