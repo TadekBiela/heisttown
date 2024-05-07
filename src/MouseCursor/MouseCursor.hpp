@@ -1,8 +1,6 @@
 #ifndef MOUSE_CURSOR_HPP
 #define MOUSE_CURSOR_HPP
 
-#include <QPixmap>
-
 class MouseCursor
 {
 public:
