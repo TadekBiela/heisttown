@@ -2,16 +2,14 @@
 #define MENU_CONTROLLER_HPP
 
 #include "ControlWidget.hpp"
+#include "IMenuController.hpp"
 #include "IMenuParser.hpp"
 #include "Menus.hpp"
 #include <IFileLoader.hpp>
 #include <TextFile.hpp>
 #include <memory>
 
-using MainCommand = std::string;
-using MainControlConnection = std::function<void(const MainCommand&)>;
-
-class MenuController
+class MenuController : public IMenuController
 {
 public:
     MenuController(
@@ -31,9 +29,9 @@ protected:
 private:
     ControlConnection controlConnection;
 
+    void hideAllMenus();
     void connectMenus();
     void initCurrentMenu();
-    void hideAllMenus();
 };
 
 #endif // MENU_CONTROLLER_HPP

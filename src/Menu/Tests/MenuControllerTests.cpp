@@ -42,7 +42,7 @@ public:
 class MenuControllerTests : public testing::Test
 {
 public:
-    [[nodiscard]] auto prepareMenuControllerWithMenu() const -> MenuControllerTestable
+    [[nodiscard]] static auto prepareMenuControllerWithMenu() -> MenuControllerTestable
     {
         auto stubSource { std::make_unique<StubFileLoader<TextFile>>("") };
         stubSource->setLoadedData({ { "MainMenu", TextFile { "", "" } },

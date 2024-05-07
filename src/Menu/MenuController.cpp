@@ -12,6 +12,15 @@ MenuController::MenuController(
     initCurrentMenu();
 }
 
+void MenuController::hideAllMenus()
+{
+    for (auto& menuIt : menus)
+    {
+        auto& menu = menuIt.second;
+        menu.hide();
+    }
+}
+
 void MenuController::connectMenus()
 {
     controlConnection = [&](const WidgetCommand& command)
@@ -22,6 +31,19 @@ void MenuController::connectMenus()
     {
         auto& menu = menuIt.second;
         menu.connect(controlConnection);
+    }
+}
+
+void MenuController::initCurrentMenu()
+{
+    if (currentMenu = menus.find("MainMenu"); currentMenu != std::end(menus))
+    {
+        previousMenu = currentMenu;
+        currentMenu->second.show();
+    }
+    else
+    {
+        std::cerr << "MenuController::initCurrentMenu - missing MainMenu! Control on menus disabled.\n";
     }
 }
 
@@ -46,24 +68,7 @@ void MenuController::control(const WidgetCommand& command)
     currentMenu->second.show();
 }
 
-void MenuController::initCurrentMenu()
+void MenuController::setMainControl(const MainControlConnection& controlConnection)
 {
-    if (currentMenu = menus.find("MainMenu"); currentMenu != std::end(menus))
-    {
-        previousMenu = currentMenu;
-        currentMenu->second.show();
-    }
-    else
-    {
-        std::cerr << "MenuController::initCurrentMenu - missing MainMenu! Control on menus disabled.\n";
-    }
-}
-
-void MenuController::hideAllMenus()
-{
-    for (auto& menuIt : menus)
-    {
-        auto& menu = menuIt.second;
-        menu.hide();
-    }
+    mainControlConnection = controlConnection;
 }
