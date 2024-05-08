@@ -17,8 +17,8 @@ public:
         std::unique_ptr<IFileLoader<TextFile>> source
     );
 
-    void control(const WidgetCommand& command);
-    void setMainControl(const MainControlConnection& controlConnection);
+    void control(const WidgetCommand& command) override;
+    void setMainControl(const MainControlConnection& controlConnection) override;
 
 protected:
     MainControlConnection mainControlConnection { [](const WidgetCommand&){} };

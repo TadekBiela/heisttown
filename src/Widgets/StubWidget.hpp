@@ -17,15 +17,15 @@ public:
     );
     virtual ~StubWidget() = default;
 
-    auto type() const -> WidgetType;
-    auto geometry() const -> WidgetGeometry;
-    void setGeometry(const WidgetGeometry& geometry);
-    auto text() const -> WidgetText;
-    void setText(const WidgetText& text);
-    auto style() const -> WidgetStyle;
-    void setStyle(const WidgetStyle& style);
-    void show();
-    void hide();
+    auto type() const -> WidgetType override;
+    auto geometry() const -> WidgetGeometry override;
+    void setGeometry(const WidgetGeometry& geometry) override;
+    auto text() const -> WidgetText override;
+    void setText(const WidgetText& text) override;
+    auto style() const -> WidgetStyle override;
+    void setStyle(const WidgetStyle& style) override;
+    void show() override;
+    void hide() override;
 
 private:
     WidgetType stubType;

@@ -19,7 +19,7 @@ public:
     MenuParser(std::unique_ptr<WidgetsFactory> factory);
     virtual ~MenuParser() = default;
 
-    auto parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&&;
+    auto parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&& override;
 
 private:
     const std::shared_ptr<WidgetsFactory> widgetsFactory;
