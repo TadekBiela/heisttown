@@ -1,6 +1,6 @@
 add_subdirectory(Client)
-add_subdirectory(Display)
 add_subdirectory(FilesStorage)
+add_subdirectory(GameDisplay)
 add_subdirectory(MainApplication)
 add_subdirectory(Menu)
 add_subdirectory(MouseCursor)

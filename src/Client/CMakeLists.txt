@@ -9,4 +9,5 @@ add_library(${LIB_NAME} STATIC ${HEADER_FILES} ${SRC_FILES})
 
 target_include_directories(${LIB_NAME} INTERFACE .)
 
-target_link_libraries(${LIB_NAME} PRIVATE Display)
+target_link_libraries(${LIB_NAME} PRIVATE GameDisplay)
+

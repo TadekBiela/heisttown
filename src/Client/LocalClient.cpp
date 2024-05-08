@@ -1,6 +1,6 @@
 #include "LocalClient.hpp"
 
-LocalClient::LocalClient(std::unique_ptr<Display> display)
+LocalClient::LocalClient(std::unique_ptr<GameDisplay> display)
     : gameDisplay(std::move(display))
 {
     gameDisplay->hide();
