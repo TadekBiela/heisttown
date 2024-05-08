@@ -16,6 +16,11 @@ MainApplication::MainApplication(
 
 void MainApplication::control(const MainCommand& command)
 {
-    command.size();
-    menuController.get();
+    if (command.find("SinglePlayer") != MainCommand::npos)
+    {
+        if (command.find("->Play") != MainCommand::npos)
+        {
+            gameClient->run();
+        }
+    }
 }
