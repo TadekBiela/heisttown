@@ -20,7 +20,7 @@ void MainApplication::control(const MainCommand& command)
     {
         if (command.find("->Play") != MainCommand::npos)
         {
-            gameClient->run();
+            gameClient->startSinglePlayerGame();
         }
     }
 }

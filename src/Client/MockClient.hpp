@@ -7,7 +7,7 @@
 class MockClient : public Client
 {
 public:
-    MOCK_METHOD0(run, void());
+    MOCK_METHOD0(startSinglePlayerGame, void());
 };
 
 #endif // MOCK_CLIENT_HPP

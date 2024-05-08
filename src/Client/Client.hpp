@@ -6,7 +6,7 @@ class Client
 public:
     virtual ~Client() = default;
 
-    virtual void run() = 0;
+    virtual void startSinglePlayerGame() = 0;
 };
 
 #endif // CLIENT_HPP

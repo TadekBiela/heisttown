@@ -24,7 +24,7 @@ TEST_F(MainApplicationTests, control_SinglePlayerPlay_ShouldRunClient)
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
     EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, run());
+    EXPECT_CALL(*client, startSinglePlayerGame());
     MainApplication application { std::move(menuController), std::move(client) };
 
     application.control("SinglePlayer->Play");
@@ -35,7 +35,7 @@ TEST_F(MainApplicationTests, control_DummyCommand_ShouldDoNothing)
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
     EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, run()).Times(0);
+    EXPECT_CALL(*client, startSinglePlayerGame()).Times(0);
     MainApplication application { std::move(menuController), std::move(client) };
 
     application.control("Dummy->Command");
@@ -46,7 +46,7 @@ TEST_F(MainApplicationTests, control_SinglePlayerBack_ShouldDoNothing)
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
     EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, run()).Times(0);
+    EXPECT_CALL(*client, startSinglePlayerGame()).Times(0);
     MainApplication application { std::move(menuController), std::move(client) };
 
     application.control("SinglePlayer->Back");

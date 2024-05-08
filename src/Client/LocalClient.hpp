@@ -11,7 +11,7 @@ public:
     LocalClient(std::unique_ptr<GameDisplay> display);
     virtual ~LocalClient() = default;
 
-    void run() override;
+    void startSinglePlayerGame() override;
 
 private:
     std::unique_ptr<GameDisplay> gameDisplay;
