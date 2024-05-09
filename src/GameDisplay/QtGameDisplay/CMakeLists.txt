@@ -1,5 +1,3 @@
-#add_subdirectory(Tests)
-
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
 set(LIB_NAME QtGameDisplay)

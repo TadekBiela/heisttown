@@ -1,7 +1,5 @@
 add_subdirectory(QtWidgets)
 
-find_package(GTest REQUIRED)
-
 set(LIB_NAME Widgets)
 
 file(GLOB HEADER_FILES *.hpp)
