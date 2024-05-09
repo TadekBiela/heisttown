@@ -47,6 +47,7 @@ public:
         auto stubSource { std::make_unique<StubFileLoader<TextFile>>("") };
         stubSource->setLoadedData({ { "MainMenu", TextFile { "", "" } },
                                     { "SinglePlayer", TextFile { "", "" } },
+                                    { "Pause", TextFile { "", "" } },
                                     { "Settings", TextFile { "", "" } } });
         auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
         auto widget { std::make_unique<MockControlWidget>() };
@@ -93,7 +94,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsThreeMenus_ShouldContainsAl
 {
     MenuControllerTestable controller { prepareMenuControllerWithMenu() };
 
-    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
 }
@@ -104,7 +105,7 @@ TEST_F(MenuControllerTests, control_SinglePlayer_ShouldSwitchCurrentMenuToSingle
 
     controller.control("SinglePlayer");
 
-    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
 }
@@ -115,7 +116,7 @@ TEST_F(MenuControllerTests, control_Settings_ShouldSwitchCurrentMenuToSettings)
 
     controller.control("Settings");
 
-    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("Settings"), controller.getCurrentMenu());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
 }
@@ -127,7 +128,7 @@ TEST_F(MenuControllerTests, control_SinglePlayerNextToSettings_ShouldSwitchCurre
     controller.control("SinglePlayer");
     controller.control("Settings");
 
-    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("Settings"), controller.getCurrentMenu());
     EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getPreviousMenu());
 }
@@ -139,12 +140,12 @@ TEST_F(MenuControllerTests, control_SinglePlayerAndBack_ShouldSwitchCurrentMenuT
     controller.control("SinglePlayer");
     controller.control("Back");
 
-    EXPECT_EQ(3, controller.getMenus().size());
+    EXPECT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
     EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getPreviousMenu());
 }
 
-TEST_F(MenuControllerTests, control_SinglePlayerAndPlay_ShouldSwitchCurrentMenuToSinglePlayerAndSendMainCommand)
+TEST_F(MenuControllerTests, control_SinglePlayerAndPlay_ShouldSwitchCurrentMenuToPauseAndSendMainCommand)
 {
     MainCommand result {};
     auto mainControlConnection = [&result](const MainCommand& command)
@@ -157,8 +158,8 @@ TEST_F(MenuControllerTests, control_SinglePlayerAndPlay_ShouldSwitchCurrentMenuT
     controller.control("SinglePlayer");
     controller.control("Play");
 
-    EXPECT_EQ(3, controller.getMenus().size());
-    EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
+    EXPECT_EQ(4, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("Pause"), controller.getCurrentMenu());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
     EXPECT_EQ("SinglePlayer->Play", result);
 }

@@ -61,7 +61,10 @@ void MenuController::control(const WidgetCommand& command)
     else
     {
         MainCommand mainCommand { currentMenu->first + "->" + command };
+        hideAllMenus();
+        currentMenu = menus.find("Pause");
         mainControlConnection(mainCommand);
+        return;
     }
 
     hideAllMenus();
