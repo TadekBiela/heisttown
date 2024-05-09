@@ -1,28 +1,35 @@
 #include <FileLoader.hpp>
+#include <LocalClient.hpp>
+#include <MainApplication.hpp>
 #include <MenuController.hpp>
 #include <MenuParser.hpp>
 #include <QApplication>
 #include <QMainWindow>
-#include <QSize>
+#include <QMenuBar>
+#include <QtGameDisplay.hpp>
 #include <QtWidgetsFactory.hpp>
 #include <TextFile.hpp>
 #include <filesystem>
+#include <iostream>
 #include <memory>
 
 auto main(int argc, char* argv[]) -> int
 {
-    QApplication mainApplication(argc, argv);
+    QApplication application(argc, argv);
 
     auto mainWindow { std::make_shared<QMainWindow>() };
-    const int screenWidth { 800 };
-    const int screenHeight { 800 };
-    mainWindow->setFixedSize(QSize(screenWidth, screenHeight));
+    mainWindow->setWindowState(Qt::WindowFullScreen);
 
     auto widgetFactory { std::make_unique<QtWidgetsFactory>(mainWindow) };
     auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
     Directory dir { std::filesystem::current_path().string() + std::string("/Menus/") };
     auto fileLoader { std::make_unique<FileLoader<TextFile>>(dir) };
-    MenuController menuController { std::move(parser), std::move(fileLoader) };
+    auto menuController { std::make_unique<MenuController>(std::move(parser), std::move(fileLoader)) };
+
+    auto gameDisplay { std::make_unique<QtGameDisplay>(mainWindow) };
+    auto client { std::make_unique<LocalClient>(std::move(gameDisplay)) };
+
+    MainApplication mainApplication { std::move(menuController), std::move(client) };
 
     mainWindow->show();
 
