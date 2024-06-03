@@ -1,3 +1,4 @@
+#include "DisabledAllKeyEvents.hpp"
 #include <FileLoader.hpp>
 #include <LocalClient.hpp>
 #include <MainApplication.hpp>
@@ -31,6 +32,8 @@ auto main(int argc, char* argv[]) -> int
 
     MainApplication mainApplication { std::move(menuController), std::move(client) };
 
+    auto disableAllKeyEvents { std::make_unique<DisabledAllKeyEvents>() };
+    mainWindow->installEventFilter(disableAllKeyEvents.get());
     mainWindow->show();
 
     return QApplication::exec();
