@@ -11,6 +11,7 @@ target_link_libraries(${TEST_NAME} PRIVATE GTest::gmock_main)
 target_link_libraries(${TEST_NAME} PRIVATE Client)
 target_link_libraries(${TEST_NAME} PRIVATE MainApplication)
 target_link_libraries(${TEST_NAME} PRIVATE Menu)
+target_link_libraries(${TEST_NAME} PRIVATE PlayerInput)
 target_link_libraries(${TEST_NAME} PRIVATE Widgets)
 
 add_test(NAME ${TEST_NAME}

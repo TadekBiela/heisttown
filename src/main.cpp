@@ -1,5 +1,6 @@
 #include "DisabledAllKeyEvents.hpp"
 #include <FileLoader.hpp>
+#include <KeyboardMousePlayerInput.hpp>
 #include <LocalClient.hpp>
 #include <MainApplication.hpp>
 #include <MenuController.hpp>
@@ -28,7 +29,8 @@ auto main(int argc, char* argv[]) -> int
     auto menuController { std::make_unique<MenuController>(std::move(parser), std::move(fileLoader)) };
 
     auto gameDisplay { std::make_unique<QtGameDisplay>(mainWindow) };
-    auto client { std::make_unique<LocalClient>(std::move(gameDisplay)) };
+    auto playerInput { std::make_unique<KeyboardMousePlayerInput>(nullptr) };
+    auto client { std::make_unique<LocalClient>(std::move(gameDisplay), std::move(playerInput)) };
 
     MainApplication mainApplication { std::move(menuController), std::move(client) };
 
