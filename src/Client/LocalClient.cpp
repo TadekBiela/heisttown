@@ -24,5 +24,9 @@ void LocalClient::startSinglePlayerGame()
 void LocalClient::receive(const PlayerInputCommand& command)
 {
     std::cerr << "LocalClient: " << command << std::endl;
-    playerInput->stop();
+    if (command == "Keyboard: ESC")
+    {
+        playerInput->stop();
+        gameDisplay->hide();
+    }
 }
