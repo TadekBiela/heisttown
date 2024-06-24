@@ -8,6 +8,7 @@ QtKeyboardMousePlayerInput::QtKeyboardMousePlayerInput(std::shared_ptr<QObject> 
     {
         this->keyboardInput(key);
     };
+    proxy = std::make_unique<InputSourceProxy>(keyReceiver);
 }
 
 QtKeyboardMousePlayerInput::~QtKeyboardMousePlayerInput()
@@ -17,12 +18,7 @@ QtKeyboardMousePlayerInput::~QtKeyboardMousePlayerInput()
 
 void QtKeyboardMousePlayerInput::stopKeyboardReading()
 {
-    inputSource->removeEventFilter(getInputSourceProxy().get());
-}
-
-auto QtKeyboardMousePlayerInput::getInputSourceProxy() -> std::unique_ptr<InputSourceProxy>
-{
-    return std::make_unique<InputSourceProxy>(keyReceiver);
+    inputSource->removeEventFilter(proxy.get());
 }
 
 void QtKeyboardMousePlayerInput::setInputReceiver(PlayerInputReceiver inputReceiver)
@@ -32,7 +28,7 @@ void QtKeyboardMousePlayerInput::setInputReceiver(PlayerInputReceiver inputRecei
 
 void QtKeyboardMousePlayerInput::start()
 {
-    inputSource->installEventFilter(getInputSourceProxy().get());
+    inputSource->installEventFilter(proxy.get());
 }
 
 void QtKeyboardMousePlayerInput::stop()
@@ -46,6 +42,7 @@ void QtKeyboardMousePlayerInput::keyboardInput(Key key)
               << key.value << ", " << (key.state == KeyState::Pressed ? 0 : 1) << std::endl;
     if (key.value == Qt::Key_Escape) // 27 == ESC
     {
+        stopKeyboardReading();
         playerInputReceiver("Keyboard: ESC");
     }
 }

@@ -3,6 +3,7 @@
 
 #include "Client.hpp"
 #include <GameDisplay.hpp>
+#include <MainControlConnector.hpp>
 #include <PlayerInput.hpp>
 #include <memory>
 
@@ -14,10 +15,12 @@ public:
         std::unique_ptr<PlayerInput> input);
     virtual ~LocalClient() = default;
 
+    void setMainControl(const MainControlConnection& controlConnection) override;
     void startSinglePlayerGame() override;
     void receive(const PlayerInputCommand& command) override;
 
 private:
+    MainControlConnection mainControlConnection { [](const MainCommand&){} };
     std::unique_ptr<GameDisplay> gameDisplay;
     PlayerInputReceiver inputReceiver;
     std::unique_ptr<PlayerInput> playerInput;

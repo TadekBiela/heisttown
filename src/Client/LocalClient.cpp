@@ -15,6 +15,11 @@ LocalClient::LocalClient(
     playerInput->setInputReceiver(inputReceiver);
 }
 
+void LocalClient::setMainControl(const MainControlConnection& controlConnection)
+{
+    mainControlConnection = controlConnection;
+}
+
 void LocalClient::startSinglePlayerGame()
 {
     gameDisplay->show();
@@ -28,5 +33,6 @@ void LocalClient::receive(const PlayerInputCommand& command)
     {
         playerInput->stop();
         gameDisplay->hide();
+        mainControlConnection("SinglePlayer->Pause");
     }
 }

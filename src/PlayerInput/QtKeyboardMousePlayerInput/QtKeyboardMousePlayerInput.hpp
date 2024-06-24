@@ -20,9 +20,9 @@ private:
     PlayerInputReceiver playerInputReceiver { [](const PlayerInputCommand&){} };
     std::shared_ptr<QObject> inputSource;
     KeyReceiver keyReceiver;
+    std::unique_ptr<InputSourceProxy> proxy;
 
     void keyboardInput(Key key);
     void stopKeyboardReading();
-    auto getInputSourceProxy() -> std::unique_ptr<InputSourceProxy>;
 };
 #endif // KEYBOARD_MOUSE_PLAYER_INPUT_HPP

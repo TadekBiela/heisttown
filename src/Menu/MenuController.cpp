@@ -23,7 +23,7 @@ void MenuController::hideAllMenus()
 
 void MenuController::connectMenus()
 {
-    controlConnection = [&](const WidgetCommand& command)
+    controlConnection = [&](const MainCommand& command)
     {
         this->control(command);
     };
@@ -61,8 +61,8 @@ void MenuController::control(const WidgetCommand& command)
     else
     {
         MainCommand mainCommand { currentMenu->first + "->" + command };
+        previousMenu = currentMenu;
         hideAllMenus();
-        currentMenu = menus.find("Pause");
         mainControlConnection(mainCommand);
         return;
     }

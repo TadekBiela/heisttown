@@ -159,7 +159,7 @@ TEST_F(MenuControllerTests, control_SinglePlayerAndPlay_ShouldSwitchCurrentMenuT
     controller.control("Play");
 
     EXPECT_EQ(4, controller.getMenus().size());
-    EXPECT_EQ(controller.getMenus().find("Pause"), controller.getCurrentMenu());
-    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getPreviousMenu());
+    EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
+    EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getPreviousMenu());
     EXPECT_EQ("SinglePlayer->Play", result);
 }

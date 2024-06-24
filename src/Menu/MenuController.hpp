@@ -6,6 +6,7 @@
 #include "IMenuParser.hpp"
 #include "Menus.hpp"
 #include <IFileLoader.hpp>
+#include <MainControlConnector.hpp>
 #include <TextFile.hpp>
 #include <memory>
 

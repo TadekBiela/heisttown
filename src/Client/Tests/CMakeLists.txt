@@ -10,6 +10,7 @@ add_executable(${TEST_NAME} ${HEADER_FILES} ${TEST_FILES})
 target_link_libraries(${TEST_NAME} PRIVATE GTest::gmock_main)
 target_link_libraries(${TEST_NAME} PRIVATE Client)
 target_link_libraries(${TEST_NAME} PRIVATE GameDisplay)
+target_link_libraries(${TEST_NAME} PRIVATE MainControl)
 target_link_libraries(${TEST_NAME} PRIVATE PlayerInput)
 
 add_test(NAME ${TEST_NAME}

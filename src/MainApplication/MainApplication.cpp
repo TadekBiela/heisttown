@@ -12,6 +12,7 @@ MainApplication::MainApplication(
         this->control(command);
     };
     menuController->setMainControl(mainControlConnection);
+    gameClient->setMainControl(mainControlConnection);
 }
 
 void MainApplication::control(const MainCommand& command)
@@ -21,6 +22,10 @@ void MainApplication::control(const MainCommand& command)
         if (command.find("->Play") != MainCommand::npos)
         {
             gameClient->startSinglePlayerGame();
+        }
+        else if (command.find("->Pause") != MainCommand::npos)
+        {
+            menuController->control("Pause");
         }
     }
 }
