@@ -36,6 +36,7 @@ void MainApplication::control(const MainCommand& command)
         if (actionCommandPart == "->Abort")
         {
             gameClient->stop();
+            menuController->control("Back");
             menuController->showMenu();
         }
     }

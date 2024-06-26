@@ -57,6 +57,7 @@ TEST_F(MainApplicationTests, control_PauseAbort_ShouldAbortCurrentGameSessionOnC
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
     EXPECT_CALL(*menuController, setMainControl(_));
+    EXPECT_CALL(*menuController, control("Back"));
     EXPECT_CALL(*menuController, showMenu());
     EXPECT_CALL(*client, stop());
     MainApplication application { std::move(menuController), std::move(client) };
