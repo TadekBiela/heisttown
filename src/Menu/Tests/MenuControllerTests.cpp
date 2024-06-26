@@ -30,7 +30,7 @@ public:
 
     [[nodiscard]] auto getCurrentMenu() const -> const Menus::iterator&
     {
-        return currentMenuOnTop.top();
+        return currentMenuStack.top();
     }
 };
 
@@ -45,7 +45,6 @@ public:
                                     { "Pause", TextFile { "", "" } },
                                     { "Settings", TextFile { "", "" } } });
         auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
-        auto widget { std::make_unique<MockControlWidget>() };
         auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
         return { std::move(parser), std::move(stubSource) };
@@ -75,6 +74,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
     EXPECT_CALL(*widget, type()).WillRepeatedly(Return(WidgetType::BUTTON));
     EXPECT_CALL(*widget, connect(_));
     EXPECT_CALL(*widget, show());
+    EXPECT_CALL(*widget, hide());
     EXPECT_CALL(*widgetFactory, create(_, _, _, _)).WillOnce(Return(ByMove(std::move(widget))));
     auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
@@ -184,4 +184,27 @@ TEST_F(MenuControllerTests, control_SinglePlayerPlayPauseAndAbort_ShouldSwitchCu
     EXPECT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("Pause"), controller.getCurrentMenu());
     EXPECT_EQ("Pause->Abort", result);
+}
+
+TEST_F(MenuControllerTests, showMenu_DefaultMainMenu_ShouldShowMainMenu)
+{
+    auto stubSource { std::make_unique<StubFileLoader<TextFile>>("") };
+    stubSource->setLoadedData({ { "MainMenu", TextFile { "", "Button:\n"
+                                                             "    geometry: 200, 150, 100, 50\n"
+                                                             "    text: SinglePlayer\n"
+                                                             "    style: none\n" } } });
+    auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
+    auto widget { std::make_unique<MockControlWidget>() };
+    EXPECT_CALL(*widget, type()).WillRepeatedly(Return(WidgetType::BUTTON));
+    EXPECT_CALL(*widget, connect(_));
+    EXPECT_CALL(*widget, show()).Times(2);
+    EXPECT_CALL(*widget, hide());
+    EXPECT_CALL(*widgetFactory, create(_, _, _, _)).WillOnce(Return(ByMove(std::move(widget))));
+    auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
+    MenuControllerTestable controller(std::move(parser), std::move(stubSource));
+
+    controller.showMenu();
+
+    EXPECT_EQ(1, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
 }

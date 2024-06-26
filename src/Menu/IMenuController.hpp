@@ -10,6 +10,7 @@ public:
     virtual ~IMenuController() = default;
 
     virtual void control(const WidgetCommand& command) = 0;
+    virtual void showMenu() = 0;
 };
 
 #endif // IMENU_CONTROLLER_HPP

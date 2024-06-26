@@ -20,12 +20,13 @@ public:
     );
 
     void control(const WidgetCommand& command) override;
+    void showMenu() override;
     void setMainControl(const MainControlConnection& controlConnection) override;
 
 protected:
     MainControlConnection mainControlConnection { [](const WidgetCommand&){} };
     Menus menus;
-    std::stack<Menus::iterator> currentMenuOnTop;
+    std::stack<Menus::iterator> currentMenuStack;
 
 private:
     ControlConnection controlConnection;
@@ -33,6 +34,7 @@ private:
     void hideAllMenus();
     void connectMenus();
     void initCurrentMenu();
+    void showCurrentMenu();
 };
 
 #endif // MENU_CONTROLLER_HPP

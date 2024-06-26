@@ -36,10 +36,10 @@ void MenuController::connectMenus()
 
 void MenuController::initCurrentMenu()
 {
-    if (auto currentMenu = menus.find("MainMenu"); currentMenu != std::end(menus))
+    if (auto mainMenu = menus.find("MainMenu"); mainMenu != std::end(menus))
     {
-        currentMenuOnTop.push(currentMenu);
-        currentMenu->second.show();
+        currentMenuStack.push(mainMenu);
+        showCurrentMenu();
     }
     else
     {
@@ -47,26 +47,38 @@ void MenuController::initCurrentMenu()
     }
 }
 
+void MenuController::showCurrentMenu()
+{
+    auto currentMenu = currentMenuStack.top();
+    currentMenu->second.show();
+}
+
 void MenuController::control(const WidgetCommand& command)
 {
     if (auto menu = menus.find(command); menu != std::end(menus))
     {
-        currentMenuOnTop.push(menu);
+        currentMenuStack.push(menu);
     }
     else if (command == "Back")
     {
-        currentMenuOnTop.pop();
+        currentMenuStack.pop();
     }
     else
     {
-        MainCommand mainCommand { currentMenuOnTop.top()->first + "->" + command };
+        auto currentMenu = currentMenuStack.top();
+        MainCommand mainCommand { currentMenu->first + "->" + command };
         hideAllMenus();
         mainControlConnection(mainCommand);
         return;
     }
 
     hideAllMenus();
-    currentMenuOnTop.top()->second.show();
+    showCurrentMenu();
+}
+
+void MenuController::showMenu()
+{
+    showCurrentMenu();
 }
 
 void MenuController::setMainControl(const MainControlConnection& controlConnection)
