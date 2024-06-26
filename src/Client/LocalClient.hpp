@@ -16,7 +16,7 @@ public:
     virtual ~LocalClient() = default;
 
     void setMainControl(const MainControlConnection& controlConnection) override;
-    void startSinglePlayerGame() override;
+    void start() override;
     void receive(const PlayerInputCommand& command) override;
 
 private:

@@ -9,7 +9,7 @@ class Client : public MainControlConnector
 public:
     virtual ~Client() = default;
 
-    virtual void startSinglePlayerGame() = 0;
+    virtual void start() = 0;
     virtual void receive(const PlayerInputCommand& command) = 0;
 };
 

@@ -10,7 +10,7 @@ class LocalClientTests : public Test
 {
 };
 
-TEST_F(LocalClientTests, startSinglePlayerGame_SinglePlayerGame_ShouldShowGameDisplayAndStartInputReading)
+TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldShowGameDisplayAndStartInputReading)
 {
     auto display { std::make_unique<MockGameDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
@@ -19,5 +19,5 @@ TEST_F(LocalClientTests, startSinglePlayerGame_SinglePlayerGame_ShouldShowGameDi
     EXPECT_CALL(*input, start());
     LocalClient client { std::move(display), std::move(input) };
 
-    client.startSinglePlayerGame();
+    client.start();
 }

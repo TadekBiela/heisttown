@@ -20,7 +20,7 @@ void LocalClient::setMainControl(const MainControlConnection& controlConnection)
     mainControlConnection = controlConnection;
 }
 
-void LocalClient::startSinglePlayerGame()
+void LocalClient::start()
 {
     gameDisplay->show();
     playerInput->start();
