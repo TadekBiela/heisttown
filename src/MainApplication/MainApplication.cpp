@@ -17,20 +17,23 @@ MainApplication::MainApplication(
 
 void MainApplication::control(const MainCommand& command)
 {
-    if (command.find("SinglePlayer") != MainCommand::npos)
+    const auto menuCommandPart { command.substr(0, command.find("->")) };
+    const auto actionCommandPart { command.substr(command.find("->"), command.size()) };
+
+    if (menuCommandPart == "SinglePlayer")
     {
-        if (command.find("->Play") != MainCommand::npos)
+        if (actionCommandPart == "->Play")
         {
             gameClient->start();
         }
-        else if (command.find("->Pause") != MainCommand::npos)
+        else if (actionCommandPart == "->Pause")
         {
             menuController->control("Pause");
         }
     }
-    else if(command.find("Pause") != MainCommand::npos)
+    else if (menuCommandPart == "Pause")
     {
-        if (command.find("->Abort") != MainCommand::npos)
+        if (actionCommandPart == "->Abort")
         {
             gameClient->stop();
         }
