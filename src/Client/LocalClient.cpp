@@ -26,6 +26,12 @@ void LocalClient::start()
     playerInput->start();
 }
 
+void LocalClient::stop()
+{
+    gameDisplay->hide();
+    playerInput->stop();
+}
+
 void LocalClient::receive(const PlayerInputCommand& command)
 {
     std::cerr << "LocalClient: " << command << std::endl;

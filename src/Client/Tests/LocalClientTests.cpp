@@ -21,3 +21,15 @@ TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldShowGameDisplayAndStartInp
 
     client.start();
 }
+
+TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldHideGameDisplayAndStopInputReading)
+{
+    auto display { std::make_unique<MockGameDisplay>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    EXPECT_CALL(*input, setInputReceiver(_));
+    EXPECT_CALL(*display, hide());
+    EXPECT_CALL(*input, stop());
+    LocalClient client { std::move(display), std::move(input) };
+
+    client.stop();
+}

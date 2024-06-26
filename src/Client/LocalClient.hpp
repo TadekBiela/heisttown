@@ -17,6 +17,7 @@ public:
 
     void setMainControl(const MainControlConnection& controlConnection) override;
     void start() override;
+    void stop() override;
     void receive(const PlayerInputCommand& command) override;
 
 private:
