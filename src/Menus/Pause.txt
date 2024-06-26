@@ -10,6 +10,6 @@ Label:
 
 Button:
     geometry: 360, 130, 80, 30
-    text: Back
+    text: Abort
     style: none
 

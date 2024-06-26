@@ -9,6 +9,7 @@
 #include <MainControlConnector.hpp>
 #include <TextFile.hpp>
 #include <memory>
+#include <stack>
 
 class MenuController : public IMenuController
 {
@@ -24,8 +25,7 @@ public:
 protected:
     MainControlConnection mainControlConnection { [](const WidgetCommand&){} };
     Menus menus;
-    Menus::iterator currentMenu;
-    Menus::iterator previousMenu;
+    std::stack<Menus::iterator> currentMenuOnTop;
 
 private:
     ControlConnection controlConnection;
