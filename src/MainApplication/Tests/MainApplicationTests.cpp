@@ -52,15 +52,38 @@ TEST_F(MainApplicationTests, control_SinglePlayerBack_ShouldDoNothing)
     application.control("SinglePlayer->Back");
 }
 
+TEST_F(MainApplicationTests, control_SinglePlayerPause_ShouldSetPauseMenuOnMenuController)
+{
+    auto menuController { std::make_unique<MockMenuController>() };
+    auto client { std::make_unique<MockClient>() };
+    EXPECT_CALL(*menuController, setMainControl(_));
+    EXPECT_CALL(*menuController, control("Pause"));
+    EXPECT_CALL(*client, start()).Times(0);
+    MainApplication application { std::move(menuController), std::move(client) };
+
+    application.control("SinglePlayer->Pause");
+}
+
 TEST_F(MainApplicationTests, control_PauseAbort_ShouldAbortCurrentGameSessionOnClient)
 {
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
     EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*menuController, control("Back"));
     EXPECT_CALL(*menuController, showMenu());
     EXPECT_CALL(*client, stop());
     MainApplication application { std::move(menuController), std::move(client) };
 
     application.control("Pause->Abort");
+}
+
+TEST_F(MainApplicationTests, control_PauseContinue_ShouldBackToCurrentGameSessionOnClient)
+{
+    auto menuController { std::make_unique<MockMenuController>() };
+    auto client { std::make_unique<MockClient>() };
+    EXPECT_CALL(*menuController, setMainControl(_));
+    EXPECT_CALL(*menuController, showMenu()).Times(0);
+    EXPECT_CALL(*client, start());
+    MainApplication application { std::move(menuController), std::move(client) };
+
+    application.control("Pause->Continue");
 }

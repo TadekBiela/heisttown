@@ -9,7 +9,11 @@ Label:
     style: none
 
 Button:
-    geometry: 360, 130, 80, 30
+    geometry: 300, 130, 80, 30
     text: Abort
     style: none
 
+Button:
+    geometry: 420, 130, 80, 30
+    text: Continue
+    style: none

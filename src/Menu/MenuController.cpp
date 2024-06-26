@@ -67,6 +67,10 @@ void MenuController::control(const WidgetCommand& command)
     {
         auto currentMenu = currentMenuStack.top();
         MainCommand mainCommand { currentMenu->first + "->" + command };
+        if (command == "Abort" or command == "Continue")
+        {
+            currentMenuStack.pop();
+        }
         hideAllMenus();
         mainControlConnection(mainCommand);
         return;

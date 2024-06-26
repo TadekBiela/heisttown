@@ -84,7 +84,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
 }
 
-TEST_F(MenuControllerTests, constructor_ParserReturnsThreeMenus_ShouldContainsAllMenusWithSetCurrentAndPrevMenuAsFirstOne)
+TEST_F(MenuControllerTests, constructor_ParserReturnsThreeMenus_ShouldContainsAllMenusWithSetCurrent)
 {
     MenuControllerTestable controller { prepareMenuControllerWithMenu() };
 
@@ -112,7 +112,7 @@ TEST_F(MenuControllerTests, control_Settings_ShouldSwitchCurrentMenuToSettings)
     EXPECT_EQ(controller.getMenus().find("Settings"), controller.getCurrentMenu());
 }
 
-TEST_F(MenuControllerTests, control_SinglePlayerNextToSettings_ShouldSwitchCurrentMenuToSettingsAndPrevToSinglePlayer)
+TEST_F(MenuControllerTests, control_SinglePlayerNextToSettings_ShouldSwitchCurrentMenuToSettingsAnd)
 {
     MenuControllerTestable controller { prepareMenuControllerWithMenu() };
 
@@ -152,7 +152,7 @@ TEST_F(MenuControllerTests, control_SinglePlayerAndPlay_ShouldSwitchCurrentMenuT
     EXPECT_EQ("SinglePlayer->Play", result);
 }
 
-TEST_F(MenuControllerTests, control_SinglePlayerPlayAndPause_ShouldSwitchCurrentMenuToPauseAndPrevToSinglePlayer)
+TEST_F(MenuControllerTests, control_SinglePlayerPlayAndPause_ShouldSwitchCurrentMenuToPause)
 {
     auto mainControlConnection = [](const MainCommand&) {};
     MenuControllerTestable controller { prepareMenuControllerWithMenu() };
@@ -166,7 +166,7 @@ TEST_F(MenuControllerTests, control_SinglePlayerPlayAndPause_ShouldSwitchCurrent
     EXPECT_EQ(controller.getMenus().find("Pause"), controller.getCurrentMenu());
 }
 
-TEST_F(MenuControllerTests, control_SinglePlayerPlayPauseAndAbort_ShouldSwitchCurrentMenuToSinglePlayerAndPrevMainMenu)
+TEST_F(MenuControllerTests, control_SinglePlayerPlayPauseAndAbort_ShouldSwitchCurrentMenuToSinglePlayer)
 {
     MainCommand result {};
     auto mainControlConnection = [&result](const MainCommand& command)
@@ -182,8 +182,28 @@ TEST_F(MenuControllerTests, control_SinglePlayerPlayPauseAndAbort_ShouldSwitchCu
     controller.control("Abort");
 
     EXPECT_EQ(4, controller.getMenus().size());
-    EXPECT_EQ(controller.getMenus().find("Pause"), controller.getCurrentMenu());
+    EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
     EXPECT_EQ("Pause->Abort", result);
+}
+
+TEST_F(MenuControllerTests, control_SinglePlayerPlayPauseAndConitnue_ShouldStayCurrentMenuAsPause)
+{
+    MainCommand result {};
+    auto mainControlConnection = [&result](const MainCommand& command)
+    {
+        result = command;
+    };
+    MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+    controller.setMainControl(mainControlConnection);
+
+    controller.control("SinglePlayer");
+    controller.control("Play");
+    controller.control("Pause");
+    controller.control("Continue");
+
+    EXPECT_EQ(4, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
+    EXPECT_EQ("Pause->Continue", result);
 }
 
 TEST_F(MenuControllerTests, showMenu_DefaultMainMenu_ShouldShowMainMenu)
