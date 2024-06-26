@@ -28,4 +28,11 @@ void MainApplication::control(const MainCommand& command)
             menuController->control("Pause");
         }
     }
+    else if(command.find("Pause") != MainCommand::npos)
+    {
+        if (command.find("->Abort") != MainCommand::npos)
+        {
+            gameClient->stop();
+        }
+    }
 }

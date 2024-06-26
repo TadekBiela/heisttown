@@ -51,3 +51,14 @@ TEST_F(MainApplicationTests, control_SinglePlayerBack_ShouldDoNothing)
 
     application.control("SinglePlayer->Back");
 }
+
+TEST_F(MainApplicationTests, control_PauseAbort_ShouldAbortCurrentGameSessionOnClient)
+{
+    auto menuController { std::make_unique<MockMenuController>() };
+    auto client { std::make_unique<MockClient>() };
+    EXPECT_CALL(*menuController, setMainControl(_));
+    EXPECT_CALL(*client, stop()).Times(1);
+    MainApplication application { std::move(menuController), std::move(client) };
+
+    application.control("Pause->Abort");
+}
