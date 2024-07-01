@@ -13,3 +13,7 @@ Button:
     text: Settings
     style: none
 
+Button:
+    geometry: 360, 230, 80, 30
+    text: Exit
+    style: none

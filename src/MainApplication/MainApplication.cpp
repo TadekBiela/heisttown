@@ -2,10 +2,12 @@
 
 MainApplication::MainApplication(
     std::unique_ptr<IMenuController> controller,
-    std::unique_ptr<Client> client
+    std::unique_ptr<Client> client,
+    GuiExitCallback callback
 )
     : menuController(std::move(controller))
     , gameClient(std::move(client))
+    , guiExitCallback(std::move(callback))
 {
     mainControlConnection = [&](const MainCommand& command)
     {
@@ -41,6 +43,13 @@ void MainApplication::control(const MainCommand& command)
         else if (actionCommandPart == "->Continue")
         {
             gameClient->start();
+        }
+    }
+    else if (menuCommandPart == "MainMenu")
+    {
+        if (actionCommandPart == "->Exit")
+        {
+            guiExitCallback();
         }
     }
 }

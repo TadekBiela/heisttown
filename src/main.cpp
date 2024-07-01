@@ -30,7 +30,12 @@ auto main(int argc, char* argv[]) -> int
     auto playerInput { std::make_unique<QtKeyboardMousePlayerInput>(mainWindow) };
     auto client { std::make_unique<LocalClient>(std::move(gameDisplay), std::move(playerInput)) };
 
-    MainApplication mainApplication { std::move(menuController), std::move(client) };
+    auto qAppGuiExit = [&application, &mainWindow]()
+    {
+        mainWindow->hide();
+        QApplication::quit();
+    };
+    MainApplication mainApplication { std::move(menuController), std::move(client), qAppGuiExit };
 
     mainWindow->show();
 
