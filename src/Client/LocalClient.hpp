@@ -21,7 +21,7 @@ public:
     void receive(const PlayerInputCommand& command) override;
 
 private:
-    MainControlConnection mainControlConnection { [](const MainCommand&){} };
+    MainControlConnection mainControlConnection;
     std::unique_ptr<GameDisplay> gameDisplay;
     PlayerInputReceiver inputReceiver;
     std::unique_ptr<PlayerInput> playerInput;
