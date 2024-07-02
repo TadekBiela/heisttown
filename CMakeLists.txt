@@ -121,8 +121,10 @@ add_custom_target(CodeCoverage
     COMMAND "${CMAKE_CTEST_COMMAND}"
     COMMAND lcov --directory . --capture --output-file coverage.info
     COMMAND lcov --extract coverage.info "/usr/src/heisttown/src/*" -o coverage_filtered.info
+    COMMAND lcov --remove coverage_filtered.info "/usr/src/heisttown/src/*Tests/*" "/usr/src/heisttown/src/*/Tests/*" "/usr/src/heisttown/src/*Mock*" "/usr/src/heisttown/src/*Stub*" -o coverage_filtered.info
     COMMAND lcov --list coverage_filtered.info
-    COMMAND lcov --list coverage_filtered.info | grep Total:*.*% | grep -o .[0-9].[0-9]% | grep -o .[0-9].[0-9] > coverage_level.txt
+    COMMAND lcov --list coverage_filtered.info | grep Total:*.*% | grep -o .[0-9].[0-9]% | grep -o .[0-9].[0-9] | head -n 1 > coverage_level.txt
+    COMMAND genhtml coverage_filtered.info --output-directory out --title "Code Coverage Report" --legend
     COMMAND sh -c " awk '{ for (i=1; i<=NF; i++) { if ($i < ${COVERAGE_LEVEL}) { print \"Coverage level is to low! Required minimum ${COVERAGE_LEVEL}%\"; exit 1 } } }' coverage_level.txt"
     COMMENT "Running Code Coverage"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
