@@ -1,4 +1,6 @@
-add_subdirectory(Tests)
+if(NOT RELEASE)
+    add_subdirectory(Tests)
+endif()
 
 set(LIB_NAME Client)
 
