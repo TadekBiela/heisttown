@@ -51,7 +51,9 @@ Heist Town is a 2D sandbox multiplayer crime game inspired by GTA 2.
 `sudo docker run --name heisttown -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -it tadekbiela/heisttown:heisttown /bin/bash`
 
 * When Docker container will run, do not forget to pull all new changes using `git pull` command.
-* QtCreator is used as default IDE. You can run it using `qtcreator` command.
+* Next run `cmake --pareset="Build"`
+* QtCreator is used as default IDE. You can run it using `qtcreator &` command.
+* Import project by `CmakeLists.txt`
 
 ## 3. Build Game Application
 

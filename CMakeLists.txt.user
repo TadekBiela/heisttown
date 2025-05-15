@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.2, 2025-05-15T08:24:14. -->
 <qtcreator>
- <data>
-  <variable>EnvironmentId</variable>
-  <value type="QByteArray">{b6360e8b-3557-49b8-8bac-c1c12c19c22c}</value>
- </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
   <value type="int">0</value>
@@ -66,91 +61,6 @@
     <value type="bool" key="AutoTest.Framework.GTest">true</value>
     <value type="bool" key="AutoTest.Framework.QtQuickTest">true</value>
     <value type="bool" key="AutoTest.Framework.QtTest">true</value>
-   </valuemap>
-   <valuemap type="QVariantMap" key="AutoTest.CheckStates">
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Client/Tests/LocalClientTests.cpp:LocalClientTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Client/Tests/LocalClientTests.cpp:receive_KeyboardESC_ShouldStopAndSendMainCommand">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Client/Tests/LocalClientTests.cpp:receive_KeyboardY_ShouldDoNothing">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Client/Tests/LocalClientTests.cpp:start_SinglePlayerGame_ShouldShowGameDisplayAndStartInputReading">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Client/Tests/LocalClientTests.cpp:stop_SinglePlayerGame_ShouldHideGameDisplayAndStopInputReading">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/FileLoaderTests.cpp:FileLoaderTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/FileLoaderTests.cpp:constructor_DirectoryContainsThreeFiles_ShouldLoadThreeFiles">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/FileLoaderTests.cpp:constructor_WrongDirectory_ShouldThrowException">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/FilesStorageTests.cpp:FilesStorageTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/FilesStorageTests.cpp:getFile_DirectoryContainThreeFilesMiddleFileName_ShouldReturnMiddleImageFile">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/FilesStorageTests.cpp:getFile_DirectoryContainsOneFileTryGetFileThatNotExist_ShouldReturnEmptyImageFile">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/FilesStorageTests.cpp:getFile_DirectoryContainsOneFileTryGetItByName_ShouldReturnCorrectImageFile">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/FilesStorageTests.cpp:getFile_OnlyDefaultValue_ShouldReturnEmptyImageFile">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:TextFileTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_CorrectFilePathFile_ShouldOpenRealFileAndLoadContent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_InputCorrectValues_ShouldReturnFilledPathAndContent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_InputFiveLinesFileContentWithFewEmptyLines_ShouldReturnFiveElementsContent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_InputTwoLinesFileContentWithEmptyLineInTheMiddle_ShouldReturnTwoElementsContent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_InputTwoLinesFileContentWithNexLineOnTheBegining_ShouldReturnTwoElementsContent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_InputTwoLinesFileContentWithNextLineOnTheEndOfTheFile_ShouldReturnTwoElementsContent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_InputTwoLinesFileContentWithTwoNextLinesOnTheEndOfTheFile_">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_InputTwoLinesFileContent_ShouldReturnTwoElementsContent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:constructor_WrongFilePathWithoutRawContent_ShouldThrowException">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/FilesStorage/Tests/TestFileTests.cpp:defaultConstructor_OnlyDefaultValues_ShouldReturnEmptyPathAndContent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:MainApplicationTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:constructor_DefaultBehavior_ShouldConnectController">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:control_DummyCommand_ShouldDoNothing">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:control_MainMenuExit_ShouldDestroyApplication">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:control_PauseAbort_ShouldAbortCurrentGameSessionOnClient">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:control_PauseContinue_ShouldBackToCurrentGameSessionOnClient">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:control_SinglePlayerBack_ShouldDoNothing">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:control_SinglePlayerPause_ShouldSetPauseMenuOnMenuController">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:control_SinglePlayerPlay_ShouldRunClient">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MainApplication/Tests/MainApplicationTests.cpp:setGuiExitCallback_DefaultBehavior_ShouldSetGuiExitCallback">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:MenuControllerTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:constructor_ParserReturnEmptyMenus_ShouldDoNothing">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:constructor_ParserReturnsOneMenuWithButton_ShouldContainsOneMenuAndConnectButton">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:constructor_ParserReturnsThreeMenus_ShouldContainsAllMenusWithSetCurrent">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:control_Settings_ShouldSwitchCurrentMenuToSettings">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:control_SinglePlayerAndBack_ShouldSwitchCurrentMenuToSinglePlayerAndBackToMainMenu">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:control_SinglePlayerAndPlay_ShouldSwitchCurrentMenuToPauseAndSendMainCommand">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:control_SinglePlayerNextToSettings_ShouldSwitchCurrentMenuToSettingsAnd">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:control_SinglePlayerPlayAndPause_ShouldSwitchCurrentMenuToPause">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:control_SinglePlayerPlayPauseAndAbort_ShouldSwitchCurrentMenuToSinglePlayer">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:control_SinglePlayerPlayPauseAndConitnue_ShouldStayCurrentMenuAsPause">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:control_SinglePlayer_ShouldSwitchCurrentMenuToSinglePlayer">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuControllerTests.cpp:showMenu_DefaultMainMenu_ShouldShowMainMenu">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:MenuParserTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_EmptyInput_ShouldReturnEmptyMenus">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_MainMenuFileOneButtonOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsOneButton">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnMenusWithMainMenuContainsOneButtonWithStyle">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_MainMenuFileOneLabelOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsOneLAbel">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMenusWithMainMenuContainsOneLabelWithStyle">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsTwoButtons">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyles_ShouldReturnMenusWithMainMenuContainsAllWidgetsWithProperStyles">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsTwoLabels">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_TwoFilesWithWidgetsNoStyle_ShouldReturnMenusWithTwoFilledMenus">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuParserTests.cpp:parse_TwoFilesWithoutWidgetsNoStyle_ShouldReturnMenusWithTwoEmptyMenus">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:MenuTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:addWidget_ButtonWidget_ShouldAddButtonToControlWidgets">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:addWidget_DifferentWidgets_ShouldAddWidgetsRegardingToType">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:addWidget_LabelWidget_ShouldAddLabeToStaticWidgets">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:connect_ContainsNoWidgets_ShouldDoNothing">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:connect_ContainsOneControlWidget_ShouldConnectWidgetToOutput">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:connect_ContainsOneStaticWidget_ShouldDoNothing">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:connect_ContainsThreeControlWidget_ShouldConnectAllWidgetsToOutput">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:hide_ContainsOneControlWidget_ShouldHideWidget">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:hide_ContainsOneStaticWidget_ShouldHideWidget">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:hide_ContainsThreeControlWidgets_ShouldHideAllWidgets">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:hide_ContainsThreeStaticWidgets_ShouldHideAllWidgets">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:hide_ContainsTwoStaticAndControlWidgets_ShouldHideAllWidgets">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:show_ContainsOneControlWidget_ShouldShowWidget">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:show_ContainsOneStaticWidget_ShouldShowWidget">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:show_ContainsThreeControlWidgets_ShouldShowAllWidgets">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:show_ContainsThreeStaticWidgets_ShouldShowAllWidgets">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Menu/Tests/MenuTests.cpp:show_ContainsTwoStaticAndControlWidgets_ShouldShowAllWidgets">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MouseCursor/Tests/MouseCursorTests.cpp:Constructor_OnlyDefaultValue_ShouldCreateDefaultCursorAsMainMenu">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/MouseCursor/Tests/MouseCursorTests.cpp:MouseCursorTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Widgets/QtWidgets/Tests/ButtonTests.cpp:ButtonTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Widgets/QtWidgets/Tests/ButtonTests.cpp:connect_MockedConnectedOutput_ShouldExecuteOutputFunctionWithButtonText">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Widgets/QtWidgets/Tests/QtWidgetsFactoryTests.cpp:QtWidgetsFactoryTests">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Widgets/QtWidgets/Tests/QtWidgetsFactoryTests.cpp:create_ButtonType_ShouldReturnButtonObject">Checked</value>
-    <value type="Qt::CheckState" key="1@/usr/src/heisttown/src/Widgets/QtWidgets/Tests/QtWidgetsFactoryTests.cpp:create_LabelType_ShouldReturnLabelObject">Checked</value>
    </valuemap>
    <value type="int" key="AutoTest.RunAfterBuild">0</value>
    <value type="bool" key="AutoTest.UseGlobal">true</value>
