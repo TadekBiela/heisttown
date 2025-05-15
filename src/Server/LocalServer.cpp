@@ -15,7 +15,7 @@ void LocalServer::stop()
 
 }
 
-void LocalServer::connect(std::shared_ptr<Client>)
+void LocalServer::connect(std::shared_ptr<Client> client)
 {
-
+    (void)client;
 }

@@ -14,7 +14,7 @@ public:
     void setMainControl(const MainControlConnection& controlConnection) override;
     void start() override;
     void stop() override;
-    void connect(std::shared_ptr<Client>) override;
+    void connect(std::shared_ptr<Client> client) override;
 };
 
 #endif // LOCAL_SERVER_HPP
