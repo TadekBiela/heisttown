@@ -7,8 +7,11 @@ RUN git clone https://github.com/TadekBiela/heisttown.git
 
 ENV XDG_RUNTIME_DIR="/tmp/runtime-root"
 ENV LSAN_OPTIONS="suppressions=/usr/src/heisttown/sanitizer_suppressions.supp"
+ENV TSAN_OPTIONS="suppressions=/usr/src/heisttown/thread_suppressions.supp"
 
 # Set to working directory and build heisttown
+WORKDIR /usr/src/heisttown
+RUN cmake --preset="Build"
 WORKDIR /usr/src/heisttown/build
 RUN cmake ../
 RUN cmake --build . --target all
