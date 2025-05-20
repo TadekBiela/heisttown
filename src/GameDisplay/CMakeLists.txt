@@ -1,5 +1,3 @@
-add_subdirectory(QtGameDisplay)
-
 set(LIB_NAME GameDisplay)
 
 file(GLOB HEADER_FILES *.hpp)

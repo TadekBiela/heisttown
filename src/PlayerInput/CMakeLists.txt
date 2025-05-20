@@ -1,5 +1,3 @@
-add_subdirectory(QtKeyboardMousePlayerInput)
-
 set(LIB_NAME PlayerInput)
 
 file(GLOB HEADER_FILES *.hpp)

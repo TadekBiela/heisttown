@@ -1,5 +1,3 @@
-add_subdirectory(QtWidgets)
-
 set(LIB_NAME Widgets)
 
 file(GLOB HEADER_FILES *.hpp)
