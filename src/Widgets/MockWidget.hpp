@@ -1,5 +1,4 @@
-#ifndef MOCK_WIDGET_HPP
-#define MOCK_WIDGET_HPP
+#pragma once
 
 #include "Widget.hpp"
 #include "WidgetGeometry.hpp"
@@ -19,5 +18,3 @@ public:
     MOCK_METHOD0(show, void());
     MOCK_METHOD0(hide, void());
 };
-
-#endif // MOCK_WIDGET_HPP

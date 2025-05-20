@@ -1,5 +1,4 @@
-#ifndef LOCAL_SERVER_HPP
-#define LOCAL_SERVER_HPP
+#pragma once
 
 #include "Server.hpp"
 #include <Client.hpp>
@@ -16,5 +15,3 @@ public:
     void stop() override;
     void connect(std::shared_ptr<Client> client) override;
 };
-
-#endif // LOCAL_SERVER_HPP

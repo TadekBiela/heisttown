@@ -1,5 +1,4 @@
-#ifndef IMENU_PARSER_HPP
-#define IMENU_PARSER_HPP
+#pragma once
 
 #include "Menus.hpp"
 #include <IFileLoader.hpp>
@@ -13,5 +12,3 @@ public:
 
     virtual auto parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&& = 0;
 };
-
-#endif // IMENU_PARSER_HPP

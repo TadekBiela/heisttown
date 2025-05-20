@@ -1,5 +1,4 @@
-#ifndef WIDGETS_FACTORY_HPP
-#define WIDGETS_FACTORY_HPP
+#pragma once
 
 #include "Widget.hpp"
 #include "WidgetGeometry.hpp"
@@ -18,5 +17,3 @@ public:
         const WidgetStyle& style
     ) const -> std::unique_ptr<Widget> = 0;
 };
-
-#endif // WIDGETS_FACTORY_HPP

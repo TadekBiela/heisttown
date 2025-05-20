@@ -1,5 +1,4 @@
-#ifndef MOCK_PLAYER_INPUT_HPP
-#define MOCK_PLAYER_INPUT_HPP
+#pragma once
 
 #include "PlayerInput.hpp"
 #include <gmock/gmock.h>
@@ -11,5 +10,3 @@ public:
     MOCK_METHOD0(start, void());
     MOCK_METHOD0(stop, void());
 };
-
-#endif // MOCK_PLAYER_INPUT_HPP

@@ -1,5 +1,4 @@
-#ifndef STUB_WIDGETS_FACTORY_HPP
-#define STUB_WIDGETS_FACTORY_HPP
+#pragma once
 
 #include "StubWidget.hpp"
 #include "Widget.hpp"
@@ -24,5 +23,3 @@ public:
         return std::make_unique<StubWidget>(type, geometry, text, style);
     }
 };
-
-#endif // STUB_WIDGETS_FACTORY_HPP

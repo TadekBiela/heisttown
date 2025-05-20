@@ -1,5 +1,4 @@
-#ifndef SERVER_HPP
-#define SERVER_HPP
+#pragma once
 
 #include <Client.hpp>
 #include <MainControlConnector.hpp>
@@ -14,5 +13,3 @@ public:
     virtual void stop() = 0;
     virtual void connect(std::shared_ptr<Client>) = 0;
 };
-
-#endif // SERVER_HPP

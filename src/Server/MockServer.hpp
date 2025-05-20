@@ -1,5 +1,4 @@
-#ifndef MOCK_SERVER_HPP
-#define MOCK_SERVER_HPP
+#pragma once
 
 #include "Server.hpp"
 #include <Client.hpp>
@@ -14,5 +13,3 @@ public:
     MOCK_METHOD0(stop, void());
     MOCK_METHOD1(connect, void(std::shared_ptr<Client>));
 };
-
-#endif // MOCK_SERVER_HPP

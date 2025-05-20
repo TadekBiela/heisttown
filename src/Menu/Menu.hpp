@@ -1,5 +1,4 @@
-#ifndef MENU_HPP
-#define MENU_HPP
+#pragma once
 
 #include <ControlWidget.hpp>
 #include <Widget.hpp>
@@ -32,5 +31,3 @@ protected:
 private:
     static auto isControlWidget(const Widget* widget) -> bool;
 };
-
-#endif // MENU_HPP

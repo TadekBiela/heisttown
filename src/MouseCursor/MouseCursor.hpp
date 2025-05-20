@@ -1,5 +1,4 @@
-#ifndef MOUSE_CURSOR_HPP
-#define MOUSE_CURSOR_HPP
+#pragma once
 
 class MouseCursor
 {
@@ -7,5 +6,3 @@ public:
     MouseCursor() = default;
     virtual ~MouseCursor() = default;
 };
-
-#endif // MOUSE_CURSOR_HPP

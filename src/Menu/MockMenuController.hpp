@@ -1,5 +1,4 @@
-#ifndef MOCK_MENU_CONTROLLER_HPP
-#define MOCK_MENU_CONTROLLER_HPP
+#pragma once
 
 #include "IMenuController.hpp"
 #include <MainControlConnector.hpp>
@@ -12,5 +11,3 @@ public:
     MOCK_METHOD1(control, void(const WidgetCommand& command));
     MOCK_METHOD0(showMenu, void());
 };
-
-#endif // MOCK_MENU_CONTROLLER_HPP

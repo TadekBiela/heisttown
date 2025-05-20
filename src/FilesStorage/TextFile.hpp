@@ -1,5 +1,4 @@
-#ifndef TEXT_FILE_HPP
-#define TEXT_FILE_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -28,5 +27,3 @@ private:
     auto getRawFileContent() const -> std::string;
     void loadContent(const std::string& rawFileContent);
 };
-
-#endif // TEXT_FILE_HPP

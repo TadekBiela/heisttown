@@ -1,5 +1,4 @@
-#ifndef LOCAL_CLIENT_HPP
-#define LOCAL_CLIENT_HPP
+#pragma once
 
 #include "Client.hpp"
 #include <GameDisplay.hpp>
@@ -26,5 +25,3 @@ private:
     PlayerInputReceiver inputReceiver;
     std::unique_ptr<PlayerInput> playerInput;
 };
-
-#endif // LOCAL_CLIENT_HPP

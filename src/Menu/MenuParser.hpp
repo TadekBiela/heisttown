@@ -1,5 +1,4 @@
-#ifndef MENU_PARSER_HPP
-#define MENU_PARSER_HPP
+#pragma once
 
 #include "IMenuParser.hpp"
 #include "Menus.hpp"
@@ -50,5 +49,3 @@ private:
     ) -> std::string;
     auto parseWidgetStyle(const std::string& input) -> WidgetStyle;
 };
-
-#endif // MENU_PARSER_HPP

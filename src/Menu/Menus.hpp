@@ -1,5 +1,4 @@
-#ifndef MENUS_HPP
-#define MENUS_HPP
+#pragma once
 
 #include "Menu.hpp"
 #include <string>
@@ -7,5 +6,3 @@
 
 using MenuName = std::string;
 using Menus = std::unordered_map<MenuName, Menu>;
-
-#endif // MENUS_HPP

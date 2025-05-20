@@ -1,5 +1,4 @@
-#ifndef MAIN_APPLICATION_HPP
-#define MAIN_APPLICATION_HPP
+#pragma once
 
 #include <Client.hpp>
 #include <MainControlConnector.hpp>
@@ -27,5 +26,3 @@ private:
     std::unique_ptr<Client> gameClient;
     GuiExitCallback guiExitCallback;
 };
-
-#endif // MAIN_APPLICATION_HPP

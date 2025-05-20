@@ -1,5 +1,4 @@
-#ifndef MOCK_CLIENT_HPP
-#define MOCK_CLIENT_HPP
+#pragma once
 
 #include "Client.hpp"
 #include <MainControlConnector.hpp>
@@ -14,5 +13,3 @@ public:
     MOCK_METHOD0(stop, void());
     MOCK_METHOD1(receive, void(const PlayerInputCommand&));
 };
-
-#endif // MOCK_CLIENT_HPP

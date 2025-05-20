@@ -1,5 +1,4 @@
-#ifndef FILE_LOADER_HPP
-#define FILE_LOADER_HPP
+#pragma once
 
 #include "IFileLoader.hpp"
 
@@ -29,5 +28,3 @@ public:
 protected:
     std::map<FileName, File> loadedData;
 };
-
-#endif // FILE_LOADER_HPP

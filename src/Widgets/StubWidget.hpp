@@ -1,5 +1,4 @@
-#ifndef STUB_WIDGET_HPP
-#define STUB_WIDGET_HPP
+#pragma once
 
 #include "Widget.hpp"
 #include "WidgetGeometry.hpp"
@@ -33,5 +32,3 @@ private:
     WidgetText stubText;
     WidgetStyle stubStyle;
 };
-
-#endif // STUB_WIDGET_HPP

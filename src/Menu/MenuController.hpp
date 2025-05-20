@@ -1,5 +1,4 @@
-#ifndef MENU_CONTROLLER_HPP
-#define MENU_CONTROLLER_HPP
+#pragma once
 
 #include "ControlWidget.hpp"
 #include "IMenuController.hpp"
@@ -36,5 +35,3 @@ private:
     void initCurrentMenu();
     void showCurrentMenu();
 };
-
-#endif // MENU_CONTROLLER_HPP

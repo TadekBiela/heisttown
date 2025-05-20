@@ -1,5 +1,4 @@
-#ifndef CONTROL_WIDGET_HPP
-#define CONTROL_WIDGET_HPP
+#pragma once
 
 #include "Widget.hpp"
 #include <functional>
@@ -15,5 +14,3 @@ public:
 
     virtual void connect(const ControlConnection& controlConnection) = 0;
 };
-
-#endif // CONTROL_WIDGET_HPP

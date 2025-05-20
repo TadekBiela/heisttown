@@ -1,5 +1,4 @@
-#ifndef WIDGET_HPP
-#define WIDGET_HPP
+#pragma once
 
 #include "WidgetGeometry.hpp"
 #include "WidgetType.hpp"
@@ -23,5 +22,3 @@ public:
     virtual void show() = 0;
     virtual void hide() = 0;
 };
-
-#endif // WIDGET_HPP

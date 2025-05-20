@@ -1,5 +1,4 @@
-#ifndef MOCK_CONTROL_WIDGET_HPP
-#define MOCK_CONTROL_WIDGET_HPP
+#pragma once
 
 #include "ControlWidget.hpp"
 #include "Widget.hpp"
@@ -21,5 +20,3 @@ public:
     MOCK_METHOD0(hide, void());
     MOCK_METHOD1(connect, void(const ControlConnection& output));
 };
-
-#endif // MOCK_CONTROL_WIDGET_HPP

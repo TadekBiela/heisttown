@@ -1,5 +1,4 @@
-#ifndef MAIN_CONTROL_CONNECTOR_HPP
-#define MAIN_CONTROL_CONNECTOR_HPP
+#pragma once
 
 #include <functional>
 #include <string>
@@ -14,5 +13,3 @@ public:
 
     virtual void setMainControl(const MainControlConnection& controlConnection) = 0;
 };
-
-#endif // MAIN_CONTROL_CONNECTOR_HPP

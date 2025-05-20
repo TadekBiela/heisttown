@@ -1,5 +1,4 @@
-#ifndef PLAYER_INPUT_HPP
-#define PLAYER_INPUT_HPP
+#pragma once
 
 #include <functional>
 #include <string>
@@ -16,5 +15,3 @@ public:
     virtual void start() = 0;
     virtual void stop() = 0;
 };
-
-#endif // PLAYER_INPUT_HPP

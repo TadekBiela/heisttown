@@ -1,5 +1,4 @@
-#ifndef CLIENT_HPP
-#define CLIENT_HPP
+#pragma once
 
 #include <MainControlConnector.hpp>
 #include <PlayerInput.hpp>
@@ -13,5 +12,3 @@ public:
     virtual void stop() = 0;
     virtual void receive(const PlayerInputCommand& command) = 0;
 };
-
-#endif // CLIENT_HPP

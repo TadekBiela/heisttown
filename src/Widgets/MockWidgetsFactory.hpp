@@ -1,5 +1,4 @@
-#ifndef MOCK_WIDGETS_FACTORY_HPP
-#define MOCK_WIDGETS_FACTORY_HPP
+#pragma once
 
 #include "Widget.hpp"
 #include "WidgetGeometry.hpp"
@@ -20,5 +19,3 @@ public:
         )
     );
 };
-
-#endif // MOCK_WIDGETS_FACTORY_HPP
