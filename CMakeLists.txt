@@ -119,14 +119,10 @@ add_custom_target(CodeCoverage
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=ON -D CLANG_TIDY=OFF ..
     COMMAND "${CMAKE_COMMAND}" --build . --target all
     COMMAND "${CMAKE_CTEST_COMMAND}"
-    COMMAND lcov --directory . --capture --output-file coverage.info
-    COMMAND lcov --extract coverage.info "/usr/src/heisttown/src/*" -o coverage_filtered.info
-    COMMAND lcov --remove coverage_filtered.info "/usr/src/heisttown/src/*Tests/*" "/usr/src/heisttown/src/*/Tests/*" "/usr/src/heisttown/src/*Mock*" "/usr/src/heisttown/src/*Stub*" -o coverage_filtered.info
-    COMMAND lcov --list coverage_filtered.info
-    COMMAND lcov --list coverage_filtered.info | grep Total:*.*% | grep -o .[0-9].[0-9]% | grep -o .[0-9].[0-9] | head -n 1 > coverage_level.txt
-    COMMAND genhtml coverage_filtered.info --output-directory out --title "Code Coverage Report" --legend
-    COMMAND sh -c " awk '{ for (i=1; i<=NF; i++) { if ($i < ${COVERAGE_LEVEL}) { print \"Coverage level is to low! Required minimum ${COVERAGE_LEVEL}%\"; exit 1 } } }' coverage_level.txt"
-    COMMENT "Running Code Coverage"
+    COMMAND gcovr -r "${CMAKE_SOURCE_DIR}/src" --html --html-details -o index.html --exclude-unreachable-branches --exclude-lines-by-pattern "GCOVR_EXCL_" --exclude ".*Tests.*" --exclude ".*Mock.*" --exclude ".*Stub.*" --print-summary
+    COMMAND gcovr -r "${CMAKE_SOURCE_DIR}/src" --txt -o coverage.txt --exclude ".*Tests.*" --exclude ".*Mock.*" --exclude ".*Stub.*" .
+    COMMAND sh -c "grep TOTAL coverage.txt | awk '{ print \$NF }' | sed 's/%//' > coverage_level.txt"
+    COMMAND sh -c "read level < coverage_level.txt; if [ \"\$level\" = \"\" ] || [ \"\$level\" -lt ${COVERAGE_LEVEL} ]; then echo '❌ Coverage too low: '\$level'% (required: ${COVERAGE_LEVEL}%)'; exit 1; else echo '✅ Coverage OK: '\$level'%'; fi"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     VERBATIM)
 
