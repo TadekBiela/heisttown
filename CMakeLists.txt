@@ -56,9 +56,7 @@ else()
     set(COMPILE_FLAGS " -O0 -g ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
 endif()
 
-string(APPEND CMAKE_C_FLAGS "${COMPILE_FLAGS}")
 string(APPEND CMAKE_CXX_FLAGS "${COMPILE_FLAGS}")
-string(APPEND CMAKE_EXE_LINKER_FLAGS "${COMPILE_FLAGS}")
 message(STATUS "Seted compile flags: ${CMAKE_CXX_FLAGS}")
 
 set(BUILD_SHARED_LIBS OFF)
@@ -110,7 +108,7 @@ add_custom_target(Valgrind
 add_custom_target(Release
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=ON -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
     COMMAND "${CMAKE_COMMAND}" --build . --target all
-    COMMENT "Running Relese"
+    COMMENT "Running Release"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     VERBATIM)
 

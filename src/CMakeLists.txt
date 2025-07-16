@@ -9,23 +9,22 @@ add_subdirectory(PlayerInput)
 add_subdirectory(Server)
 add_subdirectory(Widgets)
 
-set(PROJECT_NAME app LANGUAGES CXX)
-
 set(APP_NAME HeistTown)
 
-file(GLOB HEADER_FILES *.hpp)
-aux_source_directory(. SRC_FILES)
+file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.hpp")
+file(GLOB SRC_FILES CONFIGURE_DEPENDS "*.cpp")
 
 add_executable(${APP_NAME} MACOSX_BUNDLE ${HEADER_FILES} ${SRC_FILES})
 
-target_link_libraries(${APP_NAME} PRIVATE Client)
-target_link_libraries(${APP_NAME} PRIVATE FilesStorage)
-target_link_libraries(${APP_NAME} PRIVATE GameDisplay)
-target_link_libraries(${APP_NAME} PRIVATE MainApplication)
-target_link_libraries(${APP_NAME} PRIVATE MainControl)
-target_link_libraries(${APP_NAME} PRIVATE Menu)
-target_link_libraries(${APP_NAME} PRIVATE PlayerInput)
-target_link_libraries(${APP_NAME} PRIVATE Server)
-target_link_libraries(${APP_NAME} PRIVATE Widgets)
-
-set_target_properties(${APP_NAME} PROPERTIES AUTOMOC ON)
+target_link_libraries(${APP_NAME}
+    PRIVATE
+        Client
+        FilesStorage
+        GameDisplay
+        MainApplication
+        MainControl
+        Menu
+        PlayerInput
+        Server
+        Widgets
+)
