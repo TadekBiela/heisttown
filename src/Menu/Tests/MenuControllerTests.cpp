@@ -1,9 +1,9 @@
 #include <MenuController.hpp>
 #include <MenuParser.hpp>
 #include <MockControlWidget.hpp>
+#include <MockFileLoader.hpp>
 #include <MockWidget.hpp>
 #include <MockWidgetsFactory.hpp>
-#include <StubFileLoader.hpp>
 #include <gtest/gtest.h>
 #include <memory>
 
@@ -39,36 +39,40 @@ class MenuControllerTests : public testing::Test
 public:
     [[nodiscard]] static auto prepareMenuControllerWithMenu() -> MenuControllerTestable
     {
-        auto stubSource { std::make_unique<StubFileLoader<TextFile>>("") };
-        stubSource->setLoadedData({ { "MainMenu", TextFile { "", "" } },
-                                    { "SinglePlayer", TextFile { "", "" } },
-                                    { "Pause", TextFile { "", "" } },
-                                    { "Settings", TextFile { "", "" } } });
+        const std::map<FileName, TextFile> menusFiles { { "MainMenu", TextFile { "", "" } },
+                                                        { "SinglePlayer", TextFile { "", "" } },
+                                                        { "Pause", TextFile { "", "" } },
+                                                        { "Settings", TextFile { "", "" } } };
+        auto source { std::make_unique<MockFileLoader<TextFile>>() };
+        EXPECT_CALL(*source, getLoadedData()).WillRepeatedly(ReturnRef(menusFiles));
         auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
         auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
-        return { std::move(parser), std::move(stubSource) };
+        return { std::move(parser), std::move(source) };
     }
 };
 
 TEST_F(MenuControllerTests, constructor_ParserReturnEmptyMenus_ShouldDoNothing)
 {
-    auto stubSource { std::make_unique<StubFileLoader<TextFile>>("") };
+    const std::map<FileName, TextFile> menusFiles {};
+    auto source { std::make_unique<MockFileLoader<TextFile>>() };
+    EXPECT_CALL(*source, getLoadedData()).WillRepeatedly(ReturnRef(menusFiles));
     auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
     auto stubParser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
-    MenuControllerTestable controller(std::move(stubParser), std::move(stubSource));
+    MenuControllerTestable controller(std::move(stubParser), std::move(source));
 
     EXPECT_EQ(0, controller.getMenus().size());
 }
 
 TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldContainsOneMenuAndConnectButton)
 {
-    auto stubSource { std::make_unique<StubFileLoader<TextFile>>("") };
-    stubSource->setLoadedData({ { "MainMenu", TextFile { "", "Button:\n"
-                                                             "    geometry: 200, 150, 100, 50\n"
-                                                             "    text: SinglePlayer\n"
-                                                             "    style: none\n" } } });
+    const std::map<FileName, TextFile> menusFiles { { "MainMenu", TextFile { "", "Button:\n"
+                                                                                 "    geometry: 200, 150, 100, 50\n"
+                                                                                 "    text: SinglePlayer\n"
+                                                                                 "    style: none\n" } } };
+    auto source { std::make_unique<MockFileLoader<TextFile>>() };
+    EXPECT_CALL(*source, getLoadedData()).WillRepeatedly(ReturnRef(menusFiles));
     auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
     auto widget { std::make_unique<MockControlWidget>() };
     EXPECT_CALL(*widget, type()).WillRepeatedly(Return(WidgetType::BUTTON));
@@ -78,7 +82,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
     EXPECT_CALL(*widgetFactory, create(_, _, _, _)).WillOnce(Return(ByMove(std::move(widget))));
     auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
-    MenuControllerTestable controller(std::move(parser), std::move(stubSource));
+    MenuControllerTestable controller(std::move(parser), std::move(source));
 
     EXPECT_EQ(1, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
@@ -208,20 +212,21 @@ TEST_F(MenuControllerTests, control_SinglePlayerPlayPauseAndConitnue_ShouldStayC
 
 TEST_F(MenuControllerTests, showMenu_DefaultMainMenu_ShouldShowMainMenu)
 {
-    auto stubSource { std::make_unique<StubFileLoader<TextFile>>("") };
-    stubSource->setLoadedData({ { "MainMenu", TextFile { "", "Button:\n"
-                                                             "    geometry: 200, 150, 100, 50\n"
-                                                             "    text: SinglePlayer\n"
-                                                             "    style: none\n" } } });
-    auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
+    const std::map<FileName, TextFile> menusFiles = { { "MainMenu", TextFile { "", "Button:\n"
+                                                                                   "    geometry: 200, 150, 100, 50\n"
+                                                                                   "    text: SinglePlayer\n"
+                                                                                   "    style: none\n" } } };
+    auto source { std::make_unique<MockFileLoader<TextFile>>() };
+    EXPECT_CALL(*source, getLoadedData()).WillRepeatedly(ReturnRef(menusFiles));
     auto widget { std::make_unique<MockControlWidget>() };
     EXPECT_CALL(*widget, type()).WillRepeatedly(Return(WidgetType::BUTTON));
     EXPECT_CALL(*widget, connect(_));
     EXPECT_CALL(*widget, show()).Times(2);
     EXPECT_CALL(*widget, hide());
+    auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*widgetFactory, create(_, _, _, _)).WillOnce(Return(ByMove(std::move(widget))));
     auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
-    MenuControllerTestable controller(std::move(parser), std::move(stubSource));
+    MenuControllerTestable controller(std::move(parser), std::move(source));
 
     controller.showMenu();
 

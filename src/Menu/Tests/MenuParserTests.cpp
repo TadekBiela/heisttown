@@ -1,16 +1,17 @@
 #include <MenuParser.hpp>
+#include <MockFileLoader.hpp>
 #include <MockWidget.hpp>
 #include <MockWidgetsFactory.hpp>
-#include <StubFileLoader.hpp>
 #include <TextFile.hpp>
 #include <Widget.hpp>
 #include <WidgetGeometry.hpp>
 #include <WidgetType.hpp>
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace testing;
 
-using StubTextFileLoader = StubFileLoader<TextFile>;
+using MockTextFileLoader = MockFileLoader<TextFile>;
 using TextFileLoadedData = std::map<FileName, TextFile>;
 
 class MenuParserTests : public testing::Test
@@ -34,8 +35,9 @@ public:
 
 TEST_F(MenuParserTests, parse_EmptyInput_ShouldReturnEmptyMenus)
 {
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData {});
+    const TextFileLoadedData emptyFileContent {};
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(emptyFileContent));
     auto factory { std::make_unique<MockWidgetsFactory>() };
 
     MenuParser parser(std::move(factory));
@@ -50,8 +52,9 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputNoStyle_ShouldReturnMe
     const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
     std::string expectedText { "TestText" };
     std::string input = getWidgetText("Button:", expectedGeometry, expectedText, "none");
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } });
+    const TextFileLoadedData mainMenuContent { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } };
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContent));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry, expectedText, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
@@ -70,8 +73,9 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnM
         getWidgetText("Button:", expectedGeometry1, expectedText, "none") + "\n" +
         getWidgetText("Button:", expectedGeometry2, expectedText, "none")
     };
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } });
+    const TextFileLoadedData mainMenuContent { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } };
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContent));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry1, expectedText, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry2, expectedText, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
@@ -87,8 +91,9 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputNoStyle_ShouldReturnMen
     const WidgetGeometry expectedGeometry { 300, 200, 160, 50 };
     std::string expectedText { "TestLabelText" };
     std::string input = getWidgetText("Label:", expectedGeometry, expectedText, "none");
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } });
+    const TextFileLoadedData mainMenuContent { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } };
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContent));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*factory, create(WidgetType::LABEL, expectedGeometry, expectedText, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
@@ -108,8 +113,9 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMe
         getWidgetText("Label:", expectedGeometry1, expected1Text, "none") + "\n" +
         getWidgetText("Label:", expectedGeometry2, expected2Text, "none")
     };
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } });
+    const TextFileLoadedData mainMenuContent { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } };
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContent));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*factory, create(WidgetType::LABEL, expectedGeometry1, expected1Text, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     EXPECT_CALL(*factory, create(WidgetType::LABEL, expectedGeometry2, expected2Text, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
@@ -146,9 +152,12 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnM
     std::string inputMainMenu {
         getWidgetText("Button:", expectedGeometry, expectedText, "Buttons")
     };
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData { { "Styles", TextFile { "dummy/path/Styles.txt", inputStyles } },
-                                                   { "MainMenu", TextFile { "dummy/path/MainMenu.txt", inputMainMenu } } });
+    const TextFileLoadedData mainMenuContentWithStyles {
+        { "Styles", TextFile { "dummy/path/Styles.txt", inputStyles } },
+        { "MainMenu", TextFile { "dummy/path/MainMenu.txt", inputMainMenu } }
+    };
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContentWithStyles));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry, expectedText, expectedStyle)).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
@@ -184,9 +193,12 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMe
     std::string inputMainMenu {
         getWidgetText("Label:", expectedGeometry, expectedText, "Labels")
     };
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData { { "Styles", TextFile { "dummy/path/Styles.txt", inputStyles } },
-                                                   { "MainMenu", TextFile { "dummy/path/MainMenu.txt", inputMainMenu } } });
+    const TextFileLoadedData mainMenuContentWithStyles {
+        { "Styles", TextFile { "dummy/path/Styles.txt", inputStyles } },
+        { "MainMenu", TextFile { "dummy/path/MainMenu.txt", inputMainMenu } }
+    };
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContentWithStyles));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*factory, create(WidgetType::LABEL, expectedGeometry, expectedText, expectedStyle)).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
@@ -237,9 +249,12 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyl
         getWidgetText("Label:", expectedGeometry, expectedLabelsText, "none") + "\n" +
         getWidgetText("Button:", expectedGeometry, expectedButtonsText, "Buttons-New")
     };
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData { { "Styles", TextFile { "dummy/path/Styles.txt", inputStyles } },
-                                                   { "MainMenu", TextFile { "dummy/path/MainMenu.txt", inputMainMenu } } });
+    const TextFileLoadedData mainMenuContentWithStyles {
+        { "Styles", TextFile { "dummy/path/Styles.txt", inputStyles } },
+        { "MainMenu", TextFile { "dummy/path/MainMenu.txt", inputMainMenu } }
+    };
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContentWithStyles));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*factory, create(WidgetType::LABEL, expectedGeometry, expectedLabelsText, expectedLabelsStyle)).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry, expectedButtonsText, expectedButtonsStyle)).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
@@ -255,9 +270,12 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyl
 
 TEST_F(MenuParserTests, parse_TwoFilesWithoutWidgetsNoStyle_ShouldReturnMenusWithTwoEmptyMenus)
 {
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", "" } },
-                                                   { "SinglePlayer", TextFile { "dummy/path/SinglePlayer.txt", "" } } });
+    const TextFileLoadedData menusContent {
+        { "MainMenu", TextFile { "dummy/path/MainMenu.txt", "" } },
+        { "SinglePlayer", TextFile { "dummy/path/SinglePlayer.txt", "" } }
+    };
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(menusContent));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     MenuParser parser(std::move(factory));
 
@@ -268,11 +286,12 @@ TEST_F(MenuParserTests, parse_TwoFilesWithoutWidgetsNoStyle_ShouldReturnMenusWit
 
 TEST_F(MenuParserTests, parse_TwoFilesWithWidgetsNoStyle_ShouldReturnMenusWithTwoFilledMenus)
 {
-    auto fileLoader { std::make_unique<StubTextFileLoader>(std::filesystem::path()) };
-    fileLoader->setLoadedData(TextFileLoadedData {
+    auto fileLoader { std::make_unique<MockTextFileLoader>() };
+    const TextFileLoadedData menusContent {
         { "MainMenu", TextFile { "dummy/path/MainMenu.txt", getWidgetText("Label") + getWidgetText("Button") + getWidgetText("Button") } },
-        { "SinglePlayer", TextFile { "dummy/path/SinglePlayer.txt", getWidgetText("Button") + getWidgetText("Button") } } }
-    );
+        { "SinglePlayer", TextFile { "dummy/path/SinglePlayer.txt", getWidgetText("Button") + getWidgetText("Button") } }
+    };
+    EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(menusContent));
     auto factory { std::make_unique<MockWidgetsFactory>() };
     EXPECT_CALL(*factory, create(_, _, _, _)).WillRepeatedly(DoDefault());
     MenuParser parser(std::move(factory));
