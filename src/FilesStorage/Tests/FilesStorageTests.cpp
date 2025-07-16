@@ -1,8 +1,10 @@
 #include <FilesStorage.hpp>
+#include <IFileLoader.hpp>
 #include <MockFileLoader.hpp>
 #include <TextFile.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <map>
 #include <memory>
 
 using namespace testing;
@@ -17,9 +19,9 @@ TEST_F(FilesStorageTests, getFile_OnlyDefaultValue_ShouldReturnEmptyImageFile)
     const std::map<FileName, TextFile> emptyFileConent {};
     auto loader { std::make_unique<MockFileLoader<TextFile>>() };
     EXPECT_CALL(*loader, getLoadedData()).WillOnce(ReturnRef(emptyFileConent));
-    FilesStorage<TextFile> storage { loader.get() };
+    const FilesStorage<TextFile> storage { loader.get() };
 
-    TextFile result = storage.getFile("default");
+    const TextFile result = storage.getFile("default");
 
     EXPECT_EQ(expected.getContent(), result.getContent());
     EXPECT_EQ(expected.getPath(), result.getPath());
@@ -31,9 +33,9 @@ TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetItByName_ShouldR
     const std::map<FileName, TextFile> filesMapWithOneFile { { "fileOne", expected } };
     auto loader { std::make_unique<MockFileLoader<TextFile>>() };
     EXPECT_CALL(*loader, getLoadedData()).WillOnce(ReturnRef(filesMapWithOneFile));
-    FilesStorage<TextFile> storage { loader.get() };
+    const FilesStorage<TextFile> storage { loader.get() };
 
-    TextFile result = storage.getFile("fileOne");
+    const TextFile result = storage.getFile("fileOne");
 
     EXPECT_EQ(expected.getContent(), result.getContent());
     EXPECT_EQ(expected.getPath(), result.getPath());
@@ -45,9 +47,9 @@ TEST_F(FilesStorageTests, getFile_DirectoryContainsOneFileTryGetFileThatNotExist
     const std::map<FileName, TextFile> filesMapWithOneFile { { "fileOne", expected } };
     auto loader { std::make_unique<MockFileLoader<TextFile>>() };
     EXPECT_CALL(*loader, getLoadedData()).WillOnce(ReturnRef(filesMapWithOneFile));
-    FilesStorage<TextFile> storage { loader.get() };
+    const FilesStorage<TextFile> storage { loader.get() };
 
-    TextFile result = storage.getFile("fileThatShoudn'tExist");
+    const TextFile result = storage.getFile("fileThatShoudn'tExist");
 
     EXPECT_EQ(expected.getPath(), result.getPath());
     EXPECT_EQ(expected.getContent(), result.getContent());
@@ -63,9 +65,9 @@ TEST_F(FilesStorageTests, getFile_DirectoryContainThreeFilesMiddleFileName_Shoul
     };
     auto loader { std::make_unique<MockFileLoader<TextFile>>() };
     EXPECT_CALL(*loader, getLoadedData()).WillOnce(ReturnRef(filesMapWithOneFile));
-    FilesStorage<TextFile> storage { loader.get() };
+    const FilesStorage<TextFile> storage { loader.get() };
 
-    TextFile result = storage.getFile("middleFile");
+    const TextFile result = storage.getFile("middleFile");
 
     EXPECT_EQ(expected.getPath(), result.getPath());
     EXPECT_EQ(expected.getContent(), result.getContent());

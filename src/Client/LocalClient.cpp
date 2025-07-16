@@ -1,5 +1,10 @@
 #include "LocalClient.hpp"
+#include <GameDisplay.hpp>
+#include <MainControlConnector.hpp>
+#include <PlayerInput.hpp>
 #include <iostream>
+#include <memory>
+#include <utility>
 
 LocalClient::LocalClient(
     std::unique_ptr<GameDisplay> display,
@@ -35,7 +40,7 @@ void LocalClient::stop()
 
 void LocalClient::receive(const PlayerInputCommand& command)
 {
-    std::cerr << "LocalClient: " << command << std::endl;
+    std::cerr << "LocalClient: " << command << "\n";
     if (command == "Keyboard: ESC")
     {
         stop();

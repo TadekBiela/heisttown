@@ -1,4 +1,6 @@
+#include <IFileLoader.hpp>
 #include <MenuParser.hpp>
+#include <Menus.hpp>
 #include <MockFileLoader.hpp>
 #include <MockWidget.hpp>
 #include <MockWidgetsFactory.hpp>
@@ -8,6 +10,10 @@
 #include <WidgetType.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
 
 using namespace testing;
 
@@ -42,7 +48,7 @@ TEST_F(MenuParserTests, parse_EmptyInput_ShouldReturnEmptyMenus)
 
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     EXPECT_EQ(0, result.size());
 }
@@ -50,8 +56,8 @@ TEST_F(MenuParserTests, parse_EmptyInput_ShouldReturnEmptyMenus)
 TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsOneButton)
 {
     const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
-    std::string expectedText { "TestText" };
-    std::string input = getWidgetText("Button:", expectedGeometry, expectedText, "none");
+    const std::string expectedText { "TestText" };
+    const std::string input = getWidgetText("Button:", expectedGeometry, expectedText, "none");
     const TextFileLoadedData mainMenuContent { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } };
     auto fileLoader { std::make_unique<MockTextFileLoader>() };
     EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContent));
@@ -59,7 +65,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputNoStyle_ShouldReturnMe
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry, expectedText, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(1, result.size());
 }
@@ -68,8 +74,8 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnM
 {
     const WidgetGeometry expectedGeometry1 { 50, 100, 120, 40 };
     const WidgetGeometry expectedGeometry2 { 40, 120, 120, 250 };
-    std::string expectedText { "TestText" };
-    std::string input {
+    const std::string expectedText { "TestText" };
+    const std::string input {
         getWidgetText("Button:", expectedGeometry1, expectedText, "none") + "\n" +
         getWidgetText("Button:", expectedGeometry2, expectedText, "none")
     };
@@ -81,7 +87,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnM
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry2, expectedText, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(1, result.size());
 }
@@ -89,8 +95,8 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnM
 TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsOneLAbel)
 {
     const WidgetGeometry expectedGeometry { 300, 200, 160, 50 };
-    std::string expectedText { "TestLabelText" };
-    std::string input = getWidgetText("Label:", expectedGeometry, expectedText, "none");
+    const std::string expectedText { "TestLabelText" };
+    const std::string input = getWidgetText("Label:", expectedGeometry, expectedText, "none");
     const TextFileLoadedData mainMenuContent { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } };
     auto fileLoader { std::make_unique<MockTextFileLoader>() };
     EXPECT_CALL(*fileLoader, getLoadedData()).WillOnce(ReturnRef(mainMenuContent));
@@ -98,7 +104,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputNoStyle_ShouldReturnMen
     EXPECT_CALL(*factory, create(WidgetType::LABEL, expectedGeometry, expectedText, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(1, result.size());
 }
@@ -107,9 +113,9 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMe
 {
     const WidgetGeometry expectedGeometry1 { 50, 100, 120, 40 };
     const WidgetGeometry expectedGeometry2 { 40, 120, 120, 250 };
-    std::string expected1Text { "TestLabel1Text" };
-    std::string expected2Text { "TestLabel1Text" };
-    std::string input {
+    const std::string expected1Text { "TestLabel1Text" };
+    const std::string expected2Text { "TestLabel1Text" };
+    const std::string input {
         getWidgetText("Label:", expectedGeometry1, expected1Text, "none") + "\n" +
         getWidgetText("Label:", expectedGeometry2, expected2Text, "none")
     };
@@ -121,7 +127,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMe
     EXPECT_CALL(*factory, create(WidgetType::LABEL, expectedGeometry2, expected2Text, "")).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(1, result.size());
 }
@@ -129,8 +135,8 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMe
 TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnMenusWithMainMenuContainsOneButtonWithStyle)
 {
     const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
-    std::string expectedText { "TestText" };
-    std::string expectedStyle {
+    const std::string expectedText { "TestText" };
+    const std::string expectedStyle {
         "border-width:2px;"
         "border-style:solid;"
         "border-color:#FFFFFF;"
@@ -139,7 +145,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnM
         "background-color:transparent;"
         "font-size:20px;"
     };
-    std::string inputStyles {
+    const std::string inputStyles {
         "@Buttons:\n"
         "    border-width: 2px;\n"
         "    border-style: solid;\n"
@@ -149,7 +155,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnM
         "    background-color: transparent;\n"
         "    font-size: 20px;\n"
     };
-    std::string inputMainMenu {
+    const std::string inputMainMenu {
         getWidgetText("Button:", expectedGeometry, expectedText, "Buttons")
     };
     const TextFileLoadedData mainMenuContentWithStyles {
@@ -162,7 +168,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnM
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry, expectedText, expectedStyle)).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(1, result.size());
 }
@@ -170,8 +176,8 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnM
 TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMenusWithMainMenuContainsOneLabelWithStyle)
 {
     const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
-    std::string expectedText { "TestText" };
-    std::string expectedStyle {
+    const std::string expectedText { "TestText" };
+    const std::string expectedStyle {
         "border-width:2px;"
         "border-style:solid;"
         "border-color:#FFFFFF;"
@@ -180,7 +186,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMe
         "background-color:transparent;"
         "font-size:20px;"
     };
-    std::string inputStyles {
+    const std::string inputStyles {
         "@Labels:\n"
         "    border-width: 2px;\n"
         "    border-style: solid;\n"
@@ -190,7 +196,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMe
         "    background-color: transparent;\n"
         "    font-size: 20px;\n"
     };
-    std::string inputMainMenu {
+    const std::string inputMainMenu {
         getWidgetText("Label:", expectedGeometry, expectedText, "Labels")
     };
     const TextFileLoadedData mainMenuContentWithStyles {
@@ -203,7 +209,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMe
     EXPECT_CALL(*factory, create(WidgetType::LABEL, expectedGeometry, expectedText, expectedStyle)).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(1, result.size());
 }
@@ -211,24 +217,24 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMe
 TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyles_ShouldReturnMenusWithMainMenuContainsAllWidgetsWithProperStyles)
 {
     const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
-    std::string expectedButtonsText { "ButtonTestText" };
-    std::string expectedButtonsStyle {
+    const std::string expectedButtonsText { "ButtonTestText" };
+    const std::string expectedButtonsStyle {
         "border-width:2px;"
         "border-style:solid;"
         "border-radius:5px;"
         "color:#FFFFFF;"
         "font-size:10px;"
     };
-    std::string expectedButtonsStyle2 {
+    const std::string expectedButtonsStyle2 {
         "border-width:5px;"
     };
-    std::string expectedLabelsText { "LabelTestText" };
-    std::string expectedLabelsStyle {
+    const std::string expectedLabelsText { "LabelTestText" };
+    const std::string expectedLabelsStyle {
         "border-width:1px;"
         "border-color:#FFFFFF;"
         "font-size:25px;"
     };
-    std::string inputStyles {
+    const std::string inputStyles {
         "@Labels:\n"
         "    border-width: 1px;\n"
         "    border-color: #FFFFFF;\n"
@@ -242,7 +248,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyl
         "@Buttons-New:\n"
         "    border-width: 5px;\n"
     };
-    std::string inputMainMenu {
+    const std::string inputMainMenu {
         getWidgetText("Label:", expectedGeometry, expectedLabelsText, "Labels") + "\n" +
         getWidgetText("Button:", expectedGeometry, expectedButtonsText, "Buttons") + "\n" +
         getWidgetText("Button:", expectedGeometry, expectedButtonsText, "none") + "\n" +
@@ -263,7 +269,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyl
     EXPECT_CALL(*factory, create(WidgetType::BUTTON, expectedGeometry, expectedButtonsText, expectedButtonsStyle2)).WillOnce(Return(ByMove(std::make_unique<MockWidget>())));
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(1, result.size());
 }
@@ -279,7 +285,7 @@ TEST_F(MenuParserTests, parse_TwoFilesWithoutWidgetsNoStyle_ShouldReturnMenusWit
     auto factory { std::make_unique<MockWidgetsFactory>() };
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(2, result.size());
 }
@@ -296,7 +302,7 @@ TEST_F(MenuParserTests, parse_TwoFilesWithWidgetsNoStyle_ShouldReturnMenusWithTw
     EXPECT_CALL(*factory, create(_, _, _, _)).WillRepeatedly(DoDefault());
     MenuParser parser(std::move(factory));
 
-    Menus result = parser.parse(std::move(fileLoader));
+    const Menus result { parser.parse(std::move(fileLoader)) };
 
     ASSERT_EQ(2, result.size());
 }

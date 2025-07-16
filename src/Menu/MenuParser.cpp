@@ -1,10 +1,21 @@
 #include "MenuParser.hpp"
 #include "Menu.hpp"
+#include "Menus.hpp"
+#include <IFileLoader.hpp>
+#include <TextFile.hpp>
+#include <Widget.hpp>
+#include <WidgetGeometry.hpp>
+#include <WidgetType.hpp>
+#include <WidgetsFactory.hpp>
 #include <algorithm>
 #include <array>
 #include <cstdlib>
 #include <iostream>
 #include <iterator>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
 
 MenuParser::MenuParser(std::unique_ptr<WidgetsFactory> factory)
     : widgetsFactory(std::move(factory))
@@ -38,7 +49,7 @@ void MenuParser::parseStyles(const TextFile& stylesFile)
     {
         if (line->find("@") != std::string::npos)
         {
-            WidgetStyleName styleName(std::next(std::begin(*line)), std::prev(std::end(*line)));
+            const WidgetStyleName styleName(std::next(std::begin(*line)), std::prev(std::end(*line)));
             parsedStyles[styleName] = parseWidgetStyleContent(std::next(line), std::end(stylesFile.getContent()));
         }
     }
@@ -71,7 +82,7 @@ auto MenuParser::removeSpaces(const std::string& input) -> std::string
 auto MenuParser::parseMenu(const TextFile& menuFile) -> Menu&&
 {
     menu = {};
-    std::cout << "parsing: " << menuFile.getPath() << std::endl;
+    std::cout << "parsing: " << menuFile.getPath() << "\n";
     for (auto line = std::begin(menuFile.getContent()); line != std::end(menuFile.getContent()); line++)
     {
         WidgetType type {};
@@ -89,7 +100,7 @@ auto MenuParser::parseMenu(const TextFile& menuFile) -> Menu&&
         }
 
         const int amountOfWidgetParams { 4 };
-        TextFileContent widgetPartOfContent { std::next(line), std::next(line, amountOfWidgetParams) };
+        const TextFileContent widgetPartOfContent { std::next(line), std::next(line, amountOfWidgetParams) };
         menu.addWidget(parseWidget(type, widgetPartOfContent));
     }
 
@@ -111,7 +122,7 @@ auto MenuParser::parseWidget(
 
 auto MenuParser::parseWidgetGeometry(const std::string& input) -> WidgetGeometry
 {
-    const int amoutOfGeometryParams { 4 };
+    constexpr int amoutOfGeometryParams { 4 };
     std::array<int, amoutOfGeometryParams> geometryValues {};
     auto valueStrBegin = getPositionAfterLabel(input, "geometry: ");
 
@@ -119,7 +130,7 @@ auto MenuParser::parseWidgetGeometry(const std::string& input) -> WidgetGeometry
     {
         const char valueSeparator { ',' };
         auto valueStrEnd = std::find(valueStrBegin, std::end(input), valueSeparator);
-        std::string valueStr(valueStrBegin, valueStrEnd);
+        const std::string valueStr(valueStrBegin, valueStrEnd);
         geometryValue = std::atoi(valueStr.c_str());
         valueStrBegin = std::next(valueStrEnd);
     }

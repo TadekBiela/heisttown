@@ -1,8 +1,9 @@
 #include <FileLoader.hpp>
 #include <IFileLoader.hpp>
 #include <TextFile.hpp>
-#include <exception>
+#include <filesystem>
 #include <gtest/gtest.h>
+#include <stdexcept>
 
 class FileLoaderTests : public testing::Test
 {
@@ -12,9 +13,9 @@ TEST_F(FileLoaderTests, constructor_DirectoryContainsThreeFiles_ShouldLoadThreeF
 {
     const Directory inputDirectory { std::filesystem::current_path().string() + "/TestFiles/" };
 
-    FileLoader<TextFile> loader { inputDirectory };
+    const FileLoader<TextFile> loader { inputDirectory };
 
-    auto result = loader.getLoadedData();
+    const auto& result = loader.getLoadedData();
     EXPECT_EQ(3, result.size());
     ASSERT_EQ(1, result.count("test1"));
     EXPECT_EQ(0, result.at("test1").getContent().size());
@@ -26,5 +27,5 @@ TEST_F(FileLoaderTests, constructor_DirectoryContainsThreeFiles_ShouldLoadThreeF
 
 TEST_F(FileLoaderTests, constructor_WrongDirectory_ShouldThrowException)
 {
-    ASSERT_THROW(FileLoader<TextFile> loader { "wrong/directory/" }, std::runtime_error);
+    ASSERT_THROW(FileLoader<TextFile> { "wrong/directory/" }, std::runtime_error);
 }

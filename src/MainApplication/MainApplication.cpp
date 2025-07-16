@@ -1,4 +1,9 @@
 #include "MainApplication.hpp"
+#include <Client.hpp>
+#include <IMenuController.hpp>
+#include <MainControlConnector.hpp>
+#include <memory>
+#include <utility>
 
 MainApplication::MainApplication(
     std::unique_ptr<IMenuController> controller,

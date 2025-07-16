@@ -7,6 +7,6 @@ class MouseCursorTests : public testing::Test
 
 TEST_F(MouseCursorTests, Constructor_OnlyDefaultValue_ShouldCreateDefaultCursorAsMainMenu)
 {
-    MouseCursor cursor;
+    const MouseCursor cursor;
     EXPECT_EQ(1, 1);
 }

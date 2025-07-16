@@ -1,11 +1,19 @@
+#include <IFileLoader.hpp>
+#include <IMenuParser.hpp>
+#include <MainControlConnector.hpp>
 #include <MenuController.hpp>
 #include <MenuParser.hpp>
+#include <Menus.hpp>
 #include <MockControlWidget.hpp>
 #include <MockFileLoader.hpp>
-#include <MockWidget.hpp>
 #include <MockWidgetsFactory.hpp>
+#include <TextFile.hpp>
+#include <WidgetType.hpp>
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <map>
 #include <memory>
+#include <utility>
 
 using namespace testing;
 
@@ -34,7 +42,7 @@ public:
     }
 };
 
-class MenuControllerTests : public testing::Test
+class MenuControllerTests : public Test
 {
 public:
     [[nodiscard]] static auto prepareMenuControllerWithMenu() -> MenuControllerTestable
@@ -60,7 +68,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnEmptyMenus_ShouldDoNothing)
     auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
     auto stubParser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
-    MenuControllerTestable controller(std::move(stubParser), std::move(source));
+    const MenuControllerTestable controller(std::move(stubParser), std::move(source));
 
     EXPECT_EQ(0, controller.getMenus().size());
 }
@@ -82,7 +90,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
     EXPECT_CALL(*widgetFactory, create(_, _, _, _)).WillOnce(Return(ByMove(std::move(widget))));
     auto parser { std::make_unique<MenuParser>(std::move(widgetFactory)) };
 
-    MenuControllerTestable controller(std::move(parser), std::move(source));
+    const MenuControllerTestable controller(std::move(parser), std::move(source));
 
     EXPECT_EQ(1, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
@@ -90,7 +98,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
 
 TEST_F(MenuControllerTests, constructor_ParserReturnsThreeMenus_ShouldContainsAllMenusWithSetCurrent)
 {
-    MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+    const MenuControllerTestable controller { prepareMenuControllerWithMenu() };
 
     EXPECT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());

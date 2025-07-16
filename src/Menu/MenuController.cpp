@@ -1,5 +1,13 @@
 #include "MenuController.hpp"
+#include "IMenuParser.hpp"
+#include <ControlWidget.hpp>
+#include <IFileLoader.hpp>
+#include <MainControlConnector.hpp>
+#include <TextFile.hpp>
 #include <iostream>
+#include <memory>
+#include <unordered_map>
+#include <utility>
 
 MenuController::MenuController(
     std::unique_ptr<IMenuParser> parser,
@@ -66,7 +74,7 @@ void MenuController::control(const WidgetCommand& command)
     else
     {
         auto currentMenu = currentMenuStack.top();
-        MainCommand mainCommand { currentMenu->first + "->" + command };
+        const MainCommand mainCommand { currentMenu->first + "->" + command };
         if (command == "Abort" or command == "Continue")
         {
             currentMenuStack.pop();

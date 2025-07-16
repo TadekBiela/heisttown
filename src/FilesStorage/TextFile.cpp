@@ -1,9 +1,11 @@
 #include "TextFile.hpp"
 #include <algorithm>
-#include <exception>
 #include <fstream>
 #include <iterator>
 #include <sstream>
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 TextFile::TextFile(std::string filePath)
     : path(std::move(filePath))
@@ -32,7 +34,7 @@ auto TextFile::getRawFileContent() const -> std::string
         return buffer.str();
     }
 
-    std::string exceptionMsg { "File " + path + " doesn't exist or file path is wrong." };
+    const std::string exceptionMsg { "File " + path + " doesn't exist or file path is wrong." };
     throw std::runtime_error(exceptionMsg.c_str());
 }
 
@@ -40,18 +42,18 @@ void TextFile::loadContent(const std::string& rawFileContent)
 {
     auto beginLinePos = std::begin(rawFileContent);
     auto endLinePos = beginLinePos;
-    do
+    while (endLinePos != std::end(rawFileContent))
     {
         endLinePos = std::find(beginLinePos, std::end(rawFileContent), '\n');
         auto lineLength = std::distance(beginLinePos, endLinePos);
         auto lineBeginPos = std::distance(std::begin(rawFileContent), beginLinePos);
-        std::string line = rawFileContent.substr(lineBeginPos, lineLength);
+        const std::string line = rawFileContent.substr(lineBeginPos, lineLength);
         if (!line.empty())
         {
             content.push_back(line);
         }
         beginLinePos = endLinePos + 1;
-    } while (endLinePos != std::end(rawFileContent));
+    }
 }
 
 auto TextFile::getPath() const -> TextFilePath

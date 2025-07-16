@@ -1,4 +1,8 @@
 #include "Menu.hpp"
+#include <ControlWidget.hpp>
+#include <Widget.hpp>
+#include <memory>
+#include <utility>
 
 void Menu::addWidget(std::unique_ptr<Widget> widget)
 {

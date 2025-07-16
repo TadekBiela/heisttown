@@ -1,8 +1,10 @@
 #include <MainApplication.hpp>
 #include <MockClient.hpp>
 #include <MockMenuController.hpp>
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
+#include <utility>
 
 using namespace testing;
 
@@ -17,7 +19,7 @@ TEST_F(MainApplicationTests, constructor_DefaultBehavior_ShouldConnectController
     EXPECT_CALL(*menuController, setMainControl(_));
     EXPECT_CALL(*client, setMainControl(_));
 
-    MainApplication application { std::move(menuController), std::move(client), []() {} };
+    MainApplication { std::move(menuController), std::move(client), []() {} };
 }
 
 TEST_F(MainApplicationTests, control_SinglePlayerPlay_ShouldRunClient)
@@ -95,22 +97,6 @@ TEST_F(MainApplicationTests, control_PauseContinue_ShouldBackToCurrentGameSessio
     application.control("Pause->Continue");
 }
 
-TEST_F(MainApplicationTests, setGuiExitCallback_DefaultBehavior_ShouldSetGuiExitCallback)
-{
-    auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, setMainControl(_));
-    int expectedCallCounter { 0 };
-    auto guiExitCallback = [&expectedCallCounter]()
-    {
-        expectedCallCounter++;
-    };
-    MainApplication application { std::move(menuController), std::move(client), guiExitCallback };
-
-    EXPECT_EQ(0, expectedCallCounter);
-}
-
 TEST_F(MainApplicationTests, control_MainMenuExit_ShouldDestroyApplication)
 {
     auto menuController { std::make_unique<MockMenuController>() };
@@ -127,4 +113,20 @@ TEST_F(MainApplicationTests, control_MainMenuExit_ShouldDestroyApplication)
     application.control("MainMenu->Exit");
 
     EXPECT_EQ(1, callCounter);
+}
+
+TEST_F(MainApplicationTests, setGuiExitCallback_DefaultBehavior_ShouldSetGuiExitCallback)
+{
+    auto menuController { std::make_unique<MockMenuController>() };
+    auto client { std::make_unique<MockClient>() };
+    EXPECT_CALL(*menuController, setMainControl(_));
+    EXPECT_CALL(*client, setMainControl(_));
+    int expectedCallCounter { 0 };
+    auto guiExitCallback = [&expectedCallCounter]()
+    {
+        expectedCallCounter++;
+    };
+    MainApplication { std::move(menuController), std::move(client), guiExitCallback };
+
+    EXPECT_EQ(0, expectedCallCounter);
 }

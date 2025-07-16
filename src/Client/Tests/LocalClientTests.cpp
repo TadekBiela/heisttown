@@ -1,9 +1,12 @@
 #include <LocalClient.hpp>
+#include <MainControlConnector.hpp>
 #include <MockGameDisplay.hpp>
 #include <MockPlayerInput.hpp>
 #include <PlayerInput.hpp>
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
+#include <utility>
 
 using namespace testing;
 
@@ -43,7 +46,7 @@ TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
     EXPECT_CALL(*display, hide()).Times(0);
     EXPECT_CALL(*input, stop()).Times(0);
     MainCommand resultCommand;
-    MainControlConnection mainConnection = [&resultCommand](const MainCommand& command)
+    const MainControlConnection mainConnection = [&resultCommand](const MainCommand& command)
     {
         resultCommand = command;
     };
@@ -63,7 +66,7 @@ TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendMainCommand)
     EXPECT_CALL(*display, hide());
     EXPECT_CALL(*input, stop());
     MainCommand resultCommand;
-    MainControlConnection mainConnection = [&resultCommand](const MainCommand& command)
+    const MainControlConnection mainConnection = [&resultCommand](const MainCommand& command)
     {
         resultCommand = command;
     };

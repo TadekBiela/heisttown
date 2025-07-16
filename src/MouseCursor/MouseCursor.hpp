@@ -3,6 +3,6 @@
 class MouseCursor
 {
 public:
-    MouseCursor() = default;
+    MouseCursor();
     virtual ~MouseCursor() = default;
 };

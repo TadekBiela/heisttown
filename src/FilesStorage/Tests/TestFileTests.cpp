@@ -1,8 +1,9 @@
 #include <TextFile.hpp>
-#include <exception>
 #include <filesystem>
 #include <gtest/gtest.h>
 #include <iterator>
+#include <stdexcept>
+#include <string>
 
 class TextFileTests : public testing::Test
 {
@@ -25,7 +26,7 @@ public:
 
 TEST_F(TextFileTests, defaultConstructor_OnlyDefaultValues_ShouldReturnEmptyPathAndContent)
 {
-    TextFile file;
+    const TextFile file;
 
     EXPECT_EQ("", file.getPath());
     EXPECT_EQ(0, file.getContent().size());
@@ -33,24 +34,24 @@ TEST_F(TextFileTests, defaultConstructor_OnlyDefaultValues_ShouldReturnEmptyPath
 
 TEST_F(TextFileTests, constructor_WrongFilePathWithoutRawContent_ShouldThrowException)
 {
-    ASSERT_THROW(TextFile file("wrong/file/path.txt"), std::runtime_error);
+    ASSERT_THROW(TextFile { "wrong/file/path.txt" }, std::runtime_error);
 }
 
 TEST_F(TextFileTests, constructor_CorrectFilePathFile_ShouldOpenRealFileAndLoadContent)
 {
-    std::string expectedFilePath { std::filesystem::current_path().string() + "/TestFiles/test3.txt" };
-    TextFileContent expectedContent { "Button: {",
-                                      "    geometry: 130, 30, 500, 80",
-                                      "    text: testText1",
-                                      "    style: none",
-                                      "}",
-                                      "Button: {",
-                                      "    geometry: 130, 30, 500, 160",
-                                      "    text: testText2",
-                                      "    style: none",
-                                      "}" };
+    const std::string expectedFilePath { std::filesystem::current_path().string() + "/TestFiles/test3.txt" };
+    const TextFileContent expectedContent { "Button: {",
+                                            "    geometry: 130, 30, 500, 80",
+                                            "    text: testText1",
+                                            "    style: none",
+                                            "}",
+                                            "Button: {",
+                                            "    geometry: 130, 30, 500, 160",
+                                            "    text: testText2",
+                                            "    style: none",
+                                            "}" };
 
-    TextFile file(expectedFilePath);
+    const TextFile file(expectedFilePath);
 
     EXPECT_EQ(expectedFilePath, file.getPath());
     ASSERT_CONTENT(expectedContent, file.getContent());
@@ -58,9 +59,9 @@ TEST_F(TextFileTests, constructor_CorrectFilePathFile_ShouldOpenRealFileAndLoadC
 
 TEST_F(TextFileTests, constructor_InputCorrectValues_ShouldReturnFilledPathAndContent)
 {
-    TextFileContent expectedContent { "testText" };
+    const TextFileContent expectedContent { "testText" };
 
-    TextFile file { "/file/path/text1.txt", "testText" };
+    const TextFile file { "/file/path/text1.txt", "testText" };
 
     EXPECT_EQ("/file/path/text1.txt", file.getPath());
     ASSERT_CONTENT(expectedContent, file.getContent());
@@ -68,11 +69,11 @@ TEST_F(TextFileTests, constructor_InputCorrectValues_ShouldReturnFilledPathAndCo
 
 TEST_F(TextFileTests, constructor_InputTwoLinesFileContent_ShouldReturnTwoElementsContent)
 {
-    TextFileContent expectedContent { "testText line 1", "testText line 2" };
+    const TextFileContent expectedContent { "testText line 1", "testText line 2" };
 
-    TextFile file { "/file/path/text1.txt",
-                    "testText line 1\n"
-                    "testText line 2" };
+    const TextFile file { "/file/path/text1.txt",
+                          "testText line 1\n"
+                          "testText line 2" };
 
     EXPECT_EQ("/file/path/text1.txt", file.getPath());
     ASSERT_CONTENT(expectedContent, file.getContent());
@@ -80,11 +81,11 @@ TEST_F(TextFileTests, constructor_InputTwoLinesFileContent_ShouldReturnTwoElemen
 
 TEST_F(TextFileTests, constructor_InputTwoLinesFileContentWithNextLineOnTheEndOfTheFile_ShouldReturnTwoElementsContent)
 {
-    TextFileContent expectedContent { "testText line 1", "testText line 2" };
+    const TextFileContent expectedContent { "testText line 1", "testText line 2" };
 
-    TextFile file { "/file/path/text1.txt",
-                    "testText line 1\n"
-                    "testText line 2\n" };
+    const TextFile file { "/file/path/text1.txt",
+                          "testText line 1\n"
+                          "testText line 2\n" };
 
     EXPECT_EQ("/file/path/text1.txt", file.getPath());
     ASSERT_CONTENT(expectedContent, file.getContent());
@@ -92,12 +93,12 @@ TEST_F(TextFileTests, constructor_InputTwoLinesFileContentWithNextLineOnTheEndOf
 
 TEST_F(TextFileTests, constructor_InputTwoLinesFileContentWithTwoNextLinesOnTheEndOfTheFile_)
 {
-    TextFileContent expectedContent { "testText line 1", "testText line 2" };
+    const TextFileContent expectedContent { "testText line 1", "testText line 2" };
 
-    TextFile file { "/file/path/text1.txt",
-                    "testText line 1\n"
-                    "testText line 2\n"
-                    "\n" };
+    const TextFile file { "/file/path/text1.txt",
+                          "testText line 1\n"
+                          "testText line 2\n"
+                          "\n" };
 
     EXPECT_EQ("/file/path/text1.txt", file.getPath());
     ASSERT_CONTENT(expectedContent, file.getContent());
@@ -105,12 +106,12 @@ TEST_F(TextFileTests, constructor_InputTwoLinesFileContentWithTwoNextLinesOnTheE
 
 TEST_F(TextFileTests, constructor_InputTwoLinesFileContentWithNexLineOnTheBegining_ShouldReturnTwoElementsContent)
 {
-    TextFileContent expectedContent { "testText line 1", "testText line 2" };
+    const TextFileContent expectedContent { "testText line 1", "testText line 2" };
 
-    TextFile file { "/file/path/text1.txt",
-                    "\n"
-                    "testText line 1\n"
-                    "testText line 2" };
+    const TextFile file { "/file/path/text1.txt",
+                          "\n"
+                          "testText line 1\n"
+                          "testText line 2" };
 
     EXPECT_EQ("/file/path/text1.txt", file.getPath());
     ASSERT_CONTENT(expectedContent, file.getContent());
@@ -118,12 +119,12 @@ TEST_F(TextFileTests, constructor_InputTwoLinesFileContentWithNexLineOnTheBegini
 
 TEST_F(TextFileTests, constructor_InputTwoLinesFileContentWithEmptyLineInTheMiddle_ShouldReturnTwoElementsContent)
 {
-    TextFileContent expectedContent { "testText line 1", "testText line 2" };
+    const TextFileContent expectedContent { "testText line 1", "testText line 2" };
 
-    TextFile file { "/file/path/text1.txt",
-                    "testText line 1\n"
-                    "\n"
-                    "testText line 2" };
+    const TextFile file { "/file/path/text1.txt",
+                          "testText line 1\n"
+                          "\n"
+                          "testText line 2" };
 
     EXPECT_EQ("/file/path/text1.txt", file.getPath());
     ASSERT_CONTENT(expectedContent, file.getContent());
@@ -131,22 +132,22 @@ TEST_F(TextFileTests, constructor_InputTwoLinesFileContentWithEmptyLineInTheMidd
 
 TEST_F(TextFileTests, constructor_InputFiveLinesFileContentWithFewEmptyLines_ShouldReturnFiveElementsContent)
 {
-    TextFileContent expectedContent { "testText line 1",
-                                      "testText line 2",
-                                      "text in line 3",
-                                      "blabla bla\tbla",
-                                      "test test: 456;" };
+    const TextFileContent expectedContent { "testText line 1",
+                                            "testText line 2",
+                                            "text in line 3",
+                                            "blabla bla\tbla",
+                                            "test test: 456;" };
 
-    TextFile file { "/file/path/text1.txt",
-                    "\n"
-                    "\n"
-                    "testText line 1\n"
-                    "testText line 2\n"
-                    "\n"
-                    "text in line 3\n"
-                    "blabla bla\tbla\n"
-                    "\n"
-                    "test test: 456;" };
+    const TextFile file { "/file/path/text1.txt",
+                          "\n"
+                          "\n"
+                          "testText line 1\n"
+                          "testText line 2\n"
+                          "\n"
+                          "text in line 3\n"
+                          "blabla bla\tbla\n"
+                          "\n"
+                          "test test: 456;" };
 
     EXPECT_EQ("/file/path/text1.txt", file.getPath());
     ASSERT_CONTENT(expectedContent, file.getContent());
