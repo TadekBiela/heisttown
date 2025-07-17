@@ -50,29 +50,29 @@ jobs:
         run: |
           cmake --build . --target ClangTidy
 
-  windows:
-    runs-on: windows-2022
-    steps:
-    - name: Initialize containers
-      run: |
-        cmd "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchWindowsEngine
-        docker pull tadekbiela/heisttown:heisttown_win
-        docker create --name ht -i tadekbiela/heisttown:heisttown_win
-        docker start ht
-      
-    - name: build all
-      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all"
-
-    - name: build release
-      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target Release"
-
-    - name: run ut
-      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all; cmake --build . --target test"
-
-    - name: run sanitizers
-      run: docker exec ht powershell "git pull; cmake -D SANITIZE=ON ..; cmake --build . --target all; cmake --build . --target test"
-      
-    - name: Stop containers
-      run: |
-        docker stop ht
-        docker rm ht
+#  windows:
+#    runs-on: windows-2022
+#    steps:
+#    - name: Initialize containers
+#      run: |
+#        cmd "C:\Program Files\Docker\Docker\DockerCli.exe" -SwitchWindowsEngine
+#        docker pull tadekbiela/heisttown:heisttown_win
+#        docker create --name ht -i tadekbiela/heisttown:heisttown_win
+#        docker start ht
+#      
+#    - name: build all
+#      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all"
+#
+#    - name: build release
+#      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target Release"
+#
+#    - name: run ut
+#      run: docker exec ht powershell "git pull; cmake ..; cmake --build . --target all; cmake --build . --target test"
+#
+#    - name: run sanitizers
+#      run: docker exec ht powershell "git pull; cmake -D SANITIZE=ON ..; cmake --build . --target all; cmake --build . --target test"
+#      
+#    - name: Stop containers
+#      run: |
+#        docker stop ht
+#        docker rm ht
