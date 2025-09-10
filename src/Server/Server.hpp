@@ -1,10 +1,9 @@
 #pragma once
 
 #include <Client.hpp>
-#include <MainControlConnector.hpp>
 #include <memory>
 
-class Server : public MainControlConnector
+class Server
 {
 public:
     virtual ~Server() = default;

@@ -1,6 +1,6 @@
 #include "LocalClient.hpp"
+#include "Client.hpp"
 #include <GameDisplay.hpp>
-#include <MainControlConnector.hpp>
 #include <PlayerInput.hpp>
 #include <iostream>
 #include <memory>
@@ -10,7 +10,7 @@ LocalClient::LocalClient(
     std::unique_ptr<GameDisplay> display,
     std::unique_ptr<PlayerInput> input
 )
-    : mainControlConnection([](const MainCommand&) {})
+    : gameConnection([](const GameCommand&) {})
     , gameDisplay(std::move(display))
     , playerInput(std::move(input))
 {
@@ -21,9 +21,9 @@ LocalClient::LocalClient(
     playerInput->setInputReceiver(inputReceiver);
 }
 
-void LocalClient::setMainControl(const MainControlConnection& controlConnection)
+void LocalClient::connect(const GameConnection& connection)
 {
-    mainControlConnection = controlConnection;
+    gameConnection = connection;
 }
 
 void LocalClient::start()
@@ -44,6 +44,6 @@ void LocalClient::receive(const PlayerInputCommand& command)
     if (command == "Keyboard: ESC")
     {
         stop();
-        mainControlConnection("SinglePlayer->Pause");
+        gameConnection(GameCommand::Pause);
     }
 }

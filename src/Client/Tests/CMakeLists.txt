@@ -12,7 +12,6 @@ target_link_libraries(${TEST_NAME}
         GTest::gmock_main
         Client
         GameDisplay
-        MainControl
         PlayerInput
 )
 

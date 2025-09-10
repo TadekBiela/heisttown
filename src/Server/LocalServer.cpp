@@ -1,12 +1,6 @@
 #include "LocalServer.hpp"
 #include <Client.hpp>
-#include <MainControlConnector.hpp>
 #include <memory>
-
-void LocalServer::setMainControl(const MainControlConnection& controlConnection)
-{
-    (void)controlConnection;
-}
 
 void LocalServer::start()
 {

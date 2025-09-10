@@ -1,8 +1,8 @@
 #include "MenuController.hpp"
+#include "IMenuController.hpp"
 #include "IMenuParser.hpp"
 #include <ControlWidget.hpp>
 #include <IFileLoader.hpp>
-#include <MainControlConnector.hpp>
 #include <TextFile.hpp>
 #include <iostream>
 #include <memory>
@@ -31,9 +31,9 @@ void MenuController::hideAllMenus()
 
 void MenuController::connectMenus()
 {
-    controlConnection = [&](const MainCommand& command)
+    controlConnection = [&](const WidgetCommand& command)
     {
-        this->control(command);
+        this->handle(command);
     };
     for (auto& menuIt : menus)
     {
@@ -61,7 +61,7 @@ void MenuController::showCurrentMenu()
     currentMenu->second.show();
 }
 
-void MenuController::control(const WidgetCommand& command)
+void MenuController::handle(const WidgetCommand& command)
 {
     if (auto menu = menus.find(command); menu != std::end(menus))
     {
@@ -74,13 +74,13 @@ void MenuController::control(const WidgetCommand& command)
     else
     {
         auto currentMenu = currentMenuStack.top();
-        const MainCommand mainCommand { currentMenu->first + "->" + command };
+        const WidgetCommand fullWidgetCommand { currentMenu->first + "->" + command };
         if (command == "Abort" or command == "Continue")
         {
             currentMenuStack.pop();
         }
         hideAllMenus();
-        mainControlConnection(mainCommand);
+        menuConnection(convertToMenuCommand(fullWidgetCommand));
         return;
     }
 
@@ -88,12 +88,29 @@ void MenuController::control(const WidgetCommand& command)
     showCurrentMenu();
 }
 
+auto MenuController::convertToMenuCommand(const WidgetCommand& widgetCommand) -> MenuCommand
+{
+    if (widgetCommand == "SinglePlayer->Play")
+    {
+        return MenuCommand::StartSinglePlayer;
+    }
+    if (widgetCommand == "Pause->Abort")
+    {
+        return MenuCommand::Abort;
+    }
+    if (widgetCommand == "Pause->Continue")
+    {
+        return MenuCommand::Continue;
+    }
+    return MenuCommand::NoCommand;
+}
+
+void MenuController::connect(const MenuConnection& connection)
+{
+    menuConnection = connection;
+}
+
 void MenuController::showMenu()
 {
     showCurrentMenu();
-}
-
-void MenuController::setMainControl(const MainControlConnection& controlConnection)
-{
-    mainControlConnection = controlConnection;
 }

@@ -1,7 +1,6 @@
 #include "MainApplication.hpp"
 #include <Client.hpp>
 #include <IMenuController.hpp>
-#include <MainControlConnector.hpp>
 #include <memory>
 #include <utility>
 
@@ -14,47 +13,69 @@ MainApplication::MainApplication(
     , gameClient(std::move(client))
     , guiExitCallback(std::move(callback))
 {
-    mainControlConnection = [&](const MainCommand& command)
+    menuConnection = [&](const MenuCommand& command)
     {
-        this->control(command);
+        this->handle(command);
     };
-    menuController->setMainControl(mainControlConnection);
-    gameClient->setMainControl(mainControlConnection);
+    menuController->connect(menuConnection);
+
+    gameConnection = [&](const GameCommand& command)
+    {
+        this->handle(command);
+    };
+    gameClient->connect(gameConnection);
 }
 
-void MainApplication::control(const MainCommand& command)
+void MainApplication::handle(const MenuCommand& command)
 {
-    const auto menuCommandPart { command.substr(0, command.find("->")) };
-    const auto actionCommandPart { command.substr(command.find("->"), command.size()) };
-
-    if (menuCommandPart == "SinglePlayer")
+    switch (command)
     {
-        if (actionCommandPart == "->Play")
-        {
-            gameClient->start();
-        }
-        else if (actionCommandPart == "->Pause")
-        {
-            menuController->control("Pause");
-        }
-    }
-    else if (menuCommandPart == "Pause")
-    {
-        if (actionCommandPart == "->Abort")
-        {
-            gameClient->stop();
-            menuController->showMenu();
-        }
-        else if (actionCommandPart == "->Continue")
-        {
-            gameClient->start();
-        }
-    }
-    else if (menuCommandPart == "MainMenu")
-    {
-        if (actionCommandPart == "->Exit")
-        {
+        case MenuCommand::StartSinglePlayer:
+            startSinglePlayerGame();
+            return;
+        case MenuCommand::Abort:
+            abortGame();
+            return;
+        case MenuCommand::Continue:
+            continueGame();
+            return;
+        case MenuCommand::Exit:
             guiExitCallback();
-        }
+        default:
+            return;
     }
+}
+
+void MainApplication::startSinglePlayerGame()
+{
+    gameClient->start();
+}
+
+void MainApplication::abortGame()
+{
+    gameClient->stop();
+    menuController->showMenu();
+}
+
+void MainApplication::continueGame()
+{
+    gameClient->start();
+}
+
+void MainApplication::handle(const GameCommand& command)
+{
+    switch (command)
+    {
+        case GameCommand::Pause:
+            pauseGame();
+            return;
+        default:
+            return;
+    }
+}
+
+void MainApplication::pauseGame()
+{
+    gameClient->stop();
+    menuController->handle("Pause");
 }

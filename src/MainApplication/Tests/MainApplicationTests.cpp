@@ -1,3 +1,5 @@
+#include <Client.hpp>
+#include <IMenuController.hpp>
 #include <MainApplication.hpp>
 #include <MockClient.hpp>
 #include <MockMenuController.hpp>
@@ -16,93 +18,81 @@ TEST_F(MainApplicationTests, constructor_DefaultBehavior_ShouldConnectController
 {
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, setMainControl(_));
+    EXPECT_CALL(*menuController, connect(_));
+    EXPECT_CALL(*client, connect(_));
 
     MainApplication { std::move(menuController), std::move(client), []() {} };
 }
 
-TEST_F(MainApplicationTests, control_SinglePlayerPlay_ShouldRunClient)
+TEST_F(MainApplicationTests, handle_MenuCommandSinglePlayerPlay_ShouldRunClient)
 {
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, setMainControl(_));
+    EXPECT_CALL(*menuController, connect(_));
+    EXPECT_CALL(*client, connect(_));
     EXPECT_CALL(*client, start());
     MainApplication application { std::move(menuController), std::move(client), []() {} };
 
-    application.control("SinglePlayer->Play");
+    application.handle(MenuCommand::StartSinglePlayer);
 }
 
-TEST_F(MainApplicationTests, control_DummyCommand_ShouldDoNothing)
+TEST_F(MainApplicationTests, handle_MenuCommandNoCommand_ShouldDoNothing)
 {
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, setMainControl(_));
+    EXPECT_CALL(*menuController, connect(_));
+    EXPECT_CALL(*client, connect(_));
     EXPECT_CALL(*client, start()).Times(0);
     MainApplication application { std::move(menuController), std::move(client), []() {} };
 
-    application.control("Dummy->Command");
+    application.handle(MenuCommand::NoCommand);
 }
 
-TEST_F(MainApplicationTests, control_SinglePlayerBack_ShouldDoNothing)
+TEST_F(MainApplicationTests, handle_MenuCommandAbort_ShouldAbortCurrentGameSessionOnClient)
 {
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, setMainControl(_));
-    EXPECT_CALL(*client, start()).Times(0);
-    MainApplication application { std::move(menuController), std::move(client), []() {} };
-
-    application.control("SinglePlayer->Back");
-}
-
-TEST_F(MainApplicationTests, control_SinglePlayerPause_ShouldSetPauseMenuOnMenuController)
-{
-    auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*menuController, control("Pause"));
-    EXPECT_CALL(*client, setMainControl(_));
-    EXPECT_CALL(*client, start()).Times(0);
-    MainApplication application { std::move(menuController), std::move(client), []() {} };
-
-    application.control("SinglePlayer->Pause");
-}
-
-TEST_F(MainApplicationTests, control_PauseAbort_ShouldAbortCurrentGameSessionOnClient)
-{
-    auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
+    EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*menuController, showMenu());
-    EXPECT_CALL(*client, setMainControl(_));
+    EXPECT_CALL(*client, connect(_));
     EXPECT_CALL(*client, stop());
     MainApplication application { std::move(menuController), std::move(client), []() {} };
 
-    application.control("Pause->Abort");
+    application.handle(MenuCommand::Abort);
 }
 
-TEST_F(MainApplicationTests, control_PauseContinue_ShouldBackToCurrentGameSessionOnClient)
+TEST_F(MainApplicationTests, handle_MenuCommandContinue_ShouldBackToCurrentGameSessionOnClient)
 {
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
+    EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*menuController, showMenu()).Times(0);
-    EXPECT_CALL(*client, setMainControl(_));
+    EXPECT_CALL(*client, connect(_));
     EXPECT_CALL(*client, start());
     MainApplication application { std::move(menuController), std::move(client), []() {} };
 
-    application.control("Pause->Continue");
+    application.handle(MenuCommand::Continue);
 }
 
-TEST_F(MainApplicationTests, control_MainMenuExit_ShouldDestroyApplication)
+TEST_F(MainApplicationTests, handle_GameCommandSinglePlayerPause_ShouldSetPauseSinglePlayerOnMenuController)
 {
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, setMainControl(_));
+    EXPECT_CALL(*menuController, connect(_));
+    EXPECT_CALL(*menuController, handle("Pause"));
+    EXPECT_CALL(*client, connect(_));
+    EXPECT_CALL(*client, start()).Times(0);
+    MainApplication application { std::move(menuController), std::move(client), []() {} };
+
+    application.handle(GameCommand::Pause);
+}
+
+TEST_F(MainApplicationTests, handle_MainMenuExit_ShouldDestroyApplication)
+{
+    auto menuController { std::make_unique<MockMenuController>() };
+    auto client { std::make_unique<MockClient>() };
+    EXPECT_CALL(*menuController, connect(_));
+    EXPECT_CALL(*client, connect(_));
     int callCounter { 0 };
     auto guiExitCallback = [&callCounter]()
     {
@@ -110,7 +100,7 @@ TEST_F(MainApplicationTests, control_MainMenuExit_ShouldDestroyApplication)
     };
     MainApplication application { std::move(menuController), std::move(client), guiExitCallback };
 
-    application.control("MainMenu->Exit");
+    application.handle(MenuCommand::Exit);
 
     EXPECT_EQ(1, callCounter);
 }
@@ -119,8 +109,8 @@ TEST_F(MainApplicationTests, setGuiExitCallback_DefaultBehavior_ShouldSetGuiExit
 {
     auto menuController { std::make_unique<MockMenuController>() };
     auto client { std::make_unique<MockClient>() };
-    EXPECT_CALL(*menuController, setMainControl(_));
-    EXPECT_CALL(*client, setMainControl(_));
+    EXPECT_CALL(*menuController, connect(_));
+    EXPECT_CALL(*client, connect(_));
     int expectedCallCounter { 0 };
     auto guiExitCallback = [&expectedCallCounter]()
     {

@@ -5,7 +5,6 @@
 #include "IMenuParser.hpp"
 #include "Menus.hpp"
 #include <IFileLoader.hpp>
-#include <MainControlConnector.hpp>
 #include <TextFile.hpp>
 #include <memory>
 #include <stack>
@@ -18,20 +17,21 @@ public:
         std::unique_ptr<IFileLoader<TextFile>> source
     );
 
-    void control(const WidgetCommand& command) override;
+    void handle(const WidgetCommand& command) override;
+    void connect(const MenuConnection& connection) override;
     void showMenu() override;
-    void setMainControl(const MainControlConnection& controlConnection) override;
 
 protected:
-    MainControlConnection mainControlConnection { [](const WidgetCommand&){} };
     Menus menus;
     std::stack<Menus::iterator> currentMenuStack;
 
 private:
     ControlConnection controlConnection;
+    MenuConnection menuConnection { [](const MenuCommand&){} };
 
     void hideAllMenus();
     void connectMenus();
     void initCurrentMenu();
     void showCurrentMenu();
+    static auto convertToMenuCommand(const WidgetCommand& widgetCommand) -> MenuCommand;
 };

@@ -1,5 +1,5 @@
+#include <Client.hpp>
 #include <LocalClient.hpp>
-#include <MainControlConnector.hpp>
 #include <MockGameDisplay.hpp>
 #include <MockPlayerInput.hpp>
 #include <PlayerInput.hpp>
@@ -45,35 +45,35 @@ TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*display, hide()).Times(0);
     EXPECT_CALL(*input, stop()).Times(0);
-    MainCommand resultCommand;
-    const MainControlConnection mainConnection = [&resultCommand](const MainCommand& command)
+    GameCommand resultCommand { GameCommand::NoCommand };
+    const GameConnection connection = [&resultCommand](const GameCommand& command)
     {
         resultCommand = command;
     };
     LocalClient client { std::move(display), std::move(input) };
-    client.setMainControl(mainConnection);
+    client.connect(connection);
 
     client.receive("Keyboard: Y");
 
-    EXPECT_TRUE(resultCommand.empty());
+    EXPECT_EQ(GameCommand::NoCommand, resultCommand);
 }
 
-TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendMainCommand)
+TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendGameCommand)
 {
     auto display { std::make_unique<MockGameDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*display, hide());
     EXPECT_CALL(*input, stop());
-    MainCommand resultCommand;
-    const MainControlConnection mainConnection = [&resultCommand](const MainCommand& command)
+    GameCommand resultCommand { GameCommand::NoCommand };
+    const GameConnection connection = [&resultCommand](const GameCommand& command)
     {
         resultCommand = command;
     };
     LocalClient client { std::move(display), std::move(input) };
-    client.setMainControl(mainConnection);
+    client.connect(connection);
 
     client.receive("Keyboard: ESC");
 
-    EXPECT_STREQ("SinglePlayer->Pause", resultCommand.c_str());
+    EXPECT_EQ(GameCommand::Pause, resultCommand);
 }

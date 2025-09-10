@@ -2,7 +2,6 @@ add_subdirectory(Client)
 add_subdirectory(FilesStorage)
 add_subdirectory(GameDisplay)
 add_subdirectory(MainApplication)
-add_subdirectory(MainControl)
 add_subdirectory(Menu)
 add_subdirectory(MouseCursor)
 add_subdirectory(PlayerInput)
@@ -22,7 +21,6 @@ target_link_libraries(${APP_NAME}
         FilesStorage
         GameDisplay
         MainApplication
-        MainControl
         Menu
         PlayerInput
         Server

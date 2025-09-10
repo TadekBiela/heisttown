@@ -1,13 +1,27 @@
 #pragma once
 
 #include <ControlWidget.hpp>
-#include <MainControlConnector.hpp>
+#include <functional>
 
-class IMenuController : public MainControlConnector
+enum class MenuCommand
+{
+    StartSinglePlayer = 0,
+    PauseSinglePlayer = 1,
+    Abort = 2,
+    Continue = 3,
+    Exit = 4,
+    NoCommand = 5
+};
+
+using MenuConnection = std::function<void(const MenuCommand&)>;
+
+
+class IMenuController
 {
 public:
     virtual ~IMenuController() = default;
 
-    virtual void control(const WidgetCommand& command) = 0;
+    virtual void handle(const WidgetCommand& command) = 0;
+    virtual void connect(const MenuConnection& connection) = 0;
     virtual void showMenu() = 0;
 };
