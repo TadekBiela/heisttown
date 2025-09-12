@@ -83,7 +83,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
     EXPECT_CALL(*source, getLoadedData()).WillRepeatedly(ReturnRef(menusFiles));
     auto widgetFactory { std::make_unique<MockWidgetsFactory>() };
     auto widget { std::make_unique<MockControlWidget>() };
-    EXPECT_CALL(*widget, type()).WillRepeatedly(Return(WidgetType::BUTTON));
+    EXPECT_CALL(*widget, getType()).WillRepeatedly(Return(WidgetType::BUTTON));
     EXPECT_CALL(*widget, connect(_));
     EXPECT_CALL(*widget, show());
     EXPECT_CALL(*widget, hide());
@@ -227,7 +227,7 @@ TEST_F(MenuControllerTests, showMenu_DefaultMainMenu_ShouldShowMainMenu)
     auto source { std::make_unique<MockFileLoader<TextFile>>() };
     EXPECT_CALL(*source, getLoadedData()).WillRepeatedly(ReturnRef(menusFiles));
     auto widget { std::make_unique<MockControlWidget>() };
-    EXPECT_CALL(*widget, type()).WillRepeatedly(Return(WidgetType::BUTTON));
+    EXPECT_CALL(*widget, getType()).WillRepeatedly(Return(WidgetType::BUTTON));
     EXPECT_CALL(*widget, connect(_));
     EXPECT_CALL(*widget, show()).Times(2);
     EXPECT_CALL(*widget, hide());

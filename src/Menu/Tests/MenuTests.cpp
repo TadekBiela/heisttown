@@ -49,7 +49,7 @@ public:
     static auto getMockWidget(const WidgetType& type) -> std::unique_ptr<MockWidget>
     {
         auto widget { std::make_unique<MockWidget>() };
-        EXPECT_CALL(*widget, type()).WillRepeatedly(Return(type));
+        EXPECT_CALL(*widget, getType()).WillRepeatedly(Return(type));
         return widget;
     }
 
@@ -77,7 +77,7 @@ public:
     static auto getMockControlWidget(const WidgetType& type) -> std::unique_ptr<MockControlWidget>
     {
         auto widget { std::make_unique<MockControlWidget>() };
-        EXPECT_CALL(*widget, type()).WillRepeatedly(Return(type));
+        EXPECT_CALL(*widget, getType()).WillRepeatedly(Return(type));
         return widget;
     }
 };
@@ -89,7 +89,7 @@ TEST_F(MenuTests, addWidget_ButtonWidget_ShouldAddButtonToControlWidgets)
     menu.addWidget(getMockControlWidget(WidgetType::BUTTON));
 
     ASSERT_EQ(1, menu.getControlWidgets().size());
-    EXPECT_EQ(WidgetType::BUTTON, menu.getControlWidgets().at(0)->type());
+    EXPECT_EQ(WidgetType::BUTTON, menu.getControlWidgets().at(0)->getType());
     EXPECT_EQ(0, menu.getStaticWidgets().size());
 }
 
@@ -101,7 +101,7 @@ TEST_F(MenuTests, addWidget_LabelWidget_ShouldAddLabeToStaticWidgets)
 
     EXPECT_EQ(0, menu.getControlWidgets().size());
     ASSERT_EQ(1, menu.getStaticWidgets().size());
-    EXPECT_EQ(WidgetType::LABEL, menu.getStaticWidgets().at(0)->type());
+    EXPECT_EQ(WidgetType::LABEL, menu.getStaticWidgets().at(0)->getType());
 }
 
 TEST_F(MenuTests, addWidget_DifferentWidgets_ShouldAddWidgetsRegardingToType)
