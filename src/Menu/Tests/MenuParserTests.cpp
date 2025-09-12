@@ -25,7 +25,7 @@ class MenuParserTests : public testing::Test
 public:
     [[nodiscard]] static auto getWidgetText(
         const std::string& type,
-        const WidgetGeometry& geometry = { 0, 0, 0, 0 },
+        const WidgetGeometry& geometry = { 0.0, 0.0, 0.0, 0.0 },
         const WidgetText& text = "",
         const WidgetStyle& style = "none"
     ) -> std::string
@@ -55,7 +55,7 @@ TEST_F(MenuParserTests, parse_EmptyInput_ShouldReturnEmptyMenus)
 
 TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsOneButton)
 {
-    const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
+    const WidgetGeometry expectedGeometry { 50.0, 100.0, 120.0, 40.0 };
     const std::string expectedText { "TestText" };
     const std::string input = getWidgetText("Button:", expectedGeometry, expectedText, "none");
     const TextFileLoadedData mainMenuContent { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } };
@@ -72,8 +72,8 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputNoStyle_ShouldReturnMe
 
 TEST_F(MenuParserTests, parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsTwoButtons)
 {
-    const WidgetGeometry expectedGeometry1 { 50, 100, 120, 40 };
-    const WidgetGeometry expectedGeometry2 { 40, 120, 120, 250 };
+    const WidgetGeometry expectedGeometry1 { 50.0, 100.0, 120.0, 40.0 };
+    const WidgetGeometry expectedGeometry2 { 40.0, 120.0, 120.0, 250.0 };
     const std::string expectedText { "TestText" };
     const std::string input {
         getWidgetText("Button:", expectedGeometry1, expectedText, "none") + "\n" +
@@ -94,7 +94,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnM
 
 TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsOneLAbel)
 {
-    const WidgetGeometry expectedGeometry { 300, 200, 160, 50 };
+    const WidgetGeometry expectedGeometry { 300.0, 200.0, 160.0, 50.0 };
     const std::string expectedText { "TestLabelText" };
     const std::string input = getWidgetText("Label:", expectedGeometry, expectedText, "none");
     const TextFileLoadedData mainMenuContent { { "MainMenu", TextFile { "dummy/path/MainMenu.txt", input } } };
@@ -111,8 +111,8 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputNoStyle_ShouldReturnMen
 
 TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsTwoLabels)
 {
-    const WidgetGeometry expectedGeometry1 { 50, 100, 120, 40 };
-    const WidgetGeometry expectedGeometry2 { 40, 120, 120, 250 };
+    const WidgetGeometry expectedGeometry1 { 50.0, 100.0, 120.0, 40.0 };
+    const WidgetGeometry expectedGeometry2 { 40.0, 120.0, 120.0, 250.0 };
     const std::string expected1Text { "TestLabel1Text" };
     const std::string expected2Text { "TestLabel1Text" };
     const std::string input {
@@ -134,7 +134,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMe
 
 TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnMenusWithMainMenuContainsOneButtonWithStyle)
 {
-    const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
+    const WidgetGeometry expectedGeometry { 50.0, 100.0, 120.0, 40.0 };
     const std::string expectedText { "TestText" };
     const std::string expectedStyle {
         "border-width:2px;"
@@ -175,7 +175,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnM
 
 TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMenusWithMainMenuContainsOneLabelWithStyle)
 {
-    const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
+    const WidgetGeometry expectedGeometry { 50.0, 100.0, 120.0, 40.0 };
     const std::string expectedText { "TestText" };
     const std::string expectedStyle {
         "border-width:2px;"
@@ -216,7 +216,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMe
 
 TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyles_ShouldReturnMenusWithMainMenuContainsAllWidgetsWithProperStyles)
 {
-    const WidgetGeometry expectedGeometry { 50, 100, 120, 40 };
+    const WidgetGeometry expectedGeometry { 50.0, 100.0, 120.0, 40.0 };
     const std::string expectedButtonsText { "ButtonTestText" };
     const std::string expectedButtonsStyle {
         "border-width:2px;"

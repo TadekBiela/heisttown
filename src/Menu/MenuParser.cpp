@@ -123,7 +123,7 @@ auto MenuParser::parseWidget(
 auto MenuParser::parseWidgetGeometry(const std::string& input) -> WidgetGeometry
 {
     constexpr int amoutOfGeometryParams { 4 };
-    std::array<int, amoutOfGeometryParams> geometryValues {};
+    std::array<float, amoutOfGeometryParams> geometryValues {};
     auto valueStrBegin = getPositionAfterLabel(input, "geometry: ");
 
     for (auto& geometryValue : geometryValues)
@@ -131,7 +131,7 @@ auto MenuParser::parseWidgetGeometry(const std::string& input) -> WidgetGeometry
         const char valueSeparator { ',' };
         auto valueStrEnd = std::find(valueStrBegin, std::end(input), valueSeparator);
         const std::string valueStr(valueStrBegin, valueStrEnd);
-        geometryValue = std::atoi(valueStr.c_str());
+        geometryValue = std::strtof(valueStr.c_str(), nullptr);
         valueStrBegin = std::next(valueStrEnd);
     }
 
