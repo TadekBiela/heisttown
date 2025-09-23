@@ -31,12 +31,12 @@ public:
     {
     }
 
-    [[nodiscard]] auto getMenus() const -> const Menus&
+    [[nodiscard]] const Menus& getMenus() const
     {
         return menus;
     }
 
-    [[nodiscard]] auto getCurrentMenu() const -> const Menus::iterator&
+    [[nodiscard]] const Menus::iterator& getCurrentMenu() const
     {
         return currentMenuStack.top();
     }
@@ -45,7 +45,7 @@ public:
 class MenuControllerTests : public Test
 {
 public:
-    [[nodiscard]] static auto prepareMenuControllerWithMenu() -> MenuControllerTestable
+    [[nodiscard]] static MenuControllerTestable prepareMenuControllerWithMenu()
     {
         const std::map<FileName, TextFile> menusFiles { { "MainMenu", TextFile { "", "" } },
                                                         { "SinglePlayer", TextFile { "", "" } },

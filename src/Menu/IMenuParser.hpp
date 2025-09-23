@@ -10,5 +10,5 @@ class IMenuParser
 public:
     virtual ~IMenuParser() = default;
 
-    virtual auto parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&& = 0;
+    virtual Menus&& parse(std::unique_ptr<IFileLoader<TextFile>> input) = 0;
 };

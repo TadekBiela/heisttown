@@ -22,7 +22,7 @@ MenuParser::MenuParser(std::unique_ptr<WidgetsFactory> factory)
 {
 }
 
-auto MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&&
+Menus&& MenuParser::parse(std::unique_ptr<IFileLoader<TextFile>> input)
 {
     auto filesToParse = input->getLoadedData();
 
@@ -55,10 +55,10 @@ void MenuParser::parseStyles(const TextFile& stylesFile)
     }
 }
 
-auto MenuParser::parseWidgetStyleContent(
+WidgetStyle MenuParser::parseWidgetStyleContent(
     TextFileContent::const_iterator styleContentBegin,
     TextFileContent::const_iterator styleContentEnd
-) -> WidgetStyle
+)
 {
     WidgetStyle styleContent;
     for (auto styleContentIt = styleContentBegin; styleContentIt != styleContentEnd; styleContentIt++)
@@ -72,14 +72,14 @@ auto MenuParser::parseWidgetStyleContent(
     return styleContent;
 }
 
-auto MenuParser::removeSpaces(const std::string& input) -> std::string
+std::string MenuParser::removeSpaces(const std::string& input)
 {
     std::string line { input };
     line.erase(std::remove(std::begin(line), std::end(line), ' '), std::end(line));
     return line;
 }
 
-auto MenuParser::parseMenu(const TextFile& menuFile) -> Menu&&
+Menu&& MenuParser::parseMenu(const TextFile& menuFile)
 {
     menu = {};
     std::cout << "parsing: " << menuFile.getPath() << "\n";
@@ -107,10 +107,10 @@ auto MenuParser::parseMenu(const TextFile& menuFile) -> Menu&&
     return std::move(menu);
 }
 
-auto MenuParser::parseWidget(
+std::unique_ptr<Widget> MenuParser::parseWidget(
     const WidgetType& type,
     const TextFileContent& input
-) -> std::unique_ptr<Widget>
+)
 {
     return widgetsFactory->create(
         type,
@@ -120,7 +120,7 @@ auto MenuParser::parseWidget(
     );
 }
 
-auto MenuParser::parseWidgetGeometry(const std::string& input) -> WidgetGeometry
+WidgetGeometry MenuParser::parseWidgetGeometry(const std::string& input)
 {
     constexpr int amoutOfGeometryParams { 4 };
     std::array<float, amoutOfGeometryParams> geometryValues {};
@@ -146,22 +146,22 @@ auto MenuParser::getPositionAfterLabel(
     return std::next(std::begin(input), static_cast<int>(input.find(label) + label.size()));
 }
 
-auto MenuParser::parseWidgetText(const std::string& input) -> WidgetText
+WidgetText MenuParser::parseWidgetText(const std::string& input)
 {
     return parseTextAfterLabel(input, "text: ");
 }
 
-auto MenuParser::parseTextAfterLabel(
+std::string MenuParser::parseTextAfterLabel(
     const std::string& input,
     const std::string& label
-) -> std::string
+)
 {
     auto textBegin = getPositionAfterLabel(input, label);
     std::string textStr(textBegin, std::end(input));
     return textStr;
 }
 
-auto MenuParser::parseWidgetStyle(const std::string& input) -> WidgetStyle
+WidgetStyle MenuParser::parseWidgetStyle(const std::string& input)
 {
     if (input.find("none") != std::string::npos || parsedStyles.count(input) == 0)
     {

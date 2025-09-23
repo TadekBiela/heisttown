@@ -16,7 +16,7 @@ void Menu::addWidget(std::unique_ptr<Widget> widget)
     }
 }
 
-auto Menu::isControlWidget(const Widget* widget) -> bool
+bool Menu::isControlWidget(const Widget* widget)
 {
     return !(dynamic_cast<const ControlWidget*>(widget) == nullptr);
 }

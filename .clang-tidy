@@ -10,5 +10,6 @@ Checks: 'bugprone-*
          readability-*,
          -cppcoreguidelines-avoid-magic-numbers,
          -readability-magic-numbers'
+         -modernize-use-trailing-return-type'
 
 WarningsAsErrors: '*'

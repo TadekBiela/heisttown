@@ -17,13 +17,13 @@ public:
     );
     virtual ~TextFile() = default;
 
-    auto getPath() const -> TextFilePath;
-    auto getContent() const -> const TextFileContent&;
+    TextFilePath getPath() const;
+    const TextFileContent& getContent() const;
 
 private:
     TextFilePath path { "" };
     TextFileContent content {};
 
-    auto getRawFileContent() const -> std::string;
+    std::string getRawFileContent() const;
     void loadContent(const std::string& rawFileContent);
 };

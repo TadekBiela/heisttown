@@ -88,7 +88,7 @@ void MenuController::handle(const WidgetCommand& command)
     showCurrentMenu();
 }
 
-auto MenuController::convertToMenuCommand(const WidgetCommand& widgetCommand) -> MenuCommand
+MenuCommand MenuController::convertToMenuCommand(const WidgetCommand& widgetCommand)
 {
     if (widgetCommand == "SinglePlayer->Play")
     {

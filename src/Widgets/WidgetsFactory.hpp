@@ -10,10 +10,10 @@ class WidgetsFactory
 public:
     virtual ~WidgetsFactory() = default;
 
-    virtual auto create(
+    virtual std::unique_ptr<Widget> create(
         const WidgetType& type,
         const WidgetGeometry& geometry,
         const WidgetText& text,
         const WidgetStyle& style
-    ) const -> std::unique_ptr<Widget> = 0;
+    ) const = 0;
 };

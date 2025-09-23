@@ -18,7 +18,7 @@ public:
     MenuParser(std::unique_ptr<WidgetsFactory> factory);
     virtual ~MenuParser() = default;
 
-    auto parse(std::unique_ptr<IFileLoader<TextFile>> input) -> Menus&& override;
+    Menus&& parse(std::unique_ptr<IFileLoader<TextFile>> input) override;
 
 private:
     const std::shared_ptr<WidgetsFactory> widgetsFactory;
@@ -27,25 +27,25 @@ private:
     Menu menu;
 
     void parseStyles(const TextFile& stylesFile);
-    static auto parseWidgetStyleContent(
+    static WidgetStyle parseWidgetStyleContent(
         TextFileContent::const_iterator styleContentBegin,
         TextFileContent::const_iterator styleContentEnd
-    ) -> WidgetStyle;
-    static auto removeSpaces(const std::string& input) -> std::string;
-    auto parseMenu(const TextFile& menuFile) -> Menu&&;
-    auto parseWidget(
+    );
+    static std::string removeSpaces(const std::string& input);
+    Menu&& parseMenu(const TextFile& menuFile);
+    std::unique_ptr<Widget> parseWidget(
         const WidgetType& type,
         const TextFileContent& input
-    ) -> std::unique_ptr<Widget>;
-    static auto parseWidgetGeometry(const std::string& input) -> WidgetGeometry;
+    );
+    static WidgetGeometry parseWidgetGeometry(const std::string& input);
     static auto getPositionAfterLabel(
         const std::string& input,
         const std::string& label
     ) -> decltype(std::begin(input));
-    static auto parseWidgetText(const std::string& input) -> WidgetText;
-    static auto parseTextAfterLabel(
+    static WidgetText parseWidgetText(const std::string& input);
+    static std::string parseTextAfterLabel(
         const std::string& input,
         const std::string& label
-    ) -> std::string;
-    auto parseWidgetStyle(const std::string& input) -> WidgetStyle;
+    );
+    WidgetStyle parseWidgetStyle(const std::string& input);
 };

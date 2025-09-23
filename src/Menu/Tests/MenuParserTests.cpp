@@ -23,12 +23,12 @@ using TextFileLoadedData = std::map<FileName, TextFile>;
 class MenuParserTests : public testing::Test
 {
 public:
-    [[nodiscard]] static auto getWidgetText(
+    [[nodiscard]] static std::string getWidgetText(
         const std::string& type,
         const WidgetGeometry& geometry = { 0.0, 0.0, 0.0, 0.0 },
         const WidgetText& text = "",
         const WidgetStyle& style = "none"
-    ) -> std::string
+    )
     {
         return std::string {
             type + ":\n" +

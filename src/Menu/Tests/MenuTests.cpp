@@ -16,11 +16,11 @@ using namespace testing;
 class MenuTestable : public Menu
 {
 public:
-    [[nodiscard]] auto getControlWidgets() const -> const ControlWidgets&
+    [[nodiscard]] const ControlWidgets& getControlWidgets() const
     {
         return controlWidgets;
     }
-    [[nodiscard]] auto getStaticWidgets() const -> const StaticWidgets&
+    [[nodiscard]] const StaticWidgets& getStaticWidgets() const
     {
         return staticWidgets;
     }
@@ -32,49 +32,49 @@ using MockWidgetGetter = const std::function<std::unique_ptr<MockWidget>(const W
 class MenuTests : public Test
 {
 public:
-    static auto getMockWidgetWithExpectedShow(const WidgetType& type) -> std::unique_ptr<MockWidget>
+    static std::unique_ptr<MockWidget> getMockWidgetWithExpectedShow(const WidgetType& type)
     {
         auto widget { getMockWidget(type) };
         EXPECT_CALL(*widget, show());
         return widget;
     }
 
-    static auto getMockWidgetWithExpectedHide(const WidgetType& type) -> std::unique_ptr<MockWidget>
+    static std::unique_ptr<MockWidget> getMockWidgetWithExpectedHide(const WidgetType& type)
     {
         auto widget { getMockWidget(type) };
         EXPECT_CALL(*widget, hide());
         return widget;
     }
 
-    static auto getMockWidget(const WidgetType& type) -> std::unique_ptr<MockWidget>
+    static std::unique_ptr<MockWidget> getMockWidget(const WidgetType& type)
     {
         auto widget { std::make_unique<MockWidget>() };
         EXPECT_CALL(*widget, getType()).WillRepeatedly(Return(type));
         return widget;
     }
 
-    static auto getMockControlWidgetWithExpectedShow(const WidgetType& type) -> std::unique_ptr<MockControlWidget>
+    static std::unique_ptr<MockControlWidget> getMockControlWidgetWithExpectedShow(const WidgetType& type)
     {
         auto widget { getMockControlWidget(type) };
         EXPECT_CALL(*widget, show());
         return widget;
     }
 
-    static auto getMockControlWidgetWithExpectedHide(const WidgetType& type) -> std::unique_ptr<MockControlWidget>
+    static std::unique_ptr<MockControlWidget> getMockControlWidgetWithExpectedHide(const WidgetType& type)
     {
         auto widget { getMockControlWidget(type) };
         EXPECT_CALL(*widget, hide());
         return widget;
     }
 
-    static auto getMockControlWidgetWithExpectedConnect(const WidgetType& type) -> std::unique_ptr<MockControlWidget>
+    static std::unique_ptr<MockControlWidget> getMockControlWidgetWithExpectedConnect(const WidgetType& type)
     {
         auto widget { getMockControlWidget(type) };
         EXPECT_CALL(*widget, connect(_));
         return widget;
     }
 
-    static auto getMockControlWidget(const WidgetType& type) -> std::unique_ptr<MockControlWidget>
+    static std::unique_ptr<MockControlWidget> getMockControlWidget(const WidgetType& type)
     {
         auto widget { std::make_unique<MockControlWidget>() };
         EXPECT_CALL(*widget, getType()).WillRepeatedly(Return(type));

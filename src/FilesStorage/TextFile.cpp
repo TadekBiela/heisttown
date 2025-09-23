@@ -22,7 +22,7 @@ TextFile::TextFile(
     loadContent(rawFileContent);
 }
 
-auto TextFile::getRawFileContent() const -> std::string
+std::string TextFile::getRawFileContent() const
 {
     std::ifstream fileStream(path);
 
@@ -56,12 +56,12 @@ void TextFile::loadContent(const std::string& rawFileContent)
     }
 }
 
-auto TextFile::getPath() const -> TextFilePath
+TextFilePath TextFile::getPath() const
 {
     return path;
 }
 
-auto TextFile::getContent() const -> const TextFileContent&
+const TextFileContent& TextFile::getContent() const
 {
     return content;
 }

@@ -33,5 +33,5 @@ private:
     void connectMenus();
     void initCurrentMenu();
     void showCurrentMenu();
-    static auto convertToMenuCommand(const WidgetCommand& widgetCommand) -> MenuCommand;
+    static MenuCommand convertToMenuCommand(const WidgetCommand& widgetCommand);
 };

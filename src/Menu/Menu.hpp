@@ -23,5 +23,5 @@ protected:
     StaticWidgets staticWidgets;
 
 private:
-    static auto isControlWidget(const Widget* widget) -> bool;
+    static bool isControlWidget(const Widget* widget);
 };
