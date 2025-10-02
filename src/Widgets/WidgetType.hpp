@@ -1,6 +1,6 @@
 #pragma once
 
-enum class WidgetType
+enum class WidgetType : char
 {
     BUTTON = 0,
     LABEL

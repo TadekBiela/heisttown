@@ -9,9 +9,9 @@
 class MockWidgetsFactory : public WidgetsFactory
 {
 public:
-    MOCK_CONST_METHOD4(
+    MOCK_METHOD4(
         create,
-        std::unique_ptr<Widget>(
+        std::shared_ptr<Widget>(
             const WidgetType& type,
             const WidgetGeometry& geometry,
             const WidgetText& text,

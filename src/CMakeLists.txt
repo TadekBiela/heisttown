@@ -6,6 +6,7 @@ add_subdirectory(Menu)
 add_subdirectory(MouseCursor)
 add_subdirectory(PlayerInput)
 add_subdirectory(Server)
+add_subdirectory(Sfml)
 add_subdirectory(Widgets)
 
 set(APP_NAME HeistTown)
@@ -27,5 +28,6 @@ target_link_libraries(${APP_NAME}
         Menu
         PlayerInput
         Server
+        Sfml
         Widgets
 )

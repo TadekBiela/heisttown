@@ -33,7 +33,7 @@ private:
     );
     static std::string removeSpaces(const std::string& input);
     Menu&& parseMenu(const TextFile& menuFile);
-    std::unique_ptr<Widget> parseWidget(
+    std::shared_ptr<Widget> parseWidget(
         const WidgetType& type,
         const TextFileContent& input
     );

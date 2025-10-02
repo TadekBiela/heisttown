@@ -1,19 +1,19 @@
 Label:
-    geometry: 350, 50, 100, 30
+    geometry: 390, 80, 220, 50
     text: HEIST TOWN
     style: none
 
 Button:
-    geometry: 360, 110, 80, 30
+    geometry: 370, 180, 260, 50
     text: SinglePlayer
     style: none
 
 Button:
-    geometry: 360, 170, 80, 30
+    geometry: 370, 250, 260, 50
     text: Settings
     style: none
 
 Button:
-    geometry: 360, 230, 80, 30
+    geometry: 370, 320, 260, 50
     text: Exit
     style: none

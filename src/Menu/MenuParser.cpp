@@ -99,7 +99,7 @@ Menu&& MenuParser::parseMenu(const TextFile& menuFile)
     return std::move(menu);
 }
 
-std::unique_ptr<Widget> MenuParser::parseWidget(
+std::shared_ptr<Widget> MenuParser::parseWidget(
     const WidgetType& type,
     const TextFileContent& input
 )

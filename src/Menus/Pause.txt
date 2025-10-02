@@ -1,19 +1,19 @@
 Label:
-    geometry: 350, 50, 100, 30
+    geometry: 390, 80, 220, 50
     text: HEIST TOWN
     style: none
 
 Label:
-    geometry: 360, 80, 80, 20
+    geometry: 360, 140, 280, 50
     text: Pause
     style: none
 
 Button:
-    geometry: 300, 130, 80, 30
+    geometry: 220, 230, 260, 50
     text: Abort
     style: none
 
 Button:
-    geometry: 420, 130, 80, 30
+    geometry: 520, 230, 260, 50
     text: Continue
     style: none
