@@ -1,20 +1,12 @@
 #include "MenuParser.hpp"
 #include "Menu.hpp"
-#include "Menus.hpp"
-#include <IFileLoader.hpp>
-#include <TextFile.hpp>
 #include <Widget.hpp>
-#include <WidgetGeometry.hpp>
 #include <WidgetType.hpp>
-#include <WidgetsFactory.hpp>
 #include <algorithm>
 #include <array>
 #include <cstdlib>
 #include <iostream>
-#include <iterator>
 #include <map>
-#include <memory>
-#include <string>
 #include <utility>
 
 MenuParser::MenuParser(std::unique_ptr<WidgetsFactory> factory)

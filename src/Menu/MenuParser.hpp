@@ -7,6 +7,7 @@
 #include <WidgetGeometry.hpp>
 #include <WidgetsFactory.hpp>
 #include <iterator>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -15,14 +16,13 @@ using WidgetStyleName = std::string;
 class MenuParser : public IMenuParser
 {
 public:
-    MenuParser(std::unique_ptr<WidgetsFactory> factory);
-    virtual ~MenuParser() = default;
+    explicit MenuParser(std::unique_ptr<WidgetsFactory> factory);
 
     Menus&& parse(std::unique_ptr<IFileLoader<TextFile>> input) override;
 
 private:
-    const std::shared_ptr<WidgetsFactory> widgetsFactory;
-    std::map<WidgetStyleName, WidgetStyle> parsedStyles {};
+    const std::unique_ptr<WidgetsFactory> widgetsFactory;
+    std::map<WidgetStyleName, WidgetStyle> parsedStyles;
     Menus parsedMenus;
     Menu menu;
 

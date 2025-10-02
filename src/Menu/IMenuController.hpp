@@ -3,7 +3,7 @@
 #include <ControlWidget.hpp>
 #include <functional>
 
-enum class MenuCommand
+enum class MenuCommand : char
 {
     StartSinglePlayer = 0,
     PauseSinglePlayer = 1,

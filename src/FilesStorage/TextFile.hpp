@@ -10,20 +10,20 @@ class TextFile
 {
 public:
     TextFile() = default;
-    TextFile(std::string filePath);
+    explicit TextFile(std::string filePath);
     TextFile(
         std::string filePath,
         const std::string& rawFileContent
     );
     virtual ~TextFile() = default;
 
-    TextFilePath getPath() const;
-    const TextFileContent& getContent() const;
+    [[nodiscard]] TextFilePath getPath() const;
+    [[nodiscard]] const TextFileContent& getContent() const;
 
 private:
-    TextFilePath path { "" };
-    TextFileContent content {};
+    TextFilePath path;
+    TextFileContent content;
 
-    std::string getRawFileContent() const;
+    [[nodiscard]] std::string getRawFileContent() const;
     void loadContent(const std::string& rawFileContent);
 };

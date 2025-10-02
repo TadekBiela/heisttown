@@ -1,10 +1,7 @@
 #include "Menu.hpp"
-#include <ControlWidget.hpp>
-#include <Widget.hpp>
-#include <memory>
 #include <utility>
 
-void Menu::addWidget(std::unique_ptr<Widget> widget)
+void Menu::addWidget(std::shared_ptr<Widget> widget)
 {
     if (isControlWidget(widget.get()))
     {

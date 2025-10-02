@@ -4,7 +4,6 @@
 #include <iterator>
 #include <sstream>
 #include <stdexcept>
-#include <string>
 #include <utility>
 
 TextFile::TextFile(std::string filePath)

@@ -5,7 +5,6 @@
 #include <Widget.hpp>
 #include <WidgetType.hpp>
 #include <functional>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <initializer_list>
 #include <memory>

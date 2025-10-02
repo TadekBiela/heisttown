@@ -10,7 +10,8 @@ class LocalClient : public Client
 public:
     LocalClient(
         std::unique_ptr<GameDisplay> display,
-        std::unique_ptr<PlayerInput> input);
+        std::unique_ptr<PlayerInput> input
+    );
 
     void connect(const GameConnection& connection) override;
     void start() override;

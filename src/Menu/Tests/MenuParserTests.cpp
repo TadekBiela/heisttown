@@ -8,7 +8,6 @@
 #include <Widget.hpp>
 #include <WidgetGeometry.hpp>
 #include <WidgetType.hpp>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <map>
 #include <memory>

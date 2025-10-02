@@ -9,7 +9,9 @@ Checks: 'bugprone-*
          portability-*,
          readability-*,
          -cppcoreguidelines-avoid-magic-numbers,
-         -readability-magic-numbers'
-         -modernize-use-trailing-return-type'
+         -readability-magic-numbers,
+         -misc-include-cleaner,
+         -modernize-use-trailing-return-type,
+         -modernize-pass-by-value'
 
 WarningsAsErrors: '*'

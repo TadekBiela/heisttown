@@ -2,7 +2,6 @@
 #include <IFileLoader.hpp>
 #include <MockFileLoader.hpp>
 #include <TextFile.hpp>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <map>
 #include <memory>

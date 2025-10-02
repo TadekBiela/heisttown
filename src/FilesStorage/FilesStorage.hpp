@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IFileLoader.hpp"
+#include <map>
 
 template <typename File>
 class FilesStorage
