@@ -1,8 +1,8 @@
-#include <ControlWidget.hpp>
 #include <Menu.hpp>
-#include <MockControlWidget.hpp>
 #include <MockWidget.hpp>
+#include <MockWidgetWithControl.hpp>
 #include <Widget.hpp>
+#include <WidgetControl.hpp>
 #include <WidgetType.hpp>
 #include <functional>
 #include <gtest/gtest.h>
@@ -52,30 +52,30 @@ public:
         return widget;
     }
 
-    static std::unique_ptr<MockControlWidget> getMockControlWidgetWithExpectedShow(const WidgetType& type)
+    static std::unique_ptr<MockWidgetWithControl> getMockWidgetWithControlWithExpectedShow(const WidgetType& type)
     {
-        auto widget { getMockControlWidget(type) };
+        auto widget { getMockWidgetWithControl(type) };
         EXPECT_CALL(*widget, show());
         return widget;
     }
 
-    static std::unique_ptr<MockControlWidget> getMockControlWidgetWithExpectedHide(const WidgetType& type)
+    static std::unique_ptr<MockWidgetWithControl> getMockWidgetWithControlWithExpectedHide(const WidgetType& type)
     {
-        auto widget { getMockControlWidget(type) };
+        auto widget { getMockWidgetWithControl(type) };
         EXPECT_CALL(*widget, hide());
         return widget;
     }
 
-    static std::unique_ptr<MockControlWidget> getMockControlWidgetWithExpectedConnect(const WidgetType& type)
+    static std::unique_ptr<MockWidgetWithControl> getMockWidgetWithControlWithExpectedConnect(const WidgetType& type)
     {
-        auto widget { getMockControlWidget(type) };
+        auto widget { getMockWidgetWithControl(type) };
         EXPECT_CALL(*widget, connect(_));
         return widget;
     }
 
-    static std::unique_ptr<MockControlWidget> getMockControlWidget(const WidgetType& type)
+    static std::unique_ptr<MockWidgetWithControl> getMockWidgetWithControl(const WidgetType& type)
     {
-        auto widget { std::make_unique<MockControlWidget>() };
+        auto widget { std::make_unique<MockWidgetWithControl>() };
         EXPECT_CALL(*widget, getType()).WillRepeatedly(Return(type));
         return widget;
     }
@@ -85,7 +85,7 @@ TEST_F(MenuTests, addWidget_ButtonWidget_ShouldAddButtonToControlWidgets)
 {
     MenuTestable menu;
 
-    menu.addWidget(getMockControlWidget(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControl(WidgetType::BUTTON));
 
     ASSERT_EQ(1, menu.getControlWidgets().size());
     EXPECT_EQ(WidgetType::BUTTON, menu.getControlWidgets().at(0)->getType());
@@ -108,11 +108,11 @@ TEST_F(MenuTests, addWidget_DifferentWidgets_ShouldAddWidgetsRegardingToType)
     MenuTestable menu;
 
     menu.addWidget(getMockWidget(WidgetType::LABEL));
-    menu.addWidget(getMockControlWidget(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidget(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidget(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControl(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControl(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControl(WidgetType::BUTTON));
     menu.addWidget(getMockWidget(WidgetType::LABEL));
-    menu.addWidget(getMockControlWidget(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControl(WidgetType::BUTTON));
 
     EXPECT_EQ(4, menu.getControlWidgets().size());
     EXPECT_EQ(2, menu.getStaticWidgets().size());
@@ -143,7 +143,7 @@ TEST_F(MenuTests, show_ContainsThreeStaticWidgets_ShouldShowAllWidgets)
 TEST_F(MenuTests, show_ContainsOneControlWidget_ShouldShowWidget)
 {
     MenuTestable menu;
-    menu.addWidget(getMockControlWidgetWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedShow(WidgetType::BUTTON));
 
     menu.show();
 
@@ -153,9 +153,9 @@ TEST_F(MenuTests, show_ContainsOneControlWidget_ShouldShowWidget)
 TEST_F(MenuTests, show_ContainsThreeControlWidgets_ShouldShowAllWidgets)
 {
     MenuTestable menu;
-    menu.addWidget(getMockControlWidgetWithExpectedShow(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidgetWithExpectedShow(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidgetWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedShow(WidgetType::BUTTON));
 
     menu.show();
 
@@ -167,8 +167,8 @@ TEST_F(MenuTests, show_ContainsTwoStaticAndControlWidgets_ShouldShowAllWidgets)
     MenuTestable menu;
     menu.addWidget(getMockWidgetWithExpectedShow(WidgetType::LABEL));
     menu.addWidget(getMockWidgetWithExpectedShow(WidgetType::LABEL));
-    menu.addWidget(getMockControlWidgetWithExpectedShow(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidgetWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedShow(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedShow(WidgetType::BUTTON));
 
     menu.show();
 
@@ -201,7 +201,7 @@ TEST_F(MenuTests, hide_ContainsThreeStaticWidgets_ShouldHideAllWidgets)
 TEST_F(MenuTests, hide_ContainsOneControlWidget_ShouldHideWidget)
 {
     MenuTestable menu;
-    menu.addWidget(getMockControlWidgetWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedHide(WidgetType::BUTTON));
 
     menu.hide();
 
@@ -211,9 +211,9 @@ TEST_F(MenuTests, hide_ContainsOneControlWidget_ShouldHideWidget)
 TEST_F(MenuTests, hide_ContainsThreeControlWidgets_ShouldHideAllWidgets)
 {
     MenuTestable menu;
-    menu.addWidget(getMockControlWidgetWithExpectedHide(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidgetWithExpectedHide(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidgetWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedHide(WidgetType::BUTTON));
 
     menu.hide();
 
@@ -225,8 +225,8 @@ TEST_F(MenuTests, hide_ContainsTwoStaticAndControlWidgets_ShouldHideAllWidgets)
     MenuTestable menu;
     menu.addWidget(getMockWidgetWithExpectedHide(WidgetType::LABEL));
     menu.addWidget(getMockWidgetWithExpectedHide(WidgetType::LABEL));
-    menu.addWidget(getMockControlWidgetWithExpectedHide(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidgetWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedHide(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedHide(WidgetType::BUTTON));
 
     menu.hide();
 
@@ -261,7 +261,7 @@ TEST_F(MenuTests, connect_ContainsOneControlWidget_ShouldConnectWidgetToOutput)
 {
     ControlConnection controlConnection { [](const WidgetCommand&) {} };
     MenuTestable menu;
-    menu.addWidget(getMockControlWidgetWithExpectedConnect(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedConnect(WidgetType::BUTTON));
 
     menu.connect(controlConnection);
 
@@ -273,9 +273,9 @@ TEST_F(MenuTests, connect_ContainsThreeControlWidget_ShouldConnectAllWidgetsToOu
 {
     ControlConnection controlConnection { [](const WidgetCommand&) {} };
     MenuTestable menu;
-    menu.addWidget(getMockControlWidgetWithExpectedConnect(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidgetWithExpectedConnect(WidgetType::BUTTON));
-    menu.addWidget(getMockControlWidgetWithExpectedConnect(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedConnect(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedConnect(WidgetType::BUTTON));
+    menu.addWidget(getMockWidgetWithControlWithExpectedConnect(WidgetType::BUTTON));
 
     menu.connect(controlConnection);
 

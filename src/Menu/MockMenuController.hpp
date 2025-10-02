@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IMenuController.hpp"
-#include <ControlWidget.hpp>
+#include <WidgetControl.hpp>
 #include <gmock/gmock.h>
 
 class MockMenuController : public IMenuController

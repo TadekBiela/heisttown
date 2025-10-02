@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ControlWidget.hpp"
 #include "IMenuController.hpp"
 #include "IMenuParser.hpp"
 #include "Menus.hpp"
 #include <IFileLoader.hpp>
 #include <TextFile.hpp>
+#include <WidgetControl.hpp>
 #include <memory>
 #include <stack>
 

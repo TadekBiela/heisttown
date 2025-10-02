@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ControlWidget.hpp>
+#include <WidgetControl.hpp>
 #include <functional>
 
 enum class MenuCommand : char

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "ControlWidget.hpp"
+#include "WidgetControl.hpp"
 #include "Widget.hpp"
 #include "WidgetGeometry.hpp"
 #include "WidgetType.hpp"
 #include <gmock/gmock.h>
 
-class MockControlWidget : public ControlWidget
+class MockWidgetWithControl : public Widget, public WidgetControl
 {
 public:
     MOCK_CONST_METHOD0(getType, WidgetType());

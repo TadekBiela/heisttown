@@ -3,7 +3,7 @@
 
 void Menu::addWidget(std::shared_ptr<Widget> widget)
 {
-    if (isControlWidget(widget.get()))
+    if (isWidgetWithControl(widget.get()))
     {
         controlWidgets.push_back(std::move(widget));
     }
@@ -13,16 +13,16 @@ void Menu::addWidget(std::shared_ptr<Widget> widget)
     }
 }
 
-bool Menu::isControlWidget(const Widget* widget)
+bool Menu::isWidgetWithControl(const Widget* widget)
 {
-    return !(dynamic_cast<const ControlWidget*>(widget) == nullptr);
+    return !(dynamic_cast<const WidgetControl*>(widget) == nullptr);
 }
 
 void Menu::connect(ControlConnection& controlConnection)
 {
     for (auto& widget : controlWidgets)
     {
-        auto* widgetPtr { dynamic_cast<ControlWidget*>(widget.get()) };
+        auto* widgetPtr { dynamic_cast<WidgetControl*>(widget.get()) };
         if (widgetPtr != nullptr)
         {
             widgetPtr->connect(controlConnection);
