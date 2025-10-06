@@ -9,4 +9,5 @@ public:
     MOCK_METHOD1(setInputReceiver, void(PlayerInputReceiver));
     MOCK_METHOD0(start, void());
     MOCK_METHOD0(stop, void());
+    MOCK_CONST_METHOD0(getPlayerStatus, PlayerStatus());
 };

@@ -11,4 +11,5 @@ public:
     virtual void start() = 0;
     virtual void stop() = 0;
     virtual void connect(std::shared_ptr<Client>) = 0;
+    virtual void disconnect(std::shared_ptr<Client>) = 0;
 };

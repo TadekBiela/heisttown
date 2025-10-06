@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PlayerStatus.hpp"
 #include <functional>
 #include <string>
 
@@ -14,4 +15,5 @@ public:
     virtual void setInputReceiver(PlayerInputReceiver inputReceiver) = 0;
     virtual void start() = 0;
     virtual void stop() = 0;
+    virtual PlayerStatus getPlayerStatus() const = 0;
 };

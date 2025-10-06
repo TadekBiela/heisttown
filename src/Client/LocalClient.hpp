@@ -17,6 +17,8 @@ public:
     void start() override;
     void stop() override;
     void receive(const PlayerInputCommand& command) override;
+    [[nodiscard]] PlayerStatus status() const override;
+    void update(std::unique_ptr<GameplayUpdate> gameplayUpdate) override;
 
 private:
     GameConnection gameConnection;

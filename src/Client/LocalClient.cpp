@@ -43,3 +43,13 @@ void LocalClient::receive(const PlayerInputCommand& command)
         gameConnection(GameCommand::Pause);
     }
 }
+
+PlayerStatus LocalClient::status() const
+{
+    return playerInput->getPlayerStatus();
+}
+
+void LocalClient::update(std::unique_ptr<GameplayUpdate> gameplayUpdate)
+{
+    gameplayUpdate.get();
+}

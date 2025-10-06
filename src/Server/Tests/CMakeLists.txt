@@ -13,5 +13,9 @@ target_link_libraries(${TEST_NAME}
         Server
 )
 
+if(THREAD_SANITIZE)
+    target_compile_definitions(${TEST_NAME} PRIVATE THREAD_SANITIZE)
+endif()
+
 add_test(NAME ${TEST_NAME}
 	 COMMAND ${TEST_NAME})

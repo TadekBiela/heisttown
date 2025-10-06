@@ -11,4 +11,5 @@ public:
     MOCK_METHOD0(start, void());
     MOCK_METHOD0(stop, void());
     MOCK_METHOD1(connect, void(std::shared_ptr<Client>));
+    MOCK_METHOD1(disconnect, void(std::shared_ptr<Client>));
 };
