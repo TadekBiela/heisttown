@@ -1,6 +1,6 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
-#include <MockGameDisplay.hpp>
+#include <MockDisplay.hpp>
 #include <MockPlayerInput.hpp>
 #include <PlayerInput.hpp>
 #include <gmock/gmock.h>
@@ -14,9 +14,9 @@ class LocalClientTests : public Test
 {
 };
 
-TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldShowGameDisplayAndStartInputReading)
+TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldShowDisplayAndStartInputReading)
 {
-    auto display { std::make_unique<MockGameDisplay>() };
+    auto display { std::make_unique<MockDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*display, show());
@@ -26,9 +26,9 @@ TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldShowGameDisplayAndStartInp
     client.start();
 }
 
-TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldHideGameDisplayAndStopInputReading)
+TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldHideDisplayAndStopInputReading)
 {
-    auto display { std::make_unique<MockGameDisplay>() };
+    auto display { std::make_unique<MockDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*display, hide());
@@ -40,7 +40,7 @@ TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldHideGameDisplayAndStopInput
 
 TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 {
-    auto display { std::make_unique<MockGameDisplay>() };
+    auto display { std::make_unique<MockDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*display, hide()).Times(0);
@@ -60,7 +60,7 @@ TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 
 TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendGameCommand)
 {
-    auto display { std::make_unique<MockGameDisplay>() };
+    auto display { std::make_unique<MockDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*display, hide());

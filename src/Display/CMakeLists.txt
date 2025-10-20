@@ -1,4 +1,4 @@
-set(LIB_NAME GameDisplay)
+set(LIB_NAME Display)
 
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.hpp")
 file(GLOB SRC_FILES CONFIGURE_DEPENDS "*.cpp")

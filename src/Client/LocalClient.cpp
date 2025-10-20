@@ -3,7 +3,7 @@
 #include <utility>
 
 LocalClient::LocalClient(
-    std::unique_ptr<GameDisplay> display,
+    std::unique_ptr<Display> display,
     std::unique_ptr<PlayerInput> input
 )
     : gameConnection([](const GameCommand&) {})
