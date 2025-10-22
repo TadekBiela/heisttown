@@ -77,11 +77,3 @@ void DisplaySfml::render()
 
     window.display();
 }
-
-void DisplaySfml::show()
-{
-}
-
-void DisplaySfml::hide()
-{
-}

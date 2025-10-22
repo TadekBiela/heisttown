@@ -2,12 +2,11 @@
 
 #include "Drawable.hpp"
 #include "EventHandler.hpp"
-#include <Display.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <memory>
 #include <vector>
 
-class DisplaySfml : public Display
+class DisplaySfml
 {
 public:
     DisplaySfml(unsigned int width, unsigned int height);
@@ -15,8 +14,6 @@ public:
     void addDrawable(std::weak_ptr<Drawable> drawable);
     void addEventHandler(std::weak_ptr<EventHandler> handler);
     void display();
-    void show() override;
-    void hide() override;
 
 private:
     sf::RenderWindow window;
