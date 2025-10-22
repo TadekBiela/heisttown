@@ -4,12 +4,10 @@
 
 WidgetsFactorySfml::WidgetsFactorySfml(
     const std::shared_ptr<sf::Font>& font,
-    const std::shared_ptr<Renderer>& renderer,
-    const std::shared_ptr<EventDispatcher>& eventDispatcher
+    const std::shared_ptr<DisplaySfml>& displaySfml
 )
     : widgetFont(font)
-    , widgetRenderer(renderer)
-    , widgetEventDispatcher(eventDispatcher)
+    , widgetDisplaySfml(displaySfml)
 {
 }
 
@@ -25,14 +23,14 @@ std::shared_ptr<Widget> WidgetsFactorySfml::create(
         case WidgetType::BUTTON:
         {
             auto widget { std::make_shared<ButtonWidget>(geometry, text, style, widgetFont) };
-            widgetRenderer->addDrawable(widget);
-            widgetEventDispatcher->addEventHandler(widget);
+            widgetDisplaySfml->addDrawable(widget);
+            widgetDisplaySfml->addEventHandler(widget);
             return widget;
         }
         case WidgetType::LABEL:
         {
             auto widget { std::make_shared<LabelWidget>(geometry, text, style, widgetFont) };
-            widgetRenderer->addDrawable(widget);
+            widgetDisplaySfml->addDrawable(widget);
             return widget;
         }
         default:

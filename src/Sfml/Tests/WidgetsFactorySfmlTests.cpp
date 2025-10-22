@@ -34,9 +34,8 @@ private:
 
 TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
 {
-    const auto renderer { std::make_shared<Renderer>(1, 1) };
-    const auto eventDispatcher { std::make_shared<EventDispatcher>() };
-    WidgetsFactorySfml factory { getFont(), renderer, eventDispatcher };
+    const auto displaySfml { std::make_shared<DisplaySfml>(1, 1) };
+    WidgetsFactorySfml factory { getFont(), displaySfml };
 
     const auto resultWidget {
         factory.create(
@@ -53,9 +52,8 @@ TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
 
 TEST_F(WidgetsFactorySfmlTests, create_ButtonType_CreateButtonWidget)
 {
-    const auto renderer { std::make_shared<Renderer>(1, 1) };
-    const auto eventDispatcher { std::make_shared<EventDispatcher>() };
-    WidgetsFactorySfml factory { getFont(), renderer, eventDispatcher };
+    const auto displaySfml { std::make_shared<DisplaySfml>(1, 1) };
+    WidgetsFactorySfml factory { getFont(), displaySfml };
 
     const auto resultWidget {
         factory.create(

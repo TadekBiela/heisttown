@@ -1,7 +1,6 @@
 #pragma once
 
-#include "EventDispatcher.hpp"
-#include "Renderer.hpp"
+#include "DisplaySfml.hpp"
 #include <Widget.hpp>
 #include <WidgetsFactory.hpp>
 #include <WidgetGeometry.hpp>
@@ -14,8 +13,7 @@ class WidgetsFactorySfml : public WidgetsFactory
 public:
     explicit WidgetsFactorySfml(
         const std::shared_ptr<sf::Font>& font,
-        const std::shared_ptr<Renderer>& renderer,
-        const std::shared_ptr<EventDispatcher>& eventDispatcher
+        const std::shared_ptr<DisplaySfml>& displaySfml
     );
 
     std::shared_ptr<Widget> create(
@@ -27,6 +25,5 @@ public:
 
 private:
     std::shared_ptr<sf::Font> widgetFont;
-    std::shared_ptr<Renderer> widgetRenderer;
-    std::shared_ptr<EventDispatcher> widgetEventDispatcher;
+    std::shared_ptr<DisplaySfml> widgetDisplaySfml;
 };

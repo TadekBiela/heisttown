@@ -4,24 +4,27 @@
 #include "MainApplication/MainApplication.hpp"
 #include "Menu/MenuController.hpp"
 #include "Menu/MenuParser.hpp"
-#include "Sfml/EventDispatcher.hpp"
-#include "Sfml/Renderer.hpp"
+#include "Sfml/DisplaySfml.hpp"
 #include "Sfml/WidgetsFactorySfml.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <filesystem>
 #include <memory>
 #include <thread>
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
+std::shared_ptr<sf::Font> getLoadedFont(const std::filesystem::path& currentPath)
 {
-    auto menuRenderer { std::make_shared<Renderer>(1000, 800) };
-    auto menuEventDispatcher { std::make_shared<EventDispatcher>() };
-
-    const auto currentPath { std::filesystem::current_path() };
     const auto fontPath { currentPath.string() + "/Sfml/Font/PixelCode.ttf" };
     auto font { std::make_shared<sf::Font>() };
     font->loadFromFile(fontPath);
-    auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(font, menuRenderer, menuEventDispatcher) };
+
+    return font;
+}
+
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
+{
+    auto menuDisplaySfml { std::make_shared<DisplaySfml>(1000, 800) };
+    const auto currentPath { std::filesystem::current_path() };
+    auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(currentPath), menuDisplaySfml) };
     auto menuParser { std::make_unique<MenuParser>(std::move(widgetsFactory)) };
 
     const auto menuFilePath { currentPath.string() + "/Menus/" };
@@ -29,9 +32,6 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     auto menuController { std::make_unique<MenuController>(std::move(menuParser), std::move(menuFileLoader)) };
 
     menuController->showMenu();
-
-    std::thread eventThread { &EventDispatcher::dispatch, *menuEventDispatcher, std::ref(menuRenderer->getWindow()) };
-    menuRenderer->render();
-    eventThread.join();
+    menuDisplaySfml->display();
     return 0;
 }
