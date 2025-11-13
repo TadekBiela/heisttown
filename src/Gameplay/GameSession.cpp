@@ -31,5 +31,5 @@ void GameSession::updateGameWorld()
 GameplayUpdate GameSession::getUpdateForPlayer(const PlayerID& playerId) const
 {
     (void)playerId;
-    return GameplayUpdate{};
+    return GameplayUpdate {};
 }

@@ -14,7 +14,7 @@ LocalClient::LocalClient(
         this->receive(command);
     };
 
-    if(playerInput)
+    if (playerInput)
     {
         playerInput->setInputReceiver(inputReceiver);
     }
@@ -27,7 +27,7 @@ void LocalClient::connect(const GameConnection& connection)
 
 void LocalClient::start()
 {
-    if(playerInput)
+    if (playerInput)
     {
         playerInput->start();
     }
@@ -35,7 +35,7 @@ void LocalClient::start()
 
 void LocalClient::stop()
 {
-    if(playerInput)
+    if (playerInput)
     {
         playerInput->stop();
     }
@@ -54,7 +54,7 @@ void LocalClient::receive(const PlayerInputCommand& command)
 PlayerStatus LocalClient::status() const
 {
     // return playerInput->getPlayerStatus();
-    return PlayerStatus{};
+    return PlayerStatus {};
 }
 
 void LocalClient::update(const GameplayUpdate&& gameplayUpdate)
