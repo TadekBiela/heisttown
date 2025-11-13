@@ -5,10 +5,6 @@
 LocalServer::LocalServer(std::unique_ptr<GameSession> newGameSession)
     : gameSession(std::move(newGameSession))
 {
-    if (gameSession == nullptr)
-    {
-        gameSession = std::make_unique<GameSession>();
-    }
 }
 
 LocalServer::~LocalServer()

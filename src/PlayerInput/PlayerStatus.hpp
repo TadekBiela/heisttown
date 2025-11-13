@@ -1,5 +1,11 @@
 #pragma once
 
+struct FieldOfView
+{
+    float horizontal;
+    float vertical;
+};
+
 enum class Direction : char
 {
     FRONT,
@@ -23,6 +29,7 @@ enum class Action : char
 
 struct PlayerStatus
 {
+    FieldOfView fov { 1000, 800 };
     Direction moveDirection { Direction::FRONT };
     Velocity moveVelocity { 0.0 };
     Direction sightDirection { Direction::FRONT };

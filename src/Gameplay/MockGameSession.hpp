@@ -8,6 +8,10 @@
 class MockGameSession : public GameSession
 {
 public:
+    MockGameSession()
+        : GameSession(nullptr)
+    {}
+
     MOCK_METHOD(void, start, ());
     MOCK_METHOD(void, stop, ());
     MOCK_METHOD(PlayerID, addPlayer, ());

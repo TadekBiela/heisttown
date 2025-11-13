@@ -88,8 +88,8 @@ private:
 
 TEST_F(LocalServerTests, connect_AddOneClient_ClientsContainsOneElement)
 {
-    auto gameSession { std::make_unique<MockGameSession>() };
     const GameSession::PlayerID expectedPlayerId { 42 };
+    auto gameSession = std::make_unique<MockGameSession>();
     EXPECT_CALL(*gameSession, addPlayer()).WillOnce(Return(expectedPlayerId));
     auto client { std::make_shared<MockClient>() };
     LocalServerTestable server { std::move(gameSession) };
@@ -103,8 +103,8 @@ TEST_F(LocalServerTests, connect_AddOneClient_ClientsContainsOneElement)
 
 TEST_F(LocalServerTests, connect_AddOneClientConnectedTwice_ClientsContainsOneElement)
 {
-    auto gameSession { std::make_unique<MockGameSession>() };
     const GameSession::PlayerID expectedPlayerId { 0 };
+    auto gameSession = std::make_unique<MockGameSession>();
     EXPECT_CALL(*gameSession, addPlayer()).WillOnce(Return(expectedPlayerId));
     auto client { std::make_shared<MockClient>() };
     LocalServerTestable server { std::move(gameSession) };
@@ -119,7 +119,7 @@ TEST_F(LocalServerTests, connect_AddOneClientConnectedTwice_ClientsContainsOneEl
 
 TEST_F(LocalServerTests, disconnect_ClientThatNotConnected_DoNothing)
 {
-    auto gameSession { std::make_unique<MockGameSession>() };
+    auto gameSession = std::make_unique<MockGameSession>();
     EXPECT_CALL(*gameSession, removePlayer(_)).Times(0);
     auto client { std::make_shared<MockClient>() };
     LocalServerTestable server { std::move(gameSession) };
@@ -133,7 +133,7 @@ TEST_F(LocalServerTests, disconnect_ClientThatNotConnected_DoNothing)
 TEST_F(LocalServerTests, disconnect_ClientConnected_RemoveClientFromGameplay)
 {
     const GameSession::PlayerID expectedPlayerId { 0 };
-    auto gameSession { std::make_unique<MockGameSession>() };
+    auto gameSession = std::make_unique<MockGameSession>();
     EXPECT_CALL(*gameSession, addPlayer()).WillOnce(Return(expectedPlayerId));
     EXPECT_CALL(*gameSession, removePlayer(expectedPlayerId));
     auto client { std::make_shared<MockClient>() };
@@ -149,7 +149,7 @@ TEST_F(LocalServerTests, disconnect_ClientConnected_RemoveClientFromGameplay)
 TEST_F(LocalServerTests, disconnect_ClientConnectedTryDisconnectwice_RemoveClientFromGameplayOnlyOnce)
 {
     const GameSession::PlayerID expectedPlayerId { 0 };
-    auto gameSession { std::make_unique<MockGameSession>() };
+    auto gameSession = std::make_unique<MockGameSession>();
     EXPECT_CALL(*gameSession, addPlayer()).WillOnce(Return(expectedPlayerId));
     EXPECT_CALL(*gameSession, removePlayer(expectedPlayerId));
     auto client { std::make_shared<MockClient>() };
@@ -165,7 +165,8 @@ TEST_F(LocalServerTests, disconnect_ClientConnectedTryDisconnectwice_RemoveClien
 
 TEST_F(LocalServerTests, stop_NotStarted_StillRunningFalse)
 {
-    LocalServerTestable server {};
+    auto gameSession = std::make_unique<MockGameSession>();
+    LocalServerTestable server { std::move(gameSession) };
 
     EXPECT_NO_THROW(server.stop());
 
@@ -174,7 +175,8 @@ TEST_F(LocalServerTests, stop_NotStarted_StillRunningFalse)
 
 TEST_F(LocalServerTests, stop_ServerStarted_StopAndSetRunningFalse)
 {
-    LocalServerTestable server {};
+    auto gameSession = std::make_unique<MockGameSession>();
+    LocalServerTestable server { std::move(gameSession) };
     server.start();
 
     const bool isRunningBeforeStop { server.isRunning() };
@@ -186,7 +188,8 @@ TEST_F(LocalServerTests, stop_ServerStarted_StopAndSetRunningFalse)
 
 TEST_F(LocalServerTests, start_NoClients_RunningSetToTrue)
 {
-    LocalServerTestable server {};
+    auto gameSession = std::make_unique<MockGameSession>();
+    LocalServerTestable server { std::move(gameSession) };
 
     server.start();
 
@@ -198,7 +201,7 @@ TEST_F(LocalServerTests, start_OneClientConnected_RunningGetStatusUpdateGameWorl
 {
     SKIP_IF_THREAD_SANITIZE();
     const GameSession::PlayerID expectedPlayerId { 0 };
-    auto gameSession { std::make_unique<MockGameSession>() };
+    auto gameSession = std::make_unique<MockGameSession>();
     EXPECT_CALL(*gameSession, addPlayer()).WillOnce(Return(expectedPlayerId));
     auto client { std::make_shared<MockClient>() };
     EXPECT_CALL(*client, status()).Times(AtLeast(1)).WillRepeatedly(Invoke([&]()
@@ -223,7 +226,7 @@ TEST_F(LocalServerTests, start_OneClientConnected_RunningGetStatusUpdateGameWorl
 TEST_F(LocalServerTests, start_ThreeClientsConnected_RunningGetStatusFromAllUpdateGameWorldOnceAndSentGameplayUpdateToAll)
 {
     SKIP_IF_THREAD_SANITIZE();
-    auto gameSession { std::make_unique<MockGameSession>() };
+    auto gameSession = std::make_unique<MockGameSession>();
     EXPECT_CALL(*gameSession, addPlayer()).Times(3).WillOnce(Return(0)).WillOnce(Return(1)).WillOnce(Return(2));
     EXPECT_CALL(*gameSession, queuePlayerStatus(_, _)).Times(AtLeast(3));
     EXPECT_CALL(*gameSession, updateGameWorld()).Times(AtLeast(1));
@@ -256,7 +259,8 @@ TEST_F(LocalServerTests, start_ThreeClientsConnected_RunningGetStatusFromAllUpda
 
 TEST_F(LocalServerTests, start_ThreeClientsConnected_IsRunningTrue)
 {
-    LocalServerTestable server;
+    auto gameSession = std::make_unique<MockGameSession>();
+    LocalServerTestable server { std::move(gameSession) };
     auto client1 { getLocalClient() };
     server.connect(client1);
     auto client2 { getLocalClient() };

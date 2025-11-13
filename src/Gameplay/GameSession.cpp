@@ -1,5 +1,10 @@
 #include "GameSession.hpp"
 
+GameSession::GameSession(std::unique_ptr<GameObjectFactory> inputFactory)
+    : factory(std::move(inputFactory))
+{
+}
+
 void GameSession::start()
 {
 }
@@ -10,12 +15,13 @@ void GameSession::stop()
 
 GameSession::PlayerID GameSession::addPlayer()
 {
-    return 0;
+    playersObjects[playerIdCounter] = factory->create({ 0, 0 }, 0);
+    return playerIdCounter++;
 }
 
 void GameSession::removePlayer(const PlayerID& playerId)
 {
-    (void)playerId;
+    playersObjects.erase(playerId);
 }
 
 void GameSession::queuePlayerStatus(const PlayerID& playerId, const PlayerStatus& playerStatus)
@@ -30,6 +36,12 @@ void GameSession::updateGameWorld()
 
 GameplayUpdate GameSession::getUpdateForPlayer(const PlayerID& playerId) const
 {
-    (void)playerId;
+    if (playersObjects.find(playerId) != playersObjects.end())
+    {
+        GameplayUpdate update;
+        auto& sceneUpdate { update.gameSceneUpdate };
+        sceneUpdate.gameObjects.push_back(playersObjects.at(playerId));
+        return update;
+    }
     return GameplayUpdate {};
 }
