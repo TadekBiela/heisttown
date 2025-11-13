@@ -7,7 +7,7 @@
 class MockMenuController : public IMenuController
 {
 public:
-    MOCK_METHOD1(handle, void(const WidgetCommand&));
-    MOCK_METHOD1(connect, void(const MenuConnection&));
-    MOCK_METHOD0(showMenu, void());
+    MOCK_METHOD(void, handle, (const WidgetCommand&));
+    MOCK_METHOD(void, connect, (const MenuConnection&));
+    MOCK_METHOD(void, showMenu, ());
 };

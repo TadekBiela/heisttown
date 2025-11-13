@@ -6,8 +6,8 @@
 class MockPlayerInput : public PlayerInput
 {
 public:
-    MOCK_METHOD1(setInputReceiver, void(PlayerInputReceiver));
-    MOCK_METHOD0(start, void());
-    MOCK_METHOD0(stop, void());
-    MOCK_CONST_METHOD0(getPlayerStatus, PlayerStatus());
+    MOCK_METHOD(void, setInputReceiver, (PlayerInputReceiver));
+    MOCK_METHOD(void, start, ());
+    MOCK_METHOD(void, stop, ());
+    MOCK_METHOD(PlayerStatus, getPlayerStatus, (), (const));
 };

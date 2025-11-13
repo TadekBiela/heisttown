@@ -7,5 +7,5 @@
 class MockGameScene : public GameScene
 {
 public:
-    MOCK_METHOD1(update, void(const GameSceneUpdate&));
+    MOCK_METHOD(void, update, (const GameSceneUpdate&));
 };
