@@ -1,11 +1,10 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
+#include <MockGameScene.hpp>
 #include <MockPlayerInput.hpp>
-#include <PlayerInput.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
-#include <utility>
 
 using namespace testing;
 
@@ -15,26 +14,29 @@ class LocalClientTests : public Test
 
 TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldStartInputReading)
 {
+    auto scene { std::make_unique<MockGameScene>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, start());
-    LocalClient client { std::move(input) };
+    LocalClient client { std::move(scene), std::move(input) };
 
     client.start();
 }
 
 TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldStopInputReading)
 {
+    auto scene { std::make_unique<MockGameScene>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, stop());
-    LocalClient client { std::move(input) };
+    LocalClient client { std::move(scene), std::move(input) };
 
     client.stop();
 }
 
 TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 {
+    auto scene { std::make_unique<MockGameScene>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, stop()).Times(0);
@@ -43,7 +45,7 @@ TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
     {
         resultCommand = command;
     };
-    LocalClient client { std::move(input) };
+    LocalClient client { std::move(scene), std::move(input) };
     client.connect(connection);
 
     client.receive("Keyboard: Y");
@@ -53,6 +55,7 @@ TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 
 TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendGameCommand)
 {
+    auto scene { std::make_unique<MockGameScene>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, stop());
@@ -61,7 +64,7 @@ TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendGameCommand)
     {
         resultCommand = command;
     };
-    LocalClient client { std::move(input) };
+    LocalClient client { std::move(scene), std::move(input) };
     client.connect(connection);
 
     client.receive("Keyboard: ESC");

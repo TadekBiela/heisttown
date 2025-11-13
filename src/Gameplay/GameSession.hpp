@@ -1,8 +1,7 @@
 #pragma once
 
-#include <Client.hpp>
+#include "GameplayUpdate.hpp"
 #include <PlayerStatus.hpp>
-#include <memory>
 
 class GameSession
 {
@@ -13,9 +12,9 @@ public:
 
     virtual void start();
     virtual void stop();
-    virtual PlayerID addPlayer();
+    [[nodiscard]] virtual PlayerID addPlayer();
     virtual void removePlayer(const PlayerID& playerId);
     virtual void queuePlayerStatus(const PlayerID& playerId, const PlayerStatus& playerStatus);
     virtual void updateGameWorld();
-    virtual std::unique_ptr<GameplayUpdate> getUpdateForPlayer(const PlayerID& playerId) const;
+    [[nodiscard]] virtual GameplayUpdate getUpdateForPlayer(const PlayerID& playerId) const;
 };

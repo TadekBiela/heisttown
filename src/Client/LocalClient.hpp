@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Client.hpp"
+#include <GameConnection.hpp>
+#include <GameplayUpdate.hpp>
+#include <GameScene.hpp>
 #include <PlayerInput.hpp>
 #include <memory>
 
@@ -8,6 +11,7 @@ class LocalClient : public Client
 {
 public:
     LocalClient(
+        std::shared_ptr<GameScene> scene,
         std::unique_ptr<PlayerInput> input
     );
 
@@ -16,10 +20,11 @@ public:
     void stop() override;
     void receive(const PlayerInputCommand& command) override;
     [[nodiscard]] PlayerStatus status() const override;
-    void update(std::unique_ptr<GameplayUpdate> gameplayUpdate) override;
+    void update(const GameplayUpdate&& gameplayUpdate) override;
 
 private:
     GameConnection gameConnection;
+    std::shared_ptr<GameScene> gameScene;
     PlayerInputReceiver inputReceiver;
     std::unique_ptr<PlayerInput> playerInput;
 };

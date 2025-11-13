@@ -3,6 +3,7 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
 #include <MockClient.hpp>
+#include <MockGameScene.hpp>
 #include <MockPlayerInput.hpp>
 #include <chrono>
 #include <future>
@@ -75,6 +76,7 @@ public:
     static std::shared_ptr<LocalClient> getLocalClient()
     {
         return std::make_shared<LocalClient>(
+            std::make_unique<MockGameScene>(),
             getMockPlayerInput()
         );
     }
@@ -205,8 +207,7 @@ TEST_F(LocalServerTests, start_OneClientConnected_RunningGetStatusUpdateGameWorl
             return PlayerStatus{}; }));
     EXPECT_CALL(*gameSession, queuePlayerStatus(expectedPlayerId, _)).Times(AtLeast(1));
     EXPECT_CALL(*gameSession, updateGameWorld()).Times(AtLeast(1));
-    EXPECT_CALL(*gameSession, getUpdateForPlayer(expectedPlayerId)).Times(AtLeast(1)).WillRepeatedly(Invoke([](auto)
-                                                                                                            { return std::make_unique<GameplayUpdate>(); }));
+    EXPECT_CALL(*gameSession, getUpdateForPlayer(expectedPlayerId)).Times(AtLeast(1)).WillRepeatedly(Invoke([](auto) { return GameplayUpdate{}; }));
     EXPECT_CALL(*client, update(_)).Times(AtLeast(1));
     LocalServerTestable server { std::move(gameSession) };
     server.connect(client);
@@ -225,8 +226,7 @@ TEST_F(LocalServerTests, start_ThreeClientsConnected_RunningGetStatusFromAllUpda
     EXPECT_CALL(*gameSession, addPlayer()).Times(3).WillOnce(Return(0)).WillOnce(Return(1)).WillOnce(Return(2));
     EXPECT_CALL(*gameSession, queuePlayerStatus(_, _)).Times(AtLeast(3));
     EXPECT_CALL(*gameSession, updateGameWorld()).Times(AtLeast(1));
-    EXPECT_CALL(*gameSession, getUpdateForPlayer(_)).Times(AtLeast(3)).WillRepeatedly(Invoke([](auto)
-                                                                                             { return std::make_unique<GameplayUpdate>(); }));
+    EXPECT_CALL(*gameSession, getUpdateForPlayer(_)).Times(AtLeast(3)).WillRepeatedly(Invoke([](auto) { return GameplayUpdate{}; }));
     LocalServerTestable server { std::move(gameSession) };
     auto client1 { std::make_shared<MockClient>() };
     EXPECT_CALL(*client1, status()).Times(AtLeast(1)).WillOnce(Invoke([&]()

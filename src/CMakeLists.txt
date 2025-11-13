@@ -1,5 +1,6 @@
 add_subdirectory(Client)
 add_subdirectory(FilesStorage)
+add_subdirectory(Gameplay)
 add_subdirectory(MainApplication)
 add_subdirectory(Menu)
 add_subdirectory(MouseCursor)
@@ -22,6 +23,7 @@ target_link_libraries(${APP_NAME}
     PRIVATE
         Client
         FilesStorage
+        Gameplay
         MainApplication
         Menu
         PlayerInput

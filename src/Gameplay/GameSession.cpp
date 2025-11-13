@@ -28,8 +28,8 @@ void GameSession::updateGameWorld()
 {
 }
 
-std::unique_ptr<GameplayUpdate> GameSession::getUpdateForPlayer(const PlayerID& playerId) const
+GameplayUpdate GameSession::getUpdateForPlayer(const PlayerID& playerId) const
 {
     (void)playerId;
-    return nullptr;
+    return GameplayUpdate{};
 }

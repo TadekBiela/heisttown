@@ -1,18 +1,23 @@
 #include "LocalClient.hpp"
 #include <iostream>
-#include <utility>
 
 LocalClient::LocalClient(
+    std::shared_ptr<GameScene> scene,
     std::unique_ptr<PlayerInput> input
 )
     : gameConnection([](const GameCommand&) {})
+    , gameScene(std::move(scene))
     , playerInput(std::move(input))
 {
     inputReceiver = [&](const PlayerInputCommand& command)
     {
         this->receive(command);
     };
-    playerInput->setInputReceiver(inputReceiver);
+
+    if(playerInput)
+    {
+        playerInput->setInputReceiver(inputReceiver);
+    }
 }
 
 void LocalClient::connect(const GameConnection& connection)
@@ -22,12 +27,18 @@ void LocalClient::connect(const GameConnection& connection)
 
 void LocalClient::start()
 {
-    playerInput->start();
+    if(playerInput)
+    {
+        playerInput->start();
+    }
 }
 
 void LocalClient::stop()
 {
-    playerInput->stop();
+    if(playerInput)
+    {
+        playerInput->stop();
+    }
 }
 
 void LocalClient::receive(const PlayerInputCommand& command)
@@ -42,10 +53,11 @@ void LocalClient::receive(const PlayerInputCommand& command)
 
 PlayerStatus LocalClient::status() const
 {
-    return playerInput->getPlayerStatus();
+    // return playerInput->getPlayerStatus();
+    return PlayerStatus{};
 }
 
-void LocalClient::update(std::unique_ptr<GameplayUpdate> gameplayUpdate)
+void LocalClient::update(const GameplayUpdate&& gameplayUpdate)
 {
-    gameplayUpdate.get();
+    gameScene->update(gameplayUpdate.gameSceneUpdate);
 }
