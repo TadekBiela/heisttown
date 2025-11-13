@@ -3,7 +3,6 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
 #include <MockClient.hpp>
-#include <MockDisplay.hpp>
 #include <MockPlayerInput.hpp>
 #include <chrono>
 #include <future>
@@ -76,7 +75,6 @@ public:
     static std::shared_ptr<LocalClient> getLocalClient()
     {
         return std::make_shared<LocalClient>(
-            std::make_unique<MockDisplay>(),
             getMockPlayerInput()
         );
     }

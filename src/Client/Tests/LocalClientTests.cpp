@@ -1,6 +1,5 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
-#include <MockDisplay.hpp>
 #include <MockPlayerInput.hpp>
 #include <PlayerInput.hpp>
 #include <gmock/gmock.h>
@@ -14,43 +13,37 @@ class LocalClientTests : public Test
 {
 };
 
-TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldShowDisplayAndStartInputReading)
+TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldStartInputReading)
 {
-    auto display { std::make_unique<MockDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
-    EXPECT_CALL(*display, show());
     EXPECT_CALL(*input, start());
-    LocalClient client { std::move(display), std::move(input) };
+    LocalClient client { std::move(input) };
 
     client.start();
 }
 
-TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldHideDisplayAndStopInputReading)
+TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldStopInputReading)
 {
-    auto display { std::make_unique<MockDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
-    EXPECT_CALL(*display, hide());
     EXPECT_CALL(*input, stop());
-    LocalClient client { std::move(display), std::move(input) };
+    LocalClient client { std::move(input) };
 
     client.stop();
 }
 
 TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 {
-    auto display { std::make_unique<MockDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
-    EXPECT_CALL(*display, hide()).Times(0);
     EXPECT_CALL(*input, stop()).Times(0);
     GameCommand resultCommand { GameCommand::NoCommand };
     const GameConnection connection = [&resultCommand](const GameCommand& command)
     {
         resultCommand = command;
     };
-    LocalClient client { std::move(display), std::move(input) };
+    LocalClient client { std::move(input) };
     client.connect(connection);
 
     client.receive("Keyboard: Y");
@@ -60,17 +53,15 @@ TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 
 TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendGameCommand)
 {
-    auto display { std::make_unique<MockDisplay>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
-    EXPECT_CALL(*display, hide());
     EXPECT_CALL(*input, stop());
     GameCommand resultCommand { GameCommand::NoCommand };
     const GameConnection connection = [&resultCommand](const GameCommand& command)
     {
         resultCommand = command;
     };
-    LocalClient client { std::move(display), std::move(input) };
+    LocalClient client { std::move(input) };
     client.connect(connection);
 
     client.receive("Keyboard: ESC");

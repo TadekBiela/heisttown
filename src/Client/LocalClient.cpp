@@ -3,11 +3,9 @@
 #include <utility>
 
 LocalClient::LocalClient(
-    std::unique_ptr<Display> display,
     std::unique_ptr<PlayerInput> input
 )
     : gameConnection([](const GameCommand&) {})
-    , gameDisplay(std::move(display))
     , playerInput(std::move(input))
 {
     inputReceiver = [&](const PlayerInputCommand& command)
@@ -24,13 +22,11 @@ void LocalClient::connect(const GameConnection& connection)
 
 void LocalClient::start()
 {
-    gameDisplay->show();
     playerInput->start();
 }
 
 void LocalClient::stop()
 {
-    gameDisplay->hide();
     playerInput->stop();
 }
 
