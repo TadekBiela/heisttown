@@ -1,6 +1,7 @@
 #include "DisplaySfml.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <Sprite.hpp>
 
 DisplaySfml::DisplaySfml(
     unsigned int width,
@@ -10,12 +11,12 @@ DisplaySfml::DisplaySfml(
 {
 }
 
-void DisplaySfml::addDrawable(std::weak_ptr<Drawable> drawable)
+void DisplaySfml::addDrawable(std::shared_ptr<Drawable> drawable)
 {
     drawables.push_back(std::move(drawable));
 }
 
-void DisplaySfml::addEventHandler(std::weak_ptr<EventHandler> handler)
+void DisplaySfml::addEventHandler(std::shared_ptr<EventHandler> handler)
 {
     handlers.push_back(std::move(handler));
 }
@@ -34,20 +35,12 @@ void DisplaySfml::dispach()
     sf::Event event {};
     while (window.pollEvent(event))
     {
-        for (auto it = std::begin(handlers); it != std::end(handlers);)
+        for (auto& handler : handlers)
         {
-            if (auto handler = it->lock())
+            const bool isHandled = handler->handle(event);
+            if (isHandled)
             {
-                const bool isHandled = handler->handle(event);
-                if (isHandled)
-                {
-                    break;
-                }
-                ++it;
-            }
-            else
-            {
-                it = handlers.erase(it);
+                break;
             }
         }
 
@@ -62,18 +55,42 @@ void DisplaySfml::render()
 {
     window.clear(sf::Color::Black);
 
-    for (auto it = drawables.begin(); it != drawables.end();)
+    for (auto& drawable : drawables)
     {
-        if (auto drawable = it->lock())
-        {
-            drawable->draw(window);
-            ++it;
-        }
-        else
-        {
-            it = drawables.erase(it);
-        }
+        drawable->draw(window);
     }
 
     window.display();
+}
+
+void DisplaySfml::update(const GameSceneUpdate& sceneUpdate)
+{
+    static bool isDrawed { false };
+
+    if (isDrawed)
+    {
+        return;
+    }
+
+    for (const auto& gameObject : sceneUpdate.gameObjects)
+    {
+        auto sprite { std::make_shared<Sprite>(getTexture(gameObject.type), gameObject.position, gameObject.rotation) };
+        addDrawable(sprite);
+    }
+    isDrawed = true;
+}
+
+sf::Texture& DisplaySfml::getTexture(const GoType& type)
+{
+    (void)type;
+    static sf::Texture tex;
+
+    if (tex.getSize().x == 0)
+    {
+        sf::Image img;
+        img.create(50, 50, sf::Color::Red);
+        tex.loadFromImage(img);
+    }
+
+    return tex;
 }
