@@ -1,10 +1,9 @@
 #pragma once
 
 #include "GameObject.hpp"
-#include <memory>
 #include <vector>
 
-using GameObjects = std::vector<std::shared_ptr<GameObject>>;
+using GameObjects = std::vector<GameObject>;
 
 struct GameSceneUpdate
 {

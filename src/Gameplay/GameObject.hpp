@@ -2,6 +2,11 @@
 
 using GoId = unsigned int;
 
+enum class GoType
+{
+    PLAYER
+};
+
 struct Position
 {
     float x;
@@ -10,12 +15,10 @@ struct Position
 
 using Rotation = float;
 
-class GameObject
+struct GameObject
 {
-public:
-    ~GameObject() = default;
-
-    [[nodiscard]] virtual GoId getId() const = 0;
-    virtual void move(Position position) = 0;
-    virtual void rotate(Rotation rotation) = 0;
+    GoId id;
+    GoType type;
+    Position position;
+    Rotation rotation;
 };

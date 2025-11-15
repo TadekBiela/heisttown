@@ -23,7 +23,7 @@ class GameSessionTests : public Test
 TEST_F(GameSessionTests, addPlayer_OneNewPlayer_ReturnNewPlayerIdAndAddPlayerGameObject)
 {
     auto factory { std::make_unique<MockGameObjectFactory>() };
-    EXPECT_CALL(*factory, create(_, _));
+    EXPECT_CALL(*factory, create(_, _, _));
     GameSessionTestable gameSession { std::move(factory) };
 
     const auto resultPlayerId { gameSession.addPlayer() };
@@ -37,7 +37,7 @@ TEST_F(GameSessionTests, addPlayer_OneNewPlayer_ReturnNewPlayerIdAndAddPlayerGam
 TEST_F(GameSessionTests, addPlayer_TwoNewPlayers_ReturnUniqueIdPerPlayerAndAddPlayerGameObjects)
 {
     auto factory { std::make_unique<MockGameObjectFactory>() };
-    EXPECT_CALL(*factory, create(_, _)).Times(2);
+    EXPECT_CALL(*factory, create(_, _, _)).Times(2);
     GameSessionTestable gameSession { std::move(factory) };
 
     const auto resultPlayer1Id { gameSession.addPlayer() };
@@ -54,7 +54,7 @@ TEST_F(GameSessionTests, addPlayer_TwoNewPlayers_ReturnUniqueIdPerPlayerAndAddPl
 TEST_F(GameSessionTests, removePlayer_PlayerIdMatch_RemovePlayerFromSession)
 {
     auto factory { std::make_unique<MockGameObjectFactory>() };
-    EXPECT_CALL(*factory, create(_, _));
+    EXPECT_CALL(*factory, create(_, _, _));
     GameSessionTestable gameSession { std::move(factory) };
     const auto playerIdToRemove { gameSession.addPlayer() };
 
@@ -67,7 +67,7 @@ TEST_F(GameSessionTests, removePlayer_PlayerIdMatch_RemovePlayerFromSession)
 TEST_F(GameSessionTests, removePlayer_PlayerIdNotMatch_DoNothing)
 {
     auto factory { std::make_unique<MockGameObjectFactory>() };
-    EXPECT_CALL(*factory, create(_, _));
+    EXPECT_CALL(*factory, create(_, _, _));
     GameSessionTestable gameSession { std::move(factory) };
     const auto playerId { gameSession.addPlayer() };
 
@@ -92,7 +92,7 @@ TEST_F(GameSessionTests, getUpdateForPlayer_NoAddedPlayers_ReturnEmptyGameplayUp
 TEST_F(GameSessionTests, getUpdateForPlayer_OnePlayerAddedButIdNotMatch_ReturnEmptyGameplayUpdate)
 {
     auto factory { std::make_unique<MockGameObjectFactory>() };
-    EXPECT_CALL(*factory, create(_, _));
+    EXPECT_CALL(*factory, create(_, _, _));
     GameSessionTestable gameSession { std::move(factory) };
     const auto playerId { gameSession.addPlayer() };
 
@@ -106,7 +106,7 @@ TEST_F(GameSessionTests, getUpdateForPlayer_OnePlayerAddedButIdNotMatch_ReturnEm
 TEST_F(GameSessionTests, getUpdateForPlayer_OnePlayerAddedAndIdMatch_ReturnEGameplayUpdateWithOneGameObject)
 {
     auto factory { std::make_unique<MockGameObjectFactory>() };
-    EXPECT_CALL(*factory, create(_, _));
+    EXPECT_CALL(*factory, create(_, _, _));
     GameSessionTestable gameSession { std::move(factory) };
     const auto playerId { gameSession.addPlayer() };
 

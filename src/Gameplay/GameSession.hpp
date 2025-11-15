@@ -11,9 +11,9 @@ class GameSession
 {
 public:
     using PlayerID = int;
-    using PlayersObjects = std::map<PlayerID, std::shared_ptr<GameObject>>;
+    using PlayersObjects = std::map<PlayerID, GameObject>;
 
-    explicit GameSession(std::unique_ptr<GameObjectFactory> inputFactory);
+    explicit GameSession(std::unique_ptr<GameObjectFactory> inputFactory = nullptr);
     virtual ~GameSession() = default;
 
     virtual void start();

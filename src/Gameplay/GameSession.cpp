@@ -3,6 +3,10 @@
 GameSession::GameSession(std::unique_ptr<GameObjectFactory> inputFactory)
     : factory(std::move(inputFactory))
 {
+    if (factory == nullptr)
+    {
+        factory = std::make_unique<GameObjectFactory>();
+    }
 }
 
 void GameSession::start()
@@ -15,7 +19,7 @@ void GameSession::stop()
 
 GameSession::PlayerID GameSession::addPlayer()
 {
-    playersObjects[playerIdCounter] = factory->create({ 0, 0 }, 0);
+    playersObjects[playerIdCounter] = factory->create(GoType::PLAYER, { 0, 0 }, 0);
     return playerIdCounter++;
 }
 
