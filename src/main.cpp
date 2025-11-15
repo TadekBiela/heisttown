@@ -31,7 +31,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     auto menuFileLoader { std::make_unique<FileLoader<TextFile>>(menuFilePath) };
     auto menuController { std::make_unique<MenuController>(std::move(menuParser), std::move(menuFileLoader)) };
 
-    menuController->showMenu();
+    // std::unique_ptr<PlayerInputSfml> input;
+    auto client { std::make_shared<LocalClient>(menuDisplaySfml, nullptr) };
+
+    auto mainApplication { std::make_unique<MainApplication>(std::move(menuController), std::move(client), []() {}) };
+    mainApplication->run();
     menuDisplaySfml->display();
     return 0;
 }

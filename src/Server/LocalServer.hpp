@@ -15,7 +15,7 @@ public:
     using GameplayClient = std::pair<GameSession::PlayerID, std::shared_ptr<Client>>;
     using Clients = std::map<GameplayClient::first_type, GameplayClient::second_type>;
 
-    explicit LocalServer(std::unique_ptr<GameSession> newGameSession);
+    explicit LocalServer(std::unique_ptr<GameSession> newGameSession = nullptr);
     ~LocalServer() override;
 
     void start() override;

@@ -19,5 +19,6 @@ target_link_libraries(${LIB_NAME}
         Client
         Menu
         PlayerInput
+        Server
         Widgets
 )

@@ -2,6 +2,7 @@
 
 #include <Client.hpp>
 #include <IMenuController.hpp>
+#include <Server.hpp>
 #include <functional>
 #include <memory>
 
@@ -12,18 +13,20 @@ class MainApplication
 public:
     MainApplication(
         std::unique_ptr<IMenuController> controller,
-        std::unique_ptr<Client> client,
+        std::shared_ptr<Client> client,
         GuiExitCallback callback
     );
 
     void handle(const MenuCommand& command);
     void handle(const GameCommand& command);
+    void run();
 
 private:
     MenuConnection menuConnection;
     std::unique_ptr<IMenuController> menuController;
     GameConnection gameConnection;
-    std::unique_ptr<Client> gameClient;
+    std::shared_ptr<Client> gameClient;
+    std::unique_ptr<Server> gameServer;
     GuiExitCallback guiExitCallback;
 
     void startSinglePlayerGame();

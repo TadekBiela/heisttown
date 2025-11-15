@@ -1,16 +1,18 @@
 #include "MainApplication.hpp"
 #include <Client.hpp>
 #include <IMenuController.hpp>
+#include <LocalServer.hpp>
 #include <memory>
 #include <utility>
 
 MainApplication::MainApplication(
     std::unique_ptr<IMenuController> controller,
-    std::unique_ptr<Client> client,
+    std::shared_ptr<Client> client,
     GuiExitCallback callback
 )
     : menuController(std::move(controller))
     , gameClient(std::move(client))
+    , gameServer(std::make_unique<LocalServer>())
     , guiExitCallback(std::move(callback))
 {
     menuConnection = [&](const MenuCommand& command)
@@ -49,6 +51,8 @@ void MainApplication::handle(const MenuCommand& command)
 void MainApplication::startSinglePlayerGame()
 {
     gameClient->start();
+    gameServer->connect(gameClient);
+    gameServer->start();
 }
 
 void MainApplication::abortGame()
@@ -78,4 +82,9 @@ void MainApplication::pauseGame()
 {
     gameClient->stop();
     menuController->handle("Pause");
+}
+
+void MainApplication::run()
+{
+    menuController->showMenu();
 }
