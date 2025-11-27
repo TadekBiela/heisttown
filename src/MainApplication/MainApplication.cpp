@@ -24,7 +24,7 @@ MainApplication::MainApplication(
     };
     menuController->connect(menuConnection);
 
-    if(gameClient == nullptr)
+    if (gameClient == nullptr)
     {
         gameClient = std::make_shared<LocalClient>(scene, std::move(input));
     }
@@ -34,7 +34,7 @@ MainApplication::MainApplication(
     };
     gameClient->connect(gameConnection);
 
-    if(gameServer == nullptr)
+    if (gameServer == nullptr)
     {
         gameServer = std::make_unique<LocalServer>();
     }

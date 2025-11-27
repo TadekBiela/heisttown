@@ -260,10 +260,7 @@ TEST_F(LocalServerTests, start_ThreeClientsConnected_RunningGetStatusFromAllUpda
 TEST_F(LocalServerTests, start_ThreeClientsConnected_IsRunningTrue)
 {
     auto gameSession = std::make_unique<MockGameSession>();
-    EXPECT_CALL(*gameSession, addPlayer()).Times(3)
-        .WillOnce(Return(0))
-        .WillOnce(Return(1))
-        .WillOnce(Return(2));
+    EXPECT_CALL(*gameSession, addPlayer()).Times(3).WillOnce(Return(0)).WillOnce(Return(1)).WillOnce(Return(2));
     LocalServerTestable server { std::move(gameSession) };
     auto client1 { getLocalClient() };
     server.connect(client1);
