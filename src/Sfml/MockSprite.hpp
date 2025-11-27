@@ -9,9 +9,11 @@ class MockSprite : public Sprite
 {
 public:
     MockSprite()
-        : Sprite(sf::Texture{}, {0, 0}, 0)
+        : Sprite(0, sf::Texture{}, {0, 0}, 0)
     {}
 
+    MOCK_METHOD(void, draw, (sf::RenderTarget&), (const, override));
+    MOCK_METHOD(GoId, getId, (), (const));
     MOCK_METHOD(void, setPosition, (Position));
     MOCK_METHOD(void, setRotation, (Rotation));
 };

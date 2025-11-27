@@ -8,13 +8,15 @@
 class Sprite : public Drawable
 {
 public:
-    Sprite(const sf::Texture& texture, Position position, Rotation rotation);
+    Sprite(const GoId inputId, const sf::Texture& texture, Position position, Rotation rotation);
     virtual ~Sprite() = default;
 
     virtual void draw(sf::RenderTarget& target) const override;
+    virtual GoId getId() const;
     virtual void setPosition(Position position);
     virtual void setRotation(Rotation rotation);
 
 private:
+    const GoId id;
     sf::Sprite sprite;
 };

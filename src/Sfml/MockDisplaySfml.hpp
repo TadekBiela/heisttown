@@ -3,6 +3,7 @@
 #include "DisplaySfml.hpp"
 #include "Drawable.hpp"
 #include "EventHandler.hpp"
+#include "MockSpriteFactory.hpp"
 #include <GameSceneUpdate.hpp>
 #include <gmock/gmock.h>
 #include <memory>
@@ -11,7 +12,7 @@ class MockDisplaySfml : public DisplaySfml
 {
 public:
     MockDisplaySfml()
-        : DisplaySfml(1, 1)
+        : DisplaySfml(1, 1, std::make_unique<MockSpriteFactory>())
     {}
 
     MOCK_METHOD(void, addDrawable, (std::shared_ptr<Drawable>));

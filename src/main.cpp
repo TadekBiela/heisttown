@@ -22,7 +22,9 @@ std::shared_ptr<sf::Font> getLoadedFont(const std::filesystem::path& currentPath
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
-    auto menuDisplaySfml { std::make_shared<DisplaySfml>(1000, 800) };
+    auto textureStorage { std::make_shared<FilesStorage<TextureFile>>(std::make_unique<FileLoader<TextureFile>>(std::filesystem::current_path().string() + "/Textures")) };
+    auto spriteFactory { std::make_unique<SpriteFactory>(std::move(textureStorage)) };
+    auto menuDisplaySfml { std::make_shared<DisplaySfml>(1000, 800, std::move(spriteFactory)) };
     const auto currentPath { std::filesystem::current_path() };
     auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(currentPath), menuDisplaySfml) };
     auto menuParser { std::make_unique<MenuParser>(std::move(widgetsFactory)) };

@@ -1,13 +1,13 @@
 #include "DisplaySfml.hpp"
+#include <FileLoader.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <Sprite.hpp>
+#include <filesystem>
 
-DisplaySfml::DisplaySfml(
-    unsigned int width,
-    unsigned int height
-)
+DisplaySfml::DisplaySfml(unsigned int width, unsigned int height, std::unique_ptr<SpriteFactory> inputSpriteFactory)
     : window(sf::VideoMode(width, height), "")
+    , spriteFactory(std::move(inputSpriteFactory))
 {
 }
 
@@ -59,38 +59,36 @@ void DisplaySfml::render()
     {
         drawable->draw(window);
     }
+    for (auto& sprite : sprites)
+    {
+        sprite.second->draw(window);
+    }
 
     window.display();
 }
 
 void DisplaySfml::update(const GameSceneUpdate& sceneUpdate)
 {
-    static bool isDrawed { false };
-
-    if (isDrawed)
-    {
-        return;
-    }
-
     for (const auto& gameObject : sceneUpdate.gameObjects)
     {
-        auto sprite { std::make_shared<Sprite>(getTexture(gameObject.type), gameObject.position, gameObject.rotation) };
-        addDrawable(sprite);
+        if (sprites.find(gameObject.id) != sprites.end())
+        {
+            // updateSprite(gameObject);
+        }
+        else
+        {
+            addSprite(gameObject);
+        }
     }
-    isDrawed = true;
 }
 
-sf::Texture& DisplaySfml::getTexture(const GoType& type)
+// void DisplaySfml::updateSprite(const GameObject& spriteParamsUpdate)
+// {
+//     (void)spriteParamsUpdate;
+// }
+
+void DisplaySfml::addSprite(const GameObject& newSpriteParams)
 {
-    (void)type;
-    static sf::Texture tex;
-
-    if (tex.getSize().x == 0)
-    {
-        sf::Image img;
-        img.create(50, 50, sf::Color::Red);
-        tex.loadFromImage(img);
-    }
-
-    return tex;
+    auto sprite { spriteFactory->create(newSpriteParams.type, newSpriteParams.position, newSpriteParams.rotation) };
+    sprites[sprite->getId()] = std::move(sprite);
 }

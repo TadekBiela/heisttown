@@ -1,6 +1,7 @@
 #include "Sprite.hpp"
 
-Sprite::Sprite(const sf::Texture& texture, Position position, Rotation rotation)
+Sprite::Sprite(const GoId inputId, const sf::Texture& texture, Position position, Rotation rotation)
+    : id(inputId)
 {
     sprite.setTexture(texture);
     sprite.setPosition({ position.x, position.y });
@@ -10,6 +11,11 @@ Sprite::Sprite(const sf::Texture& texture, Position position, Rotation rotation)
 void Sprite::draw(sf::RenderTarget& target) const
 {
     target.draw(sprite);
+}
+
+GoId Sprite::getId() const
+{
+    return id;
 }
 
 void Sprite::setPosition(Position position)

@@ -1,5 +1,5 @@
-#include "LabelWidget.hpp"
 #include "ButtonWidget.hpp"
+#include "LabelWidget.hpp"
 #include "MockDisplaySfml.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <WidgetControl.hpp>

@@ -1,13 +1,21 @@
 #pragma once
 
-#include <GraphicsStorage>
+#include "Sprite.hpp"
+#include "TextureFile.hpp"
+#include <FilesStorage.hpp>
+#include <GameObject.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <memory>
 
 class SpriteFactory
 {
 public:
-    SpriteFactory(std::shared_ptr<GraphicsStorage> inputGraphicsStorage);
+    explicit SpriteFactory(std::shared_ptr<FilesStorage<TextureFile>> inputTextureStorage);
+    virtual ~SpriteFactory() = default;
+
+    [[nodiscard]] virtual std::unique_ptr<Sprite> create(const GoType& type, const Position& position, const Rotation& rotation) const;
 
 private:
-    std::shared_ptr<GraphicsStorage> graphicsStorage;
+    GoId goIdCounter;
+    std::shared_ptr<FilesStorage<TextureFile>> textureStorage;
 };
