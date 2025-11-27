@@ -14,15 +14,16 @@ public:
     }
     virtual ~FilesStorage() = default;
 
-    auto getFile(FileName name) const
+    const auto& getFile(FileName name) const
     {
         if (auto file = data.find(name); file != data.end())
         {
             return file->second;
         }
-        return File();
+        return defaultFile;
     }
 
 protected:
     std::map<FileName, File> data;
+    File defaultFile;
 };
