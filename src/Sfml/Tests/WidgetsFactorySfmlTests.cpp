@@ -1,5 +1,6 @@
 #include "LabelWidget.hpp"
-#include <ButtonWidget.hpp>
+#include "ButtonWidget.hpp"
+#include "MockDisplaySfml.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <WidgetControl.hpp>
 #include <WidgetGeometry.hpp>
@@ -34,7 +35,8 @@ private:
 
 TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
 {
-    const auto displaySfml { std::make_shared<DisplaySfml>(1, 1) };
+    const auto displaySfml { std::make_shared<MockDisplaySfml>() };
+    EXPECT_CALL(*displaySfml, addDrawable(_));
     WidgetsFactorySfml factory { getFont(), displaySfml };
 
     const auto resultWidget {
@@ -52,7 +54,9 @@ TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
 
 TEST_F(WidgetsFactorySfmlTests, create_ButtonType_CreateButtonWidget)
 {
-    const auto displaySfml { std::make_shared<DisplaySfml>(1, 1) };
+    const auto displaySfml { std::make_shared<MockDisplaySfml>() };
+    EXPECT_CALL(*displaySfml, addDrawable(_));
+    EXPECT_CALL(*displaySfml, addEventHandler(_));
     WidgetsFactorySfml factory { getFont(), displaySfml };
 
     const auto resultWidget {
