@@ -7,14 +7,14 @@
 
 MainApplication::MainApplication(
     std::unique_ptr<IMenuController> controller,
-    std::shared_ptr<GameScene> scene,
+    const std::shared_ptr<GameScene>& scene,
     std::unique_ptr<PlayerInput> input,
     GuiExitCallback callback,
     std::shared_ptr<Client> client,
     std::unique_ptr<Server> server
 )
     : menuController(std::move(controller))
-    , gameClient(client)
+    , gameClient(std::move(client))
     , gameServer(std::move(server))
     , guiExitCallback(std::move(callback))
 {
