@@ -2,12 +2,13 @@
 
 #include "IFileLoader.hpp"
 #include <map>
+#include <memory>
 
 template <typename File>
 class FilesStorage
 {
 public:
-    explicit FilesStorage(IFileLoader<File> const* fileLoader)
+    explicit FilesStorage(std::unique_ptr<IFileLoader<File>> fileLoader)
         : data(fileLoader->getLoadedData())
     {
     }
