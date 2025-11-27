@@ -1,18 +1,21 @@
 #include "MainApplication.hpp"
-#include <Client.hpp>
 #include <IMenuController.hpp>
+#include <LocalClient.hpp>
 #include <LocalServer.hpp>
 #include <memory>
 #include <utility>
 
 MainApplication::MainApplication(
     std::unique_ptr<IMenuController> controller,
+    std::shared_ptr<GameScene> scene,
+    std::unique_ptr<PlayerInput> input,
+    GuiExitCallback callback,
     std::shared_ptr<Client> client,
-    GuiExitCallback callback
+    std::unique_ptr<Server> server
 )
     : menuController(std::move(controller))
-    , gameClient(std::move(client))
-    , gameServer(std::make_unique<LocalServer>())
+    , gameClient(client)
+    , gameServer(std::move(server))
     , guiExitCallback(std::move(callback))
 {
     menuConnection = [&](const MenuCommand& command)
@@ -21,11 +24,20 @@ MainApplication::MainApplication(
     };
     menuController->connect(menuConnection);
 
+    if(gameClient == nullptr)
+    {
+        gameClient = std::make_shared<LocalClient>(scene, std::move(input));
+    }
     gameConnection = [&](const GameCommand& command)
     {
         this->handle(command);
     };
     gameClient->connect(gameConnection);
+
+    if(gameServer == nullptr)
+    {
+        gameServer = std::make_unique<LocalServer>();
+    }
 }
 
 void MainApplication::handle(const MenuCommand& command)

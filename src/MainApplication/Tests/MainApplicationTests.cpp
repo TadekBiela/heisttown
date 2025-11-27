@@ -2,7 +2,10 @@
 #include <IMenuController.hpp>
 #include <MainApplication.hpp>
 #include <MockClient.hpp>
+#include <MockGameScene.hpp>
 #include <MockMenuController.hpp>
+#include <MockPlayerInput.hpp>
+#include <MockServer.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
@@ -17,21 +20,43 @@ class MainApplicationTests : public Test
 TEST_F(MainApplicationTests, constructor_DefaultBehavior_ShouldConnectController)
 {
     auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
     EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*client, connect(_));
 
-    MainApplication { std::move(menuController), std::move(client), []() {} };
+    MainApplication {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        []() {},
+        client,
+        std::move(server)
+    };
 }
 
 TEST_F(MainApplicationTests, handle_MenuCommandSinglePlayerPlay_ShouldRunClient)
 {
     auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
     EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*client, connect(_));
     EXPECT_CALL(*client, start());
-    MainApplication application { std::move(menuController), std::move(client), []() {} };
+    EXPECT_CALL(*server, start());
+    EXPECT_CALL(*server, connect(_));
+    MainApplication application {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        []() {},
+        client,
+        std::move(server)
+    };
 
     application.handle(MenuCommand::StartSinglePlayer);
 }
@@ -39,11 +64,22 @@ TEST_F(MainApplicationTests, handle_MenuCommandSinglePlayerPlay_ShouldRunClient)
 TEST_F(MainApplicationTests, handle_MenuCommandNoCommand_ShouldDoNothing)
 {
     auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
     EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*client, connect(_));
     EXPECT_CALL(*client, start()).Times(0);
-    MainApplication application { std::move(menuController), std::move(client), []() {} };
+    EXPECT_CALL(*server, start()).Times(0);
+    MainApplication application {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        []() {},
+        client,
+        std::move(server)
+    };
 
     application.handle(MenuCommand::NoCommand);
 }
@@ -51,12 +87,22 @@ TEST_F(MainApplicationTests, handle_MenuCommandNoCommand_ShouldDoNothing)
 TEST_F(MainApplicationTests, handle_MenuCommandAbort_ShouldAbortCurrentGameSessionOnClient)
 {
     auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
     EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*menuController, showMenu());
     EXPECT_CALL(*client, connect(_));
     EXPECT_CALL(*client, stop());
-    MainApplication application { std::move(menuController), std::move(client), []() {} };
+    MainApplication application {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        []() {},
+        client,
+        std::move(server)
+    };
 
     application.handle(MenuCommand::Abort);
 }
@@ -64,12 +110,22 @@ TEST_F(MainApplicationTests, handle_MenuCommandAbort_ShouldAbortCurrentGameSessi
 TEST_F(MainApplicationTests, handle_MenuCommandContinue_ShouldBackToCurrentGameSessionOnClient)
 {
     auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
     EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*menuController, showMenu()).Times(0);
     EXPECT_CALL(*client, connect(_));
     EXPECT_CALL(*client, start());
-    MainApplication application { std::move(menuController), std::move(client), []() {} };
+    MainApplication application {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        []() {},
+        client,
+        std::move(server)
+    };
 
     application.handle(MenuCommand::Continue);
 }
@@ -77,12 +133,24 @@ TEST_F(MainApplicationTests, handle_MenuCommandContinue_ShouldBackToCurrentGameS
 TEST_F(MainApplicationTests, handle_GameCommandSinglePlayerPause_ShouldSetPauseSinglePlayerOnMenuController)
 {
     auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
     EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*menuController, handle("Pause"));
     EXPECT_CALL(*client, connect(_));
+    EXPECT_CALL(*client, stop());
     EXPECT_CALL(*client, start()).Times(0);
-    MainApplication application { std::move(menuController), std::move(client), []() {} };
+    EXPECT_CALL(*server, start()).Times(0);
+    MainApplication application {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        []() {},
+        client,
+        std::move(server)
+    };
 
     application.handle(GameCommand::Pause);
 }
@@ -90,7 +158,10 @@ TEST_F(MainApplicationTests, handle_GameCommandSinglePlayerPause_ShouldSetPauseS
 TEST_F(MainApplicationTests, handle_MainMenuExit_ShouldDestroyApplication)
 {
     auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
     EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*client, connect(_));
     int callCounter { 0 };
@@ -98,7 +169,14 @@ TEST_F(MainApplicationTests, handle_MainMenuExit_ShouldDestroyApplication)
     {
         callCounter++;
     };
-    MainApplication application { std::move(menuController), std::move(client), guiExitCallback };
+    MainApplication application {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        guiExitCallback,
+        client,
+        std::move(server)
+    };
 
     application.handle(MenuCommand::Exit);
 
@@ -108,7 +186,10 @@ TEST_F(MainApplicationTests, handle_MainMenuExit_ShouldDestroyApplication)
 TEST_F(MainApplicationTests, setGuiExitCallback_DefaultBehavior_ShouldSetGuiExitCallback)
 {
     auto menuController { std::make_unique<MockMenuController>() };
-    auto client { std::make_unique<MockClient>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
     EXPECT_CALL(*menuController, connect(_));
     EXPECT_CALL(*client, connect(_));
     int expectedCallCounter { 0 };
@@ -116,7 +197,14 @@ TEST_F(MainApplicationTests, setGuiExitCallback_DefaultBehavior_ShouldSetGuiExit
     {
         expectedCallCounter++;
     };
-    MainApplication { std::move(menuController), std::move(client), guiExitCallback };
+    MainApplication {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        guiExitCallback,
+        client,
+        std::move(server)
+    };
 
     EXPECT_EQ(0, expectedCallCounter);
 }

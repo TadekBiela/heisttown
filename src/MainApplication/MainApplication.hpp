@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Client.hpp>
+#include <GameScene.hpp>
 #include <IMenuController.hpp>
 #include <Server.hpp>
 #include <functional>
@@ -13,8 +14,11 @@ class MainApplication
 public:
     MainApplication(
         std::unique_ptr<IMenuController> controller,
-        std::shared_ptr<Client> client,
-        GuiExitCallback callback
+        std::shared_ptr<GameScene> scene,
+        std::unique_ptr<PlayerInput> input,
+        GuiExitCallback callback,
+        std::shared_ptr<Client> client = nullptr,
+        std::unique_ptr<Server> server = nullptr
     );
 
     void handle(const MenuCommand& command);
