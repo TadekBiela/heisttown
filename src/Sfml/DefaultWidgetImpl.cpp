@@ -65,7 +65,7 @@ void DefaultWidgetImpl::alignCenterText()
 {
     const float centerDivider { 2.0 };
 
-    if(font)
+    if (font)
     {
         const sf::FloatRect textBounds = textLabel.getLocalBounds();
         textLabel.setOrigin(

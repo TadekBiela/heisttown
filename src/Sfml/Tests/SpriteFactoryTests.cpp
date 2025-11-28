@@ -1,9 +1,9 @@
-#include <Sprite.hpp>
 #include "SpriteFactory.hpp"
 #include "TextureFile.hpp"
 #include <FilesStorage.hpp>
 #include <GameObject.hpp>
 #include <MockFileLoader.hpp>
+#include <Sprite.hpp>
 #include <gtest/gtest.h>
 
 using namespace testing;
@@ -20,7 +20,7 @@ TEST_F(SpriteFactoryTests, create_OneSprite_ReturnSprite)
     auto fileStorage { std::make_shared<FilesStorage<TextureFile>>(std::move(fileLoader)) };
     SpriteFactory factory { fileStorage };
 
-    auto resultSprite { factory.create(GoType::PLAYER, { 0.0, 0.0 }, 0.0 ) };
+    auto resultSprite { factory.create(GoType::PLAYER, { 0.0, 0.0 }, 0.0) };
 
     EXPECT_EQ(0, resultSprite->getId());
 }
@@ -33,9 +33,9 @@ TEST_F(SpriteFactoryTests, create_ThreeSprites_ReturnSpritesWithDifferentId)
     auto fileStorage { std::make_shared<FilesStorage<TextureFile>>(std::move(fileLoader)) };
     SpriteFactory factory { fileStorage };
 
-    auto resultSprite1 { factory.create(GoType::PLAYER, { 0.0, 0.0 }, 0.0 ) };
-    auto resultSprite2 { factory.create(GoType::PLAYER, { 0.0, 0.0 }, 0.0 ) };
-    auto resultSprite3 { factory.create(GoType::PLAYER, { 0.0, 0.0 }, 0.0 ) };
+    auto resultSprite1 { factory.create(GoType::PLAYER, { 0.0, 0.0 }, 0.0) };
+    auto resultSprite2 { factory.create(GoType::PLAYER, { 0.0, 0.0 }, 0.0) };
+    auto resultSprite3 { factory.create(GoType::PLAYER, { 0.0, 0.0 }, 0.0) };
 
     EXPECT_EQ(0, resultSprite1->getId());
     EXPECT_EQ(1, resultSprite2->getId());

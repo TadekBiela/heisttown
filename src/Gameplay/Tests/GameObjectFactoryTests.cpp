@@ -1,5 +1,5 @@
-#include "GameSession.hpp"
 #include "GameObjectFactory.hpp"
+#include "GameSession.hpp"
 #include <gtest/gtest.h>
 #include <memory>
 
