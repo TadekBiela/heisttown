@@ -217,6 +217,16 @@ TEST_F(MenuControllerTests, handle_SinglePlayerPlayPauseAndConitnue_ShouldStayCu
     EXPECT_EQ(MenuCommand::Continue, result);
 }
 
+TEST_F(MenuControllerTests, handle_WrongCommand_ShouldIgnoreCommand)
+{
+    MenuControllerTestable controller { prepareMenuControllerWithMenu() };
+
+    controller.handle("WringCommand");
+
+    EXPECT_EQ(4, controller.getMenus().size());
+    EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
+}
+
 TEST_F(MenuControllerTests, showMenu_DefaultMainMenu_ShouldShowMainMenu)
 {
     const std::map<FileName, TextFile> menusFiles = { { "MainMenu", TextFile { "", "Button:\n"
