@@ -155,6 +155,32 @@ TEST_F(MainApplicationTests, handle_GameCommandSinglePlayerPause_ShouldSetPauseS
     application.handle(GameCommand::Pause);
 }
 
+TEST_F(MainApplicationTests, handle_GameCommandNoCommand_ShouldDoNothing)
+{
+    auto menuController { std::make_unique<MockMenuController>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
+    EXPECT_CALL(*menuController, connect(_));
+    EXPECT_CALL(*menuController, handle(_)).Times(0);
+    EXPECT_CALL(*client, connect(_));
+    EXPECT_CALL(*client, start()).Times(0);
+    EXPECT_CALL(*server, start()).Times(0);
+    EXPECT_CALL(*client, stop()).Times(0);
+    EXPECT_CALL(*server, stop()).Times(0);
+    MainApplication application {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        []() {},
+        client,
+        std::move(server)
+    };
+
+    application.handle(GameCommand::NoCommand);
+}
+
 TEST_F(MainApplicationTests, handle_MainMenuExit_ShouldDestroyApplication)
 {
     auto menuController { std::make_unique<MockMenuController>() };
@@ -207,4 +233,26 @@ TEST_F(MainApplicationTests, setGuiExitCallback_DefaultBehavior_ShouldSetGuiExit
     };
 
     EXPECT_EQ(0, expectedCallCounter);
+}
+
+TEST_F(MainApplicationTests, run_defaultBehavior_ShowMenu)
+{
+    auto menuController { std::make_unique<MockMenuController>() };
+    auto scene { std::make_shared<MockGameScene>() };
+    auto input { std::make_unique<MockPlayerInput>() };
+    auto client { std::make_shared<MockClient>() };
+    auto server { std::make_unique<MockServer>() };
+    EXPECT_CALL(*menuController, connect(_));
+    EXPECT_CALL(*menuController, showMenu());
+    EXPECT_CALL(*client, connect(_));
+    MainApplication application {
+        std::move(menuController),
+        scene,
+        std::move(input),
+        []() {},
+        client,
+        std::move(server)
+    };
+
+    application.run();
 }
