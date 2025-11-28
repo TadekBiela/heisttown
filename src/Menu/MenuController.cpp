@@ -7,6 +7,7 @@ MenuController::MenuController(
     std::unique_ptr<IMenuParser> parser,
     std::unique_ptr<IFileLoader<TextFile>> source
 )
+    : menuConnection([](const MenuCommand&){})
 {
     menus = parser->parse(std::move(source));
     hideAllMenus();

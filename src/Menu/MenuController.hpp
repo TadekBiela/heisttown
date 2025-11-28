@@ -27,7 +27,7 @@ protected:
 
 private:
     ControlConnection controlConnection;
-    MenuConnection menuConnection { [](const MenuCommand&){} };
+    MenuConnection menuConnection;
 
     void hideAllMenus();
     void connectMenus();
