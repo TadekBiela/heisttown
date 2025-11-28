@@ -4,7 +4,12 @@ GameObject GameObjectFactory::create(
     const GoType& type,
     const Position& position,
     const Rotation& rotation
-) const
+)
 {
-    return GameObject { idCounter++, type, position, rotation };
+    return GameObject { getNextGoId(), type, position, rotation };
+}
+
+GoId GameObjectFactory::getNextGoId()
+{
+    return idCounter++;
 }

@@ -11,6 +11,11 @@ struct Position
 {
     float x;
     float y;
+
+    bool operator==(const Position& position) const
+    {
+        return (x == position.x && y == position.y);
+    }
 };
 
 using Rotation = float;

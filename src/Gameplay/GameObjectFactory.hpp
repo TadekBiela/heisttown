@@ -11,7 +11,10 @@ public:
         const GoType& type,
         const Position& position,
         const Rotation& rotation
-    ) const;
+    );
+
+protected:
+    virtual GoId getNextGoId();
 
 private:
     inline static GoId idCounter { 0 };
