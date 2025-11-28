@@ -22,28 +22,11 @@ public:
 
 class ButtonWidgetTests : public Test
 {
-public:
-    void SetUp() override
-    {
-        font = std::make_shared<sf::Font>();
-        auto currentPath { std::filesystem::current_path() };
-        currentPath = currentPath.parent_path();
-        const auto fontPath { currentPath.string() + "/Font/PixelCode.ttf" };
-        font->loadFromFile(fontPath);
-    }
-
-    std::shared_ptr<sf::Font> getFont()
-    {
-        return font;
-    }
-
-private:
-    std::shared_ptr<sf::Font> font;
 };
 
 TEST_F(ButtonWidgetTests, getType_DefaultBehavior_ReturnButtonType)
 {
-    const ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {}, getFont() };
+    const ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {} };
 
     const auto resultType { button.getType() };
 
@@ -53,7 +36,7 @@ TEST_F(ButtonWidgetTests, getType_DefaultBehavior_ReturnButtonType)
 TEST_F(ButtonWidgetTests, connect_EmptyFunction_AsignEmptyFunctionAsConnection)
 {
     auto connection = [](const WidgetCommand&) {};
-    ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {}, getFont() };
+    ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {} };
 
     button.connect(connection);
 
@@ -64,7 +47,7 @@ TEST_F(ButtonWidgetTests, handle_NotHandledEvent_ReturnFalse)
 {
     sf::Event event {};
     event.type = sf::Event::EventType::Resized;
-    ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {}, getFont() };
+    ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {} };
     button.show();
 
     const bool result = button.handle(event);
@@ -86,7 +69,7 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventInsideButtonShapeBut
     mouseButton.button = sf::Mouse::Button::Left;
     mouseButton.x = 50.0;
     mouseButton.y = 25.0;
-    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {}, getFont() };
+    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {} };
     button.connect(connection);
 
     const bool result = button.handle(event);
@@ -108,7 +91,7 @@ TEST_F(ButtonWidgetTests, handle_RightMouseButtonPressedEventInsideButtonShapeAn
     mouseButton.button = sf::Mouse::Button::Right;
     mouseButton.x = 50.0;
     mouseButton.y = 25.0;
-    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {}, getFont() };
+    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {} };
     button.connect(connection);
     button.show();
 
@@ -131,7 +114,7 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventOutsideButtonShapeAn
     mouseButton.button = sf::Mouse::Button::Left;
     mouseButton.x = 150.0;
     mouseButton.y = 25.0;
-    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {}, getFont() };
+    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {} };
     button.connect(connection);
     button.show();
 
@@ -155,7 +138,7 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventInsideButtonShapeAnd
     mouseButton.button = sf::Mouse::Button::Left;
     mouseButton.x = 50.0;
     mouseButton.y = 25.0;
-    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, expectedWidgetText, std::string {}, getFont() };
+    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, expectedWidgetText, std::string {} };
     button.connect(connection);
     button.show();
 

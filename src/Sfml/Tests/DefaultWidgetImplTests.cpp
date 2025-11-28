@@ -41,23 +41,6 @@ public:
 
 class DefaultWidgetImplTests : public Test
 {
-public:
-    void SetUp() override
-    {
-        font = std::make_shared<sf::Font>();
-        auto currentPath { std::filesystem::current_path() };
-        currentPath = currentPath.parent_path();
-        const auto fontPath { currentPath.string() + "/Font/PixelCode.ttf" };
-        font->loadFromFile(fontPath);
-    }
-
-    std::shared_ptr<sf::Font> getFont()
-    {
-        return font;
-    }
-
-private:
-    std::shared_ptr<sf::Font> font;
 };
 
 TEST_F(DefaultWidgetImplTests, constructor_DefaultBehavior_ShapeAndTextWithCorrectPositionAndSizeAndNotVisible)
@@ -65,7 +48,7 @@ TEST_F(DefaultWidgetImplTests, constructor_DefaultBehavior_ShapeAndTextWithCorre
     const WidgetGeometry expectedGeometry { 100.0, 50.0, 160.0, 30.0 };
     const WidgetText expectedText { "Test" };
 
-    const DefaultWidgetImplTestable widget { expectedGeometry, expectedText, "", getFont() };
+    const DefaultWidgetImplTestable widget { expectedGeometry, expectedText, "" };
 
     EXPECT_FALSE(widget.isVisible());
     const auto& resultShape { widget.getShape() };
@@ -75,13 +58,13 @@ TEST_F(DefaultWidgetImplTests, constructor_DefaultBehavior_ShapeAndTextWithCorre
     EXPECT_FLOAT_EQ(expectedGeometry.height, resultShape.getSize().y);
     EXPECT_STREQ(expectedText.c_str(), widget.getText().c_str());
     const auto& resultTextLabel { widget.getTextLabel() };
-    EXPECT_FLOAT_EQ(38, resultTextLabel.getOrigin().x);
-    EXPECT_FLOAT_EQ(18, resultTextLabel.getOrigin().y);
+    EXPECT_FLOAT_EQ(0.0, resultTextLabel.getOrigin().x);
+    EXPECT_FLOAT_EQ(0.0, resultTextLabel.getOrigin().y);
 }
 
 TEST_F(DefaultWidgetImplTests, show_runWhenNotVisible_ChangeToVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {}, getFont() };
+    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
 
     widget.show();
 
@@ -90,7 +73,7 @@ TEST_F(DefaultWidgetImplTests, show_runWhenNotVisible_ChangeToVisible)
 
 TEST_F(DefaultWidgetImplTests, show_RunTwice_ChangeToVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {}, getFont() };
+    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
 
     widget.show();
     widget.show();
@@ -100,7 +83,7 @@ TEST_F(DefaultWidgetImplTests, show_RunTwice_ChangeToVisible)
 
 TEST_F(DefaultWidgetImplTests, hide_runWhenNotVisible_StillNotVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {}, getFont() };
+    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
 
     widget.hide();
 
@@ -109,7 +92,7 @@ TEST_F(DefaultWidgetImplTests, hide_runWhenNotVisible_StillNotVisible)
 
 TEST_F(DefaultWidgetImplTests, hide_runWhenVisible_ChangeToNotVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {}, getFont() };
+    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
     widget.show();
 
     widget.hide();
@@ -119,7 +102,7 @@ TEST_F(DefaultWidgetImplTests, hide_runWhenVisible_ChangeToNotVisible)
 
 TEST_F(DefaultWidgetImplTests, hide_runWhenVisibleTwice_ChangeToNotVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {}, getFont() };
+    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
     widget.show();
 
     widget.hide();

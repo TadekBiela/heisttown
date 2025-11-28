@@ -17,7 +17,7 @@ public:
         const WidgetGeometry& newGeometry,
         const WidgetText& newText,
         const WidgetStyle& newStyle,
-        const std::shared_ptr<sf::Font>& newFont
+        const std::shared_ptr<sf::Font>& newFont = nullptr
     );
 
     [[nodiscard]] WidgetGeometry getGeometry() const  override;

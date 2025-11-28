@@ -53,18 +53,31 @@ void DefaultWidgetImpl::setText(const WidgetText& newText)
 
 void DefaultWidgetImpl::applyText(const WidgetText& newText)
 {
-    textLabel.setFont(*font);
     textLabel.setString(newText);
+
+    if (font)
+    {
+        textLabel.setFont(*font);
+    }
 }
 
 void DefaultWidgetImpl::alignCenterText()
 {
     const float centerDivider { 2.0 };
-    const sf::FloatRect textBounds = textLabel.getLocalBounds();
-    textLabel.setOrigin(
-        textBounds.left + textBounds.width / centerDivider,
-        textBounds.top + textBounds.height / centerDivider
-    );
+
+    if(font)
+    {
+        const sf::FloatRect textBounds = textLabel.getLocalBounds();
+        textLabel.setOrigin(
+            textBounds.left + textBounds.width / centerDivider,
+            textBounds.top + textBounds.height / centerDivider
+        );
+    }
+    else
+    {
+        textLabel.setOrigin(0.0, 0.0);
+    }
+
     textLabel.setPosition(
         geometry.x + geometry.width / centerDivider,
         geometry.y + geometry.height / centerDivider
