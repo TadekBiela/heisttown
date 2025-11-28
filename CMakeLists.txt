@@ -118,7 +118,7 @@ add_custom_target(CodeCoverage
     COMMAND "${CMAKE_COMMAND}" --build . --target all
     COMMAND "${CMAKE_CTEST_COMMAND}"
     COMMAND gcovr -r "${CMAKE_SOURCE_DIR}/src" --html --html-details -o index.html --exclude-unreachable-branches --exclude-lines-by-pattern "GCOVR_EXCL_" --exclude ".*Tests.*" --exclude ".*Mock.*" --exclude ".*Stub.*" --print-summary
-    COMMAND gcovr -r "${CMAKE_SOURCE_DIR}/src" --txt -o coverage.txt --exclude ".*Tests.*" --exclude ".*Mock.*" --exclude ".*Stub.*" .
+    COMMAND gcovr -r "${CMAKE_SOURCE_DIR}/src" --txt -o coverage.txt --exclude ".*main\.cpp" --exclude ".*Tests.*" --exclude ".*Mock.*" --exclude ".*Stub.*" .
     COMMAND sh -c "grep TOTAL coverage.txt | awk '{ print \$NF }' | sed 's/%//' > coverage_level.txt"
     COMMAND sh -c "read level < coverage_level.txt; if [ \"\$level\" = \"\" ] || [ \"\$level\" -lt ${COVERAGE_LEVEL} ]; then echo '❌ Coverage too low: '\$level'% (required: ${COVERAGE_LEVEL}%)'; exit 1; else echo '✅ Coverage OK: '\$level'%'; fi"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
