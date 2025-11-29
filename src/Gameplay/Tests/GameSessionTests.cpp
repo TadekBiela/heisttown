@@ -91,6 +91,7 @@ TEST_F(GameSessionTests, getUpdateForPlayer_NoAddedPlayers_ReturnEmptyGameplayUp
 
 TEST_F(GameSessionTests, getUpdateForPlayer_OnePlayerAddedButIdNotMatch_ReturnEmptyGameplayUpdate)
 {
+    const Position expectedPlayerPosition { 0.0F, 0.0F };
     auto factory { std::make_unique<MockGameObjectFactory>() };
     EXPECT_CALL(*factory, create(_, _, _));
     GameSessionTestable gameSession { std::move(factory) };
@@ -100,18 +101,23 @@ TEST_F(GameSessionTests, getUpdateForPlayer_OnePlayerAddedButIdNotMatch_ReturnEm
 
     EXPECT_EQ(0, playerId);
     const auto resultGameSceneUpdate { resultGameplayUpdate.gameSceneUpdate };
+    EXPECT_TRUE(resultGameSceneUpdate.mapName.empty());
+    EXPECT_EQ(expectedPlayerPosition, resultGameSceneUpdate.playerGlobalPosition);
     EXPECT_TRUE(resultGameSceneUpdate.gameObjects.empty());
 }
 
-TEST_F(GameSessionTests, getUpdateForPlayer_OnePlayerAddedAndIdMatch_ReturnEGameplayUpdateWithOneGameObject)
+TEST_F(GameSessionTests, getUpdateForPlayer_OnePlayerAddedAndIdMatch_ReturnGameplayUpdateWithMapNameAndPlayerPosition)
 {
+    const Position expectedPlayerPosition { 2500.0F, 2500.0F };
     auto factory { std::make_unique<MockGameObjectFactory>() };
-    EXPECT_CALL(*factory, create(_, _, _));
+    EXPECT_CALL(*factory, create(_, _, _)).WillOnce(Return(GameObject { 0, GoType::PLAYER, expectedPlayerPosition, 0.0F }));
     GameSessionTestable gameSession { std::move(factory) };
     const auto playerId { gameSession.addPlayer() };
 
     const auto resultGameplayUpdate { gameSession.getUpdateForPlayer(playerId) };
 
     const auto resultGameSceneUpdate { resultGameplayUpdate.gameSceneUpdate };
-    EXPECT_EQ(1, resultGameSceneUpdate.gameObjects.size());
+    EXPECT_EQ("map01", resultGameSceneUpdate.mapName);
+    EXPECT_EQ(expectedPlayerPosition, resultGameSceneUpdate.playerGlobalPosition);
+    EXPECT_EQ(0, resultGameSceneUpdate.gameObjects.size());
 }

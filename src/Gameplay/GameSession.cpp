@@ -19,7 +19,7 @@ void GameSession::stop()
 
 GameSession::PlayerID GameSession::addPlayer()
 {
-    playersObjects[playerIdCounter] = factory->create(GoType::PLAYER, { 0, 0 }, 0);
+    playersObjects[playerIdCounter] = factory->create(GoType::PLAYER, { 2500.0, 2500.0 }, 0.0);
     return playerIdCounter++;
 }
 
@@ -44,7 +44,10 @@ GameplayUpdate GameSession::getUpdateForPlayer(const PlayerID& playerId) const
     {
         GameplayUpdate update;
         auto& sceneUpdate { update.gameSceneUpdate };
-        sceneUpdate.gameObjects.push_back(playersObjects.at(playerId));
+        sceneUpdate.mapName = "map01";
+        const auto& player { playersObjects.at(playerId) };
+        sceneUpdate.playerGlobalPosition.x = player.position.x;
+        sceneUpdate.playerGlobalPosition.y = player.position.y;
         return update;
     }
     return GameplayUpdate {};

@@ -31,6 +31,7 @@ void LocalClient::start()
     {
         playerInput->start();
     }
+    gameScene->show();
 }
 
 void LocalClient::stop()
@@ -39,6 +40,7 @@ void LocalClient::stop()
     {
         playerInput->stop();
     }
+    gameScene->hide();
 }
 
 void LocalClient::receive(const PlayerInputCommand& command)

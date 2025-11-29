@@ -9,8 +9,8 @@ enum class GoType
 
 struct Position
 {
-    float x;
-    float y;
+    float x { 0.0F };
+    float y { 0.0F };
 
     bool operator==(const Position& position) const
     {

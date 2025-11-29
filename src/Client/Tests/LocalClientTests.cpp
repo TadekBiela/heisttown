@@ -18,6 +18,7 @@ TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldStartInputReading)
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, start());
+    EXPECT_CALL(*scene, show());
     LocalClient client { std::move(scene), std::move(input) };
 
     client.start();
@@ -29,6 +30,7 @@ TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldStopInputReading)
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, stop());
+    EXPECT_CALL(*scene, hide());
     LocalClient client { std::move(scene), std::move(input) };
 
     client.stop();
@@ -59,6 +61,7 @@ TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendGameCommand)
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, stop());
+    EXPECT_CALL(*scene, hide());
     GameCommand resultCommand { GameCommand::NoCommand };
     const GameConnection connection = [&resultCommand](const GameCommand& command)
     {
