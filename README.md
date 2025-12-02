@@ -28,7 +28,7 @@ For potential employers / clients / collaborators, this repository shows that yo
 
 
 ## 3. Contact
-Feel free to reach out: tadek.biela@gmail.com . You can also check my LinkedIn: https://www.linkedin.com/in/tadeuszbiela/ or webside: https://cpptested.com/
+Feel free to reach out: tadek.biela@gmail.com . You can also check my ["LinkedIn"](https://www.linkedin.com/in/tadeuszbiela/) or website: https://cpptested.com/
 
 
 ## 4. License
