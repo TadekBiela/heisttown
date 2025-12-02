@@ -27,7 +27,7 @@ For potential employers / clients / collaborators, this repository shows that yo
 - Think about long-term maintenance, scalability and reproducibility
 
 
-## 3. Contact & More (Your Info)
+## 3. Contact
 Feel free to reach out: tadek.biela@gmail.com . You can also check my LinkedIn: https://www.linkedin.com/in/tadeuszbiela/ or webside: https://cpptested.com/
 
 
