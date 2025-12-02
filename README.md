@@ -20,11 +20,11 @@
 ## 2. Why this matters from a professional standpoint
 For potential employers / clients / collaborators, this repository shows that you:
 
-Can handle modern C++ development with attention to quality and safety
-Understand testing — not just unit tests, but thread-safety, memory safety, coverage, CI/CD
-Can set up cross-platform, reproducible build & test pipelines (via Docker + CMake + CI)
-Write maintainable, clean, and well-formatted code adhering to static analysis guidelines
-Think about long-term maintenance, scalability and reproducibility
+- Can handle modern C++ development with attention to quality and safety
+- Understand testing — not just unit tests, but thread-safety, memory safety, coverage, CI/CD
+- Can set up cross-platform, reproducible build & test pipelines (via Docker + CMake + CI)
+- Write maintainable, clean, and well-formatted code adhering to static analysis guidelines
+- Think about long-term maintenance, scalability and reproducibility
 
 
 ## 3. Contact & More (Your Info)
