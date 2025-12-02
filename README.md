@@ -28,7 +28,7 @@ Think about long-term maintenance, scalability and reproducibility
 
 
 ## 3. Contact & More (Your Info)
-Feel free to reach out: <Your Name / GitHub handle>
+Feel free to reach out: tadek.biela@gmail.com
 You can check my LinkedIn: https://www.linkedin.com/in/tadeuszbiela/
 Or webside: https://cpptested.com/
 
