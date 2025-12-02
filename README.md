@@ -28,9 +28,7 @@ Think about long-term maintenance, scalability and reproducibility
 
 
 ## 3. Contact & More (Your Info)
-Feel free to reach out: tadek.biela@gmail.com
-You can check my LinkedIn: https://www.linkedin.com/in/tadeuszbiela/
-Or webside: https://cpptested.com/
+Feel free to reach out: tadek.biela@gmail.com . You can also check my LinkedIn: https://www.linkedin.com/in/tadeuszbiela/ or webside: https://cpptested.com/
 
 
 ## 4. License
