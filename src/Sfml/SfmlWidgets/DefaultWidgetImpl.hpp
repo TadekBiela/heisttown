@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Drawable.hpp"
+#include "../Drawable.hpp"
 #include <Widget.hpp>
 #include <WidgetGeometry.hpp>
 #include <SFML/Graphics/Drawable.hpp>

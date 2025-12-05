@@ -29,5 +29,6 @@ target_link_libraries(${APP_NAME}
         PlayerInput
         Server
         Sfml
+        SfmlWidgets
         Widgets
 )

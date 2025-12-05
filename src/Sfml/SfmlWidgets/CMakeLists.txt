@@ -2,15 +2,10 @@ if(NOT RELEASE)
     add_subdirectory(Tests)
 endif()
 
-add_subdirectory(SfmlWidgets)
-
-set(LIB_NAME Sfml)
+set(LIB_NAME SfmlWidgets)
 
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.hpp")
 file(GLOB SRC_FILES CONFIGURE_DEPENDS "*.cpp")
-
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Textures
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(${LIB_NAME} STATIC ${HEADER_FILES} ${SRC_FILES})
 
@@ -23,6 +18,7 @@ target_link_libraries(${LIB_NAME}
     PUBLIC
     FilesStorage
     Gameplay
+    Sfml
     Widgets
     sfml-graphics
     sfml-window

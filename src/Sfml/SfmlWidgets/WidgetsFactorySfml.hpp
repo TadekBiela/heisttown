@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DisplaySfml.hpp"
+#include "../DisplaySfml.hpp"
 #include <Widget.hpp>
 #include <WidgetsFactory.hpp>
 #include <WidgetGeometry.hpp>

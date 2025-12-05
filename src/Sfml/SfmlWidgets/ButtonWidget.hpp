@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DefaultWidgetImpl.hpp"
-#include "EventHandler.hpp"
+#include "../EventHandler.hpp"
 #include <WidgetControl.hpp>
 #include <Widget.hpp>
 #include <WidgetGeometry.hpp>

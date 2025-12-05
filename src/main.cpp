@@ -5,7 +5,7 @@
 #include "Menu/MenuController.hpp"
 #include "Menu/MenuParser.hpp"
 #include "Sfml/DisplaySfml.hpp"
-#include "Sfml/WidgetsFactorySfml.hpp"
+#include "Sfml/SfmlWidgets/WidgetsFactorySfml.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <filesystem>
 #include <memory>
