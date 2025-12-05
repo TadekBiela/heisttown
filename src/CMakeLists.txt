@@ -5,6 +5,7 @@ add_subdirectory(MainApplication)
 add_subdirectory(Menu)
 add_subdirectory(MouseCursor)
 add_subdirectory(PlayerInput)
+add_subdirectory(Rendering)
 add_subdirectory(Scene)
 add_subdirectory(Server)
 add_subdirectory(Sfml)
@@ -28,6 +29,7 @@ target_link_libraries(${APP_NAME}
         MainApplication
         Menu
         PlayerInput
+        Rendering
 	Scene
         Server
         Sfml
