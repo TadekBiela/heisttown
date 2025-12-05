@@ -15,6 +15,7 @@ public:
             const WidgetGeometry& geometry,
             const WidgetText& text,
             const WidgetStyle& style
-        )
+        ),
+        (override)
     );
 };

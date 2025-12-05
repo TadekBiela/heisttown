@@ -13,7 +13,7 @@ public:
     {}
 
     MOCK_METHOD(void, draw, (sf::RenderTarget&), (const, override));
-    MOCK_METHOD(GoId, getId, (), (const));
-    MOCK_METHOD(void, setPosition, (Position));
-    MOCK_METHOD(void, setRotation, (Rotation));
+    MOCK_METHOD(GoId, getId, (), (const, override));
+    MOCK_METHOD(void, setPosition, (Position), (override));
+    MOCK_METHOD(void, setRotation, (Rotation), (override));
 };

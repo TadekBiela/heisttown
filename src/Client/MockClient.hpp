@@ -9,10 +9,10 @@
 class MockClient : public Client
 {
 public:
-    MOCK_METHOD(void, connect, (const GameConnection&));
-    MOCK_METHOD(void, start, ());
-    MOCK_METHOD(void, stop, ());
-    MOCK_METHOD(void, receive, (const PlayerInputCommand&));
-    MOCK_METHOD(PlayerStatus, status, (), (const));
-    MOCK_METHOD(void, update, (const GameplayUpdate&&));
+    MOCK_METHOD(void, connect, (const GameConnection&), (override));
+    MOCK_METHOD(void, start, (), (override));
+    MOCK_METHOD(void, stop, (), (override));
+    MOCK_METHOD(void, receive, (const PlayerInputCommand&), (override));
+    MOCK_METHOD(PlayerStatus, status, (), (const, override));
+    MOCK_METHOD(void, update, (const GameplayUpdate&&), (override));
 };

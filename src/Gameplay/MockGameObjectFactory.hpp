@@ -7,5 +7,5 @@
 class MockGameObjectFactory : public GameObjectFactory
 {
 public:
-    MOCK_METHOD(GameObject, create, (const GoType&, const Position&, const Rotation&));
+    MOCK_METHOD(GameObject, create, (const GoType&, const Position&, const Rotation&), (override));
 };

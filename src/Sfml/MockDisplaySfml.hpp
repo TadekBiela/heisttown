@@ -15,10 +15,10 @@ public:
         : DisplaySfml(1, 1, nullptr, std::make_unique<MockSpriteFactory>())
     {}
 
-    MOCK_METHOD(void, addDrawable, (std::shared_ptr<Drawable>));
-    MOCK_METHOD(void, addEventHandler, (std::shared_ptr<EventHandler>));
-    MOCK_METHOD(void, display, ());
-    MOCK_METHOD(void, show, ());
-    MOCK_METHOD(void, hide, ());
+    MOCK_METHOD(void, addDrawable, (std::shared_ptr<Drawable>), (override));
+    MOCK_METHOD(void, addEventHandler, (std::shared_ptr<EventHandler>), (override));
+    MOCK_METHOD(void, display, (), (override));
+    MOCK_METHOD(void, show, (), (override));
+    MOCK_METHOD(void, hide, (), (override));
     MOCK_METHOD(void, update, (const GameSceneUpdate&), (override));
 };

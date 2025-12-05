@@ -7,7 +7,7 @@
 class MockGameScene : public GameScene
 {
 public:
-    MOCK_METHOD(void, show, ());
-    MOCK_METHOD(void, hide, ());
-    MOCK_METHOD(void, update, (const GameSceneUpdate&));
+    MOCK_METHOD(void, show, (), (override));
+    MOCK_METHOD(void, hide, (), (override));
+    MOCK_METHOD(void, update, (const GameSceneUpdate&), (override));
 };

@@ -11,5 +11,5 @@ public:
         : SpriteFactory(nullptr)
     {}
 
-    MOCK_METHOD(std::unique_ptr<Sprite>, create, (const GoType&, const Position&, const Rotation&));
+    MOCK_METHOD(std::unique_ptr<Sprite>, create, (const GoType&, const Position&, const Rotation&), (override));
 };

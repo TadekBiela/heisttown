@@ -12,11 +12,11 @@ public:
         : GameSession(nullptr)
     {}
 
-    MOCK_METHOD(void, start, ());
-    MOCK_METHOD(void, stop, ());
-    MOCK_METHOD(PlayerID, addPlayer, ());
-    MOCK_METHOD(void, removePlayer, (const PlayerID&));
-    MOCK_METHOD(void, queuePlayerStatus, (const PlayerID&, const PlayerStatus&));
-    MOCK_METHOD(void, updateGameWorld, ());
-    MOCK_METHOD(GameplayUpdate, getUpdateForPlayer, (const PlayerID&), (const));
+    MOCK_METHOD(void, start, (), (override));
+    MOCK_METHOD(void, stop, (), (override));
+    MOCK_METHOD(PlayerID, addPlayer, (), (override));
+    MOCK_METHOD(void, removePlayer, (const PlayerID&), (override));
+    MOCK_METHOD(void, queuePlayerStatus, (const PlayerID&, const PlayerStatus&), (override));
+    MOCK_METHOD(void, updateGameWorld, (), (override));
+    MOCK_METHOD(GameplayUpdate, getUpdateForPlayer, (const PlayerID&), (const, override));
 };
