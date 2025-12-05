@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GameObject.hpp"
-#include "GameObjectFactory.hpp"
 #include "GameplayUpdate.hpp"
+#include <SceneItem.hpp>
+#include <SceneItemFactory.hpp>
 #include <PlayerStatus.hpp>
 #include <map>
 #include <memory>
@@ -11,9 +11,9 @@ class GameSession
 {
 public:
     using PlayerID = int;
-    using PlayersObjects = std::map<PlayerID, GameObject>;
+    using PlayersObjects = std::map<PlayerID, SceneItem>;
 
-    explicit GameSession(std::unique_ptr<GameObjectFactory> inputFactory = nullptr);
+    explicit GameSession(std::unique_ptr<SceneItemFactory> inputFactory = nullptr);
     virtual ~GameSession() = default;
 
     virtual void start();
@@ -25,7 +25,7 @@ public:
     [[nodiscard]] virtual GameplayUpdate getUpdateForPlayer(const PlayerID& playerId) const;
 
 protected:
-    std::unique_ptr<GameObjectFactory> factory;
+    std::unique_ptr<SceneItemFactory> factory;
     PlayersObjects playersObjects;
 
 private:

@@ -5,19 +5,19 @@
 #include "SpriteFactory.hpp"
 #include "TextureFile.hpp"
 #include <FilesStorage.hpp>
-#include <GameObject.hpp>
-#include <GameScene.hpp>
+#include <SceneItem.hpp>
+#include <Scene.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <map>
 #include <memory>
 #include <vector>
 
-class DisplaySfml : public GameScene
+class DisplaySfml : public Scene
 {
 public:
     using Drawables = std::vector<std::shared_ptr<Drawable>>;
     using EventHandlers = std::vector<std::shared_ptr<EventHandler>>;
-    using Sprites = std::map<GoId, std::unique_ptr<Sprite>>;
+    using Sprites = std::map<SceneItemId, std::unique_ptr<Sprite>>;
 
     DisplaySfml(
         unsigned int width,
@@ -33,7 +33,7 @@ public:
 
     virtual void show() override;
     virtual void hide() override;
-    virtual void update(const GameSceneUpdate& sceneUpdate) override;
+    virtual void update(const SceneUpdate& sceneUpdate) override;
 
 protected:
     Drawables drawables;
@@ -42,7 +42,7 @@ protected:
 private:
     sf::RenderWindow window;
     EventHandlers handlers;
-    bool isGameSceneVisible;
+    bool isSceneVisible;
     std::shared_ptr<FilesStorage<TextureFile>> textureStorage;
     std::unique_ptr<SpriteFactory> spriteFactory;
     sf::Image globalMapImage;
@@ -57,6 +57,6 @@ private:
     void loadLocalMap(const Position& playerGlobalPosition);
     void renderLocalMap();
     void renderPlayer();
-    // void updateSprite(const GameObject& spriteParamsUpdate);
-    void addSprite(const GameObject& newSpriteParams);
+    // void updateSprite(const SceneItem& spriteParamsUpdate);
+    void addSprite(const SceneItem& newSpriteParams);
 };

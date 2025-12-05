@@ -2,7 +2,7 @@
 #include <iostream>
 
 LocalClient::LocalClient(
-    std::shared_ptr<GameScene> scene,
+    std::shared_ptr<Scene> scene,
     std::unique_ptr<PlayerInput> input
 )
     : gameConnection([](const GameCommand&) {})

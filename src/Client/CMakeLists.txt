@@ -18,4 +18,5 @@ target_link_libraries(${LIB_NAME}
     PUBLIC
         Gameplay
         PlayerInput
+        Scene
 )

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Sprite.hpp"
-#include <GameObject.hpp>
+#include <SceneItem.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <gmock/gmock.h>
 
@@ -13,7 +13,7 @@ public:
     {}
 
     MOCK_METHOD(void, draw, (sf::RenderTarget&), (const, override));
-    MOCK_METHOD(GoId, getId, (), (const, override));
+    MOCK_METHOD(SceneItemId, getId, (), (const, override));
     MOCK_METHOD(void, setPosition, (Position), (override));
     MOCK_METHOD(void, setRotation, (Rotation), (override));
 };

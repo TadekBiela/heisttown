@@ -3,8 +3,8 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
 #include <MockClient.hpp>
-#include <MockGameScene.hpp>
 #include <MockPlayerInput.hpp>
+#include <MockScene.hpp>
 #include <chrono>
 #include <future>
 #include <gtest/gtest.h>
@@ -76,7 +76,7 @@ public:
     static std::shared_ptr<LocalClient> getLocalClient()
     {
         return std::make_shared<LocalClient>(
-            std::make_unique<MockGameScene>(),
+            std::make_unique<MockScene>(),
             getMockPlayerInput()
         );
     }

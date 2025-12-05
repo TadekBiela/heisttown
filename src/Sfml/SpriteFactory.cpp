@@ -6,21 +6,21 @@ SpriteFactory::SpriteFactory(std::shared_ptr<FilesStorage<TextureFile>> inputTex
 {
 }
 
-std::unique_ptr<Sprite> SpriteFactory::create(const GoType& type, const Position& position, const Rotation& rotation)
+std::unique_ptr<Sprite> SpriteFactory::create(const SceneItemType& type, const Position& position, const Rotation& rotation)
 {
     return std::make_unique<Sprite>(goIdCounter++, getTexture(type), position, rotation);
 }
 
-const sf::Texture& SpriteFactory::getTexture(const GoType& type) const
+const sf::Texture& SpriteFactory::getTexture(const SceneItemType& type) const
 {
     return textureStorage->getFile(translateTypeToTextureName(type)).getTexture();
 }
 
-std::string SpriteFactory::translateTypeToTextureName(const GoType& type)
+std::string SpriteFactory::translateTypeToTextureName(const SceneItemType& type)
 {
     switch (type)
     {
-        case (GoType::PLAYER):
+        case (SceneItemType::PLAYER):
         {
             return "player";
         }

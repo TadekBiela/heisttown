@@ -3,7 +3,7 @@
 #include "Client.hpp"
 #include <GameConnection.hpp>
 #include <GameplayUpdate.hpp>
-#include <GameScene.hpp>
+#include <Scene.hpp>
 #include <PlayerInput.hpp>
 #include <memory>
 
@@ -11,7 +11,7 @@ class LocalClient : public Client
 {
 public:
     LocalClient(
-        std::shared_ptr<GameScene> scene,
+        std::shared_ptr<Scene> scene,
         std::unique_ptr<PlayerInput> input
     );
 
@@ -24,7 +24,7 @@ public:
 
 private:
     GameConnection gameConnection;
-    std::shared_ptr<GameScene> gameScene;
+    std::shared_ptr<Scene> gameScene;
     PlayerInputReceiver inputReceiver;
     std::unique_ptr<PlayerInput> playerInput;
 };

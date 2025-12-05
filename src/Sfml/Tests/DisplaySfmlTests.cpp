@@ -45,25 +45,25 @@ private:
     const std::map<FileName, TextureFile> data;
 };
 
-TEST_F(DisplaySfmlTests, update_EmptyGameSceneUpdate_DoNothing)
+TEST_F(DisplaySfmlTests, update_EmptySceneUpdate_DoNothing)
 {
     auto spriteFactory { std::make_unique<MockSpriteFactory>() };
-    EXPECT_CALL(*spriteFactory, create(GoType::PLAYER, _, _)).Times(0);
+    EXPECT_CALL(*spriteFactory, create(SceneItemType::PLAYER, _, _)).Times(0);
     DisplaySfmlTestable display { 1, 1, createFileStorage(), std::move(spriteFactory) };
 
-    display.update(GameSceneUpdate {});
+    display.update(SceneUpdate {});
 
     const auto& resultSprites { display.getDrawables() };
     EXPECT_TRUE(resultSprites.empty());
 }
 
-TEST_F(DisplaySfmlTests, update_GameSceneUpdateWithOneObject_AddOneSpriteToDrawables)
+TEST_F(DisplaySfmlTests, update_SceneUpdateWithOneObject_AddOneSpriteToDrawables)
 {
-    GameSceneUpdate sceneUpdate;
-    auto& gameObjects { sceneUpdate.gameObjects };
-    gameObjects.push_back(GameObject { 0, GoType::PLAYER, { 0.0F, 0.0F }, 0.0F });
+    SceneUpdate sceneUpdate;
+    auto& sceneItems { sceneUpdate.sceneItems };
+    sceneItems.push_back(SceneItem { 0, SceneItemType::PLAYER, { 0.0F, 0.0F }, 0.0F });
     auto spriteFactory { std::make_unique<MockSpriteFactory>() };
-    EXPECT_CALL(*spriteFactory, create(GoType::PLAYER, _, _)).WillOnce(Return(ByMove(createMockSprite())));
+    EXPECT_CALL(*spriteFactory, create(SceneItemType::PLAYER, _, _)).WillOnce(Return(ByMove(createMockSprite())));
     DisplaySfmlTestable display { 1, 1, createFileStorage(), std::move(spriteFactory) };
 
     display.update(sceneUpdate);
@@ -72,18 +72,18 @@ TEST_F(DisplaySfmlTests, update_GameSceneUpdateWithOneObject_AddOneSpriteToDrawa
     EXPECT_EQ(1, resultSprites.size());
 }
 
-TEST_F(DisplaySfmlTests, update_GameSceneUpdateWithOneObjectUpdateTwice_AddOneSpriteToDrawablesAndUpdatePosition)
+TEST_F(DisplaySfmlTests, update_SceneUpdateWithOneObjectUpdateTwice_AddOneSpriteToDrawablesAndUpdatePosition)
 {
-    GameSceneUpdate sceneUpdate;
-    auto& gameObjects { sceneUpdate.gameObjects };
-    gameObjects.push_back(GameObject { 0, GoType::PLAYER, { 0.0F, 0.0F }, 0.0F });
+    SceneUpdate sceneUpdate;
+    auto& sceneItems { sceneUpdate.sceneItems };
+    sceneItems.push_back(SceneItem { 0, SceneItemType::PLAYER, { 0.0F, 0.0F }, 0.0F });
     const Position expectedPostion { 10.0F, 64.0F };
     auto spriteFactory { std::make_unique<MockSpriteFactory>() };
-    EXPECT_CALL(*spriteFactory, create(GoType::PLAYER, _, _)).WillOnce(Return(ByMove(createMockSprite())));
+    EXPECT_CALL(*spriteFactory, create(SceneItemType::PLAYER, _, _)).WillOnce(Return(ByMove(createMockSprite())));
     DisplaySfmlTestable display { 1, 1, createFileStorage(), std::move(spriteFactory) };
 
     display.update(sceneUpdate);
-    gameObjects[0].position = { expectedPostion };
+    sceneItems[0].position = { expectedPostion };
     display.update(sceneUpdate);
 
     const auto& resultSprites { display.getSprites() };

@@ -7,7 +7,7 @@
 
 MainApplication::MainApplication(
     std::unique_ptr<IMenuController> controller,
-    const std::shared_ptr<GameScene>& scene,
+    const std::shared_ptr<Scene>& scene,
     std::unique_ptr<PlayerInput> input,
     GuiExitCallback callback,
     std::shared_ptr<Client> client,

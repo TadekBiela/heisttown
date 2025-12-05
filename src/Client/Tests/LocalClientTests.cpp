@@ -1,7 +1,7 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
-#include <MockGameScene.hpp>
 #include <MockPlayerInput.hpp>
+#include <MockScene.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <memory>
@@ -14,7 +14,7 @@ class LocalClientTests : public Test
 
 TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldStartInputReading)
 {
-    auto scene { std::make_unique<MockGameScene>() };
+    auto scene { std::make_unique<MockScene>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, start());
@@ -26,7 +26,7 @@ TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldStartInputReading)
 
 TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldStopInputReading)
 {
-    auto scene { std::make_unique<MockGameScene>() };
+    auto scene { std::make_unique<MockScene>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, stop());
@@ -38,7 +38,7 @@ TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldStopInputReading)
 
 TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 {
-    auto scene { std::make_unique<MockGameScene>() };
+    auto scene { std::make_unique<MockScene>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, stop()).Times(0);
@@ -57,7 +57,7 @@ TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 
 TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendGameCommand)
 {
-    auto scene { std::make_unique<MockGameScene>() };
+    auto scene { std::make_unique<MockScene>() };
     auto input { std::make_unique<MockPlayerInput>() };
     EXPECT_CALL(*input, setInputReceiver(_));
     EXPECT_CALL(*input, stop());

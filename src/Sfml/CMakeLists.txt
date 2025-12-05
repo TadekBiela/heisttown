@@ -23,6 +23,7 @@ target_link_libraries(${LIB_NAME}
     PUBLIC
     FilesStorage
     Gameplay
+    Scene
     Widgets
     sfml-graphics
     sfml-window

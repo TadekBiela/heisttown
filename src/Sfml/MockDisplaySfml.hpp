@@ -4,7 +4,7 @@
 #include "Drawable.hpp"
 #include "EventHandler.hpp"
 #include "MockSpriteFactory.hpp"
-#include <GameSceneUpdate.hpp>
+#include <SceneUpdate.hpp>
 #include <gmock/gmock.h>
 #include <memory>
 
@@ -20,5 +20,5 @@ public:
     MOCK_METHOD(void, display, (), (override));
     MOCK_METHOD(void, show, (), (override));
     MOCK_METHOD(void, hide, (), (override));
-    MOCK_METHOD(void, update, (const GameSceneUpdate&), (override));
+    MOCK_METHOD(void, update, (const SceneUpdate&), (override));
 };

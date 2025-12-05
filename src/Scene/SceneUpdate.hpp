@@ -1,16 +1,14 @@
 #pragma once
 
-#include "GameObject.hpp"
+#include "SceneItem.hpp"
 #include <string>
 #include <vector>
 
 using MapName = std::string;
 
-using GameObjects = std::vector<GameObject>;
-
-struct GameSceneUpdate
+struct SceneUpdate
 {
     MapName mapName;
     Position playerGlobalPosition;
-    GameObjects gameObjects;
+    SceneItems sceneItems;
 };

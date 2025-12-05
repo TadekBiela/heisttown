@@ -13,7 +13,7 @@ DisplaySfml::DisplaySfml(
     std::unique_ptr<SpriteFactory> inputSpriteFactory
 )
     : window(sf::VideoMode(width, height), "")
-    , isGameSceneVisible(false)
+    , isSceneVisible(false)
     , textureStorage(std::move(inputTextureStorage))
     , spriteFactory(std::move(inputSpriteFactory))
     , playerPosition()
@@ -78,7 +78,7 @@ void DisplaySfml::render()
         drawable->draw(window);
     }
 
-    if (isGameSceneVisible)
+    if (isSceneVisible)
     {
         renderLocalMap();
 
@@ -95,20 +95,20 @@ void DisplaySfml::render()
 
 void DisplaySfml::show()
 {
-    isGameSceneVisible = true;
+    isSceneVisible = true;
 }
 
 void DisplaySfml::hide()
 {
-    isGameSceneVisible = false;
+    isSceneVisible = false;
 }
 
-void DisplaySfml::update(const GameSceneUpdate& sceneUpdate)
+void DisplaySfml::update(const SceneUpdate& sceneUpdate)
 {
     loadGlobalMapIfNeeded(sceneUpdate.mapName);
     loadLocalMap(sceneUpdate.playerGlobalPosition);
 
-    for (const auto& gameObject : sceneUpdate.gameObjects)
+    for (const auto& gameObject : sceneUpdate.sceneItems)
     {
         if (sprites.find(gameObject.id) != sprites.end())
         {
@@ -157,16 +157,16 @@ void DisplaySfml::renderLocalMap()
 
 void DisplaySfml::renderPlayer()
 {
-    auto playerSprite { spriteFactory->create(GoType::PLAYER, playerPosition, playerRotation) };
+    auto playerSprite { spriteFactory->create(SceneItemType::PLAYER, playerPosition, playerRotation) };
     playerSprite->draw(window);
 }
 
-// void DisplaySfml::updateSprite(const GameObject& spriteParamsUpdate)
+// void DisplaySfml::updateSprite(const SceneItem& spriteParamsUpdate)
 // {
 //     (void)spriteParamsUpdate;
 // }
 
-void DisplaySfml::addSprite(const GameObject& newSpriteParams)
+void DisplaySfml::addSprite(const SceneItem& newSpriteParams)
 {
     auto sprite { spriteFactory->create(newSpriteParams.type, newSpriteParams.position, newSpriteParams.rotation) };
     sprites[sprite->getId()] = std::move(sprite);

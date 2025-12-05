@@ -1,8 +1,10 @@
 #pragma once
 
-using GoId = unsigned int;
+#include <vector>
 
-enum class GoType
+using SceneItemId = unsigned int;
+
+enum class SceneItemType
 {
     PLAYER
 };
@@ -20,10 +22,12 @@ struct Position
 
 using Rotation = float;
 
-struct GameObject
+struct SceneItem
 {
-    GoId id;
-    GoType type;
+    SceneItemId id;
+    SceneItemType type;
     Position position;
     Rotation rotation;
 };
+
+using SceneItems = std::vector<SceneItem>;

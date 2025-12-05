@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameSceneUpdate.hpp"
+#include "SceneUpdate.hpp"
 #include <utility>
 
 using Health = float;
@@ -18,6 +18,6 @@ struct HUDUpdate
 
 struct GameplayUpdate
 {
-    GameSceneUpdate gameSceneUpdate;
+    SceneUpdate gameSceneUpdate;
     HUDUpdate hudUpdate;
 };
