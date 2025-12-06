@@ -1,16 +1,14 @@
 if(NOT RELEASE)
-    add_subdirectory(Tests)
+   add_subdirectory(Tests)
 endif()
 
-add_subdirectory(SfmlRendering)
-add_subdirectory(SfmlWidgets)
-
-set(LIB_NAME Sfml)
+set(LIB_NAME SfmlRendering)
 
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.hpp")
 file(GLOB SRC_FILES CONFIGURE_DEPENDS "*.cpp")
 
-add_library(${LIB_NAME} STATIC ${HEADER_FILES} ${SRC_FILES})
+add_library(${LIB_NAME} STATIC ${HEADER_FILES} ${SRC_FILES}
+    MockSfmlRenderItem.hpp)
 
 target_include_directories(${LIB_NAME}
     PUBLIC
@@ -19,12 +17,9 @@ target_include_directories(${LIB_NAME}
 
 target_link_libraries(${LIB_NAME}
     PUBLIC
-    FilesStorage
-    Gameplay
     Rendering
     Scene
-    SfmlRendering
-    Widgets
+    Sfml
     sfml-graphics
     sfml-window
     sfml-system

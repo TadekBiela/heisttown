@@ -2,7 +2,8 @@
 
 #include "Drawable.hpp"
 #include "EventHandler.hpp"
-#include "SpriteFactory.hpp"
+#include <SfmlRendering/SfmlRenderItem.hpp>
+#include <SfmlRendering/SfmlRenderItemFactory.hpp>
 #include "TextureFile.hpp"
 #include <FilesStorage.hpp>
 #include <SceneItem.hpp>
@@ -17,13 +18,13 @@ class DisplaySfml : public Scene
 public:
     using Drawables = std::vector<std::shared_ptr<Drawable>>;
     using EventHandlers = std::vector<std::shared_ptr<EventHandler>>;
-    using Sprites = std::map<SceneItemId, std::unique_ptr<Sprite>>;
+    using SfmlRenderItems = std::map<SceneItemId, std::unique_ptr<SfmlRenderItem>>;
 
     DisplaySfml(
         unsigned int width,
         unsigned int height,
         std::shared_ptr<FilesStorage<TextureFile>> inputTextureStorage,
-        std::unique_ptr<SpriteFactory> inputSpriteFactory = nullptr
+        std::unique_ptr<SfmlRenderItemFactory> inputRenderItemFactory = nullptr
     );
     virtual ~DisplaySfml() override = default;
 
@@ -37,14 +38,14 @@ public:
 
 protected:
     Drawables drawables;
-    Sprites sprites;
+    SfmlRenderItems renderItems;
 
 private:
     sf::RenderWindow window;
     EventHandlers handlers;
     bool isSceneVisible;
     std::shared_ptr<FilesStorage<TextureFile>> textureStorage;
-    std::unique_ptr<SpriteFactory> spriteFactory;
+    std::unique_ptr<SfmlRenderItemFactory> renderItemFactory;
     sf::Image globalMapImage;
     sf::Texture localMapTexture;
     sf::Sprite localMap;
@@ -57,6 +58,5 @@ private:
     void loadLocalMap(const Position& playerGlobalPosition);
     void renderLocalMap();
     void renderPlayer();
-    // void updateSprite(const SceneItem& spriteParamsUpdate);
-    void addSprite(const SceneItem& newSpriteParams);
+    void addRenderItem(const SceneItem& sceneItem);
 };
