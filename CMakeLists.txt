@@ -43,8 +43,6 @@ elseif(VALGRIND)
 elseif(RELEASE)
     message(STATUS "Configuring Release")
     set(COMPILE_FLAGS " -O2 ${COMMON_COMPILE_FLAGS} -Wnull-dereference")
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/Menus/
-         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src/Menus/)
 elseif(CODE_COVERAGE)
     message(STATUS "Configuring Code Coverage")
     set(COMPILE_FLAGS " -O0 -g --coverage -fprofile-arcs -ftest-coverage")

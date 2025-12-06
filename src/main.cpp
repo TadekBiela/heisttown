@@ -11,9 +11,9 @@
 #include <memory>
 #include <thread>
 
-std::shared_ptr<sf::Font> getLoadedFont(const std::filesystem::path& currentPath)
+std::shared_ptr<sf::Font> getLoadedFont(const std::string& assetsPath)
 {
-    const auto fontPath { currentPath.string() + "/Sfml/Font/PixelCode.ttf" };
+    const auto fontPath { assetsPath + "Font/PixelCode.ttf" };
     auto font { std::make_shared<sf::Font>() };
     font->loadFromFile(fontPath);
 
@@ -22,13 +22,14 @@ std::shared_ptr<sf::Font> getLoadedFont(const std::filesystem::path& currentPath
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
-    auto textureStorage { std::make_shared<FilesStorage<TextureFile>>(std::make_unique<FileLoader<TextureFile>>(std::filesystem::current_path().string() + "/Sfml/Textures/")) };
+    const auto assetsPath { std::filesystem::current_path().string() + "/Assets/" };
+    auto textureStorage { std::make_shared<FilesStorage<TextureFile>>(std::make_unique<FileLoader<TextureFile>>(assetsPath + "Textures/")) };
     auto menuDisplaySfml { std::make_shared<DisplaySfml>(1000, 800, textureStorage) };
-    const auto currentPath { std::filesystem::current_path() };
-    auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(currentPath), menuDisplaySfml) };
+
+    auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(assetsPath), menuDisplaySfml) };
     auto menuParser { std::make_unique<MenuParser>(std::move(widgetsFactory)) };
 
-    const auto menuFilePath { currentPath.string() + "/Menus/" };
+    const auto menuFilePath { assetsPath + "Menus/" };
     auto menuFileLoader { std::make_unique<FileLoader<TextFile>>(menuFilePath) };
     auto menuController { std::make_unique<MenuController>(std::move(menuParser), std::move(menuFileLoader)) };
 
