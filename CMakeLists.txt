@@ -74,15 +74,15 @@ add_subdirectory(src)
 
 add_custom_target(RunAllTests
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
-    COMMAND "${CMAKE_COMMAND}" --build . --target all
-    COMMAND "${CMAKE_COMMAND}" --build . --target test
+    COMMAND "${CMAKE_COMMAND}" --build . --target all --parallel ${JOBS}
+    COMMAND "${CMAKE_COMMAND}" --build . --target test --parallel ${JOBS}
     COMMENT "Running tests"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     VERBATIM)
 
 add_custom_target(Sanitizers
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=ON -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
-    COMMAND "${CMAKE_COMMAND}" --build .
+    COMMAND "${CMAKE_COMMAND}" --build . --parallel ${JOBS}
     COMMAND "${CMAKE_CTEST_COMMAND}" --verbose
     COMMENT "Running Sanitizers"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
@@ -90,7 +90,7 @@ add_custom_target(Sanitizers
 
 add_custom_target(ThreadSanitizers
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=ON -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
-    COMMAND "${CMAKE_COMMAND}" --build .
+    COMMAND "${CMAKE_COMMAND}" --build . --parallel ${JOBS}
     COMMAND "${CMAKE_CTEST_COMMAND}" --verbose
     COMMENT "Running Thread Sanitizers"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
@@ -99,7 +99,7 @@ add_custom_target(ThreadSanitizers
 set(CTEST_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=yes --show-reachable=yes --track-origins=yes --xtree-leak=yes --error-exitcode=1 --suppressions=${CMAKE_CURRENT_SOURCE_DIR}/suppressions.supp")
 add_custom_target(Valgrind
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=ON -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
-    COMMAND "${CMAKE_COMMAND}" --build .
+    COMMAND "${CMAKE_COMMAND}" --build . --parallel ${JOBS}
     COMMAND "${CMAKE_CTEST_COMMAND}" --verbose --overwrite MemoryCheckCommandOptions=${CTEST_MEMORYCHECK_COMMAND_OPTIONS} -T memcheck
     COMMENT "Running Valgrind"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
@@ -107,7 +107,7 @@ add_custom_target(Valgrind
 
 add_custom_target(Release
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=ON -D CODE_COVERAGE=OFF -D CLANG_TIDY=OFF ..
-    COMMAND "${CMAKE_COMMAND}" --build . --target all
+    COMMAND "${CMAKE_COMMAND}" --build . --target all --parallel ${JOBS}
     COMMENT "Running Release"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     VERBATIM)
@@ -115,7 +115,7 @@ add_custom_target(Release
 set(COVERAGE_LEVEL "80")
 add_custom_target(CodeCoverage
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=ON -D CLANG_TIDY=OFF ..
-    COMMAND "${CMAKE_COMMAND}" --build . --target all
+    COMMAND "${CMAKE_COMMAND}" --build . --target all --parallel ${JOBS}
     COMMAND "${CMAKE_CTEST_COMMAND}"
     COMMAND gcovr -r "${CMAKE_SOURCE_DIR}/src" --html --html-details -o index.html --exclude-unreachable-branches --exclude-lines-by-pattern "GCOVR_EXCL_" --exclude ".*Tests.*" --exclude ".*Mock.*" --exclude ".*Stub.*" --print-summary
     COMMAND gcovr -r "${CMAKE_SOURCE_DIR}/src" --txt -o coverage.txt --exclude ".*main\.cpp" --exclude ".*Tests.*" --exclude ".*Mock.*" --exclude ".*Stub.*" .
@@ -126,7 +126,7 @@ add_custom_target(CodeCoverage
 
 add_custom_target(ClangTidy
     COMMAND "${CMAKE_COMMAND}" -D SANITIZE=OFF -D THREAD_SANITIZE=OFF -D VALGRIND=OFF -D RELEASE=OFF -D CODE_COVERAGE=OFF -D CLANG_TIDY=ON ..
-    COMMAND "${CMAKE_COMMAND}" --build . --target all
+    COMMAND "${CMAKE_COMMAND}" --build . --target all --parallel ${JOBS}
     COMMENT "Running Clang-Tidy"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     VERBATIM)
