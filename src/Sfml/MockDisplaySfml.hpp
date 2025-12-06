@@ -3,8 +3,8 @@
 #include "DisplaySfml.hpp"
 #include "Drawable.hpp"
 #include "EventHandler.hpp"
-#include "MockSpriteFactory.hpp"
 #include <SceneUpdate.hpp>
+#include <SfmlRendering/MockSfmlRenderItemFactory.hpp>
 #include <gmock/gmock.h>
 #include <memory>
 
@@ -12,7 +12,7 @@ class MockDisplaySfml : public DisplaySfml
 {
 public:
     MockDisplaySfml()
-        : DisplaySfml(1, 1, nullptr, std::make_unique<MockSpriteFactory>())
+        : DisplaySfml(1, 1, nullptr, std::make_unique<MockSfmlRenderItemFactory>())
     {}
 
     MOCK_METHOD(void, addDrawable, (std::shared_ptr<Drawable>), (override));

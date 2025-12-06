@@ -1,0 +1,36 @@
+#include "SfmlRenderItem.hpp"
+
+SfmlRenderItem::SfmlRenderItem(
+    sf::RenderTarget& inputTarget,
+    const SceneItemId inputId,
+    const sf::Texture& texture,
+    Position position,
+    Rotation rotation
+)
+    : target(inputTarget)
+    , id(inputId)
+{
+    sprite.setTexture(texture);
+    sprite.setPosition({ position.x, position.y });
+    sprite.setRotation(rotation);
+}
+
+void SfmlRenderItem::render()
+{
+    target.draw(sprite);
+}
+
+SceneItemId SfmlRenderItem::getId() const
+{
+    return id;
+}
+
+void SfmlRenderItem::setPosition(Position position)
+{
+    sprite.setPosition({ position.x, position.y });
+}
+
+void SfmlRenderItem::setRotation(Rotation rotation)
+{
+    sprite.setRotation(rotation);
+}

@@ -1,5 +1,4 @@
 #include "DisplaySfml.hpp"
-#include "Sprite.hpp"
 #include <FileLoader.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -10,18 +9,18 @@ DisplaySfml::DisplaySfml(
     unsigned int width,
     unsigned int height,
     std::shared_ptr<FilesStorage<TextureFile>> inputTextureStorage,
-    std::unique_ptr<SpriteFactory> inputSpriteFactory
+    std::unique_ptr<SfmlRenderItemFactory> inputRenderItemFactory
 )
     : window(sf::VideoMode(width, height), "")
     , isSceneVisible(false)
     , textureStorage(std::move(inputTextureStorage))
-    , spriteFactory(std::move(inputSpriteFactory))
+    , renderItemFactory(std::move(inputRenderItemFactory))
     , playerPosition()
     , playerRotation(0.0F)
 {
-    if (spriteFactory == nullptr)
+    if (renderItemFactory == nullptr)
     {
-        spriteFactory = std::make_unique<SpriteFactory>(textureStorage);
+        renderItemFactory = std::make_unique<SfmlRenderItemFactory>(window, textureStorage);
     }
 
     localMapTexture.create(width, height);
@@ -82,9 +81,9 @@ void DisplaySfml::render()
     {
         renderLocalMap();
 
-        for (auto& sprite : sprites)
+        for (auto& item : renderItems)
         {
-            sprite.second->draw(window);
+            item.second->render();
         }
 
         renderPlayer();
@@ -110,13 +109,9 @@ void DisplaySfml::update(const SceneUpdate& sceneUpdate)
 
     for (const auto& gameObject : sceneUpdate.sceneItems)
     {
-        if (sprites.find(gameObject.id) != sprites.end())
+        if (renderItems.find(gameObject.id) == renderItems.end())
         {
-            // updateSprite(gameObject);
-        }
-        else
-        {
-            addSprite(gameObject);
+            addRenderItem(gameObject);
         }
     }
 }
@@ -157,17 +152,12 @@ void DisplaySfml::renderLocalMap()
 
 void DisplaySfml::renderPlayer()
 {
-    auto playerSprite { spriteFactory->create(SceneItemType::PLAYER, playerPosition, playerRotation) };
-    playerSprite->draw(window);
+    auto playerRenderItem { renderItemFactory->create(SceneItemType::PLAYER, playerPosition, playerRotation) };
+    playerRenderItem->render();
 }
 
-// void DisplaySfml::updateSprite(const SceneItem& spriteParamsUpdate)
-// {
-//     (void)spriteParamsUpdate;
-// }
-
-void DisplaySfml::addSprite(const SceneItem& newSpriteParams)
+void DisplaySfml::addRenderItem(const SceneItem& sceneItem)
 {
-    auto sprite { spriteFactory->create(newSpriteParams.type, newSpriteParams.position, newSpriteParams.rotation) };
-    sprites[sprite->getId()] = std::move(sprite);
+    auto renderItem { renderItemFactory->create(sceneItem.type, sceneItem.position, sceneItem.rotation) };
+    renderItems[renderItem->getId()] = std::move(renderItem);
 }
