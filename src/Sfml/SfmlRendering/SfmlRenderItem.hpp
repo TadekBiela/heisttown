@@ -11,17 +11,19 @@ class SfmlRenderItem : public RenderItem
 public:
     SfmlRenderItem(
         sf::RenderTarget& inputTarget,
-        const SceneItemId inputId,
+        const SceneItemId& inputId,
         const sf::Texture& texture,
         Position position,
         Rotation rotation
     );
-    virtual ~SfmlRenderItem() = default;
+    ~SfmlRenderItem() = default;
 
-    virtual void render() override;
-    virtual SceneItemId getId() const;
-    virtual void setPosition(Position position);
-    virtual void setRotation(Rotation rotation);
+    void render() override;
+    SceneItemId getId() const override;
+    void setPosition(Position position) override;
+    Position getPosition() const override;
+    void setRotation(Rotation rotation) override;
+    Rotation getRotation() const override;
 
 private:
     sf::RenderTarget& target;

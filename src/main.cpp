@@ -5,6 +5,7 @@
 #include "Menu/MenuController.hpp"
 #include "Menu/MenuParser.hpp"
 #include "Sfml/DisplaySfml.hpp"
+#include "Sfml/SfmlRendering/SfmlTextureFile.hpp"
 #include "Sfml/SfmlWidgets/WidgetsFactorySfml.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <filesystem>
@@ -23,8 +24,8 @@ std::shared_ptr<sf::Font> getLoadedFont(const std::string& assetsPath)
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     const auto assetsPath { std::filesystem::current_path().string() + "/Assets/" };
-    auto textureStorage { std::make_shared<FilesStorage<TextureFile>>(std::make_unique<FileLoader<TextureFile>>(assetsPath + "Textures/")) };
-    auto menuDisplaySfml { std::make_shared<DisplaySfml>(1000, 800, textureStorage) };
+    auto textureStorage { std::make_unique<FilesStorage<SfmlTextureFile>>(std::make_unique<FileLoader<SfmlTextureFile>>(assetsPath + "Textures/")) };
+    auto menuDisplaySfml { std::make_shared<DisplaySfml>(1000, 800, std::move(textureStorage)) };
 
     auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(assetsPath), menuDisplaySfml) };
     auto menuParser { std::make_unique<MenuParser>(std::move(widgetsFactory)) };

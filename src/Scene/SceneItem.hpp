@@ -27,7 +27,7 @@ struct SceneItem
     SceneItemId id;
     SceneItemType type;
     Position position;
-    Rotation rotation;
+    Rotation rotation { 0.0F };
 };
 
 using SceneItems = std::vector<SceneItem>;

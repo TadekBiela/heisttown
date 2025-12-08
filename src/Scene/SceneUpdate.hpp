@@ -10,5 +10,6 @@ struct SceneUpdate
 {
     MapName mapName;
     Position playerGlobalPosition;
+    Rotation playerRotation { 0.0F };
     SceneItems sceneItems;
 };

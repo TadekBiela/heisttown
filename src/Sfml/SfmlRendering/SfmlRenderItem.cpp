@@ -2,7 +2,7 @@
 
 SfmlRenderItem::SfmlRenderItem(
     sf::RenderTarget& inputTarget,
-    const SceneItemId inputId,
+    const SceneItemId& inputId,
     const sf::Texture& texture,
     Position position,
     Rotation rotation
@@ -30,7 +30,18 @@ void SfmlRenderItem::setPosition(Position position)
     sprite.setPosition({ position.x, position.y });
 }
 
+Position SfmlRenderItem::getPosition() const
+{
+    const auto sfPosition { sprite.getPosition() };
+    return Position { sfPosition.x, sfPosition.y };
+}
+
 void SfmlRenderItem::setRotation(Rotation rotation)
 {
     sprite.setRotation(rotation);
+}
+
+Rotation SfmlRenderItem::getRotation() const
+{
+    return sprite.getRotation();
 }

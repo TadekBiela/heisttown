@@ -2,14 +2,13 @@
 
 #include "Drawable.hpp"
 #include "EventHandler.hpp"
-#include <SfmlRendering/SfmlRenderItem.hpp>
-#include <SfmlRendering/SfmlRenderItemFactory.hpp>
-#include "TextureFile.hpp"
+#include <RenderSceneBuilder.hpp>
+#include <RenderTarget.hpp>
+#include <SfmlRendering/SfmlTextureFile.hpp>
 #include <FilesStorage.hpp>
 #include <SceneItem.hpp>
 #include <Scene.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <map>
 #include <memory>
 #include <vector>
 
@@ -18,13 +17,13 @@ class DisplaySfml : public Scene
 public:
     using Drawables = std::vector<std::shared_ptr<Drawable>>;
     using EventHandlers = std::vector<std::shared_ptr<EventHandler>>;
-    using SfmlRenderItems = std::map<SceneItemId, std::unique_ptr<SfmlRenderItem>>;
 
     DisplaySfml(
         unsigned int width,
         unsigned int height,
-        std::shared_ptr<FilesStorage<TextureFile>> inputTextureStorage,
-        std::unique_ptr<SfmlRenderItemFactory> inputRenderItemFactory = nullptr
+        std::unique_ptr<FilesStorage<SfmlTextureFile>> inputTextureStorage,
+        std::unique_ptr<RenderSceneBuilder> inputSceneBuilder = nullptr,
+        std::unique_ptr<RenderTarget> inputRenderTarget = nullptr
     );
     virtual ~DisplaySfml() override = default;
 
@@ -38,25 +37,15 @@ public:
 
 protected:
     Drawables drawables;
-    SfmlRenderItems renderItems;
 
 private:
     sf::RenderWindow window;
     EventHandlers handlers;
     bool isSceneVisible;
-    std::shared_ptr<FilesStorage<TextureFile>> textureStorage;
-    std::unique_ptr<SfmlRenderItemFactory> renderItemFactory;
-    sf::Image globalMapImage;
-    sf::Texture localMapTexture;
-    sf::Sprite localMap;
-    Position playerPosition;
-    Rotation playerRotation;
+    std::unique_ptr<FilesStorage<SfmlTextureFile>> textureStorage;
+    std::unique_ptr<RenderSceneBuilder> sceneBuilder;
+    std::unique_ptr<RenderTarget> renderTarget;
 
     void dispach();
     void render();
-    void loadGlobalMapIfNeeded(const MapName& mapName);
-    void loadLocalMap(const Position& playerGlobalPosition);
-    void renderLocalMap();
-    void renderPlayer();
-    void addRenderItem(const SceneItem& sceneItem);
 };

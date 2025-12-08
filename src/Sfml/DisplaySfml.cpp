@@ -3,29 +3,32 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <SfmlRendering/SfmlRenderSceneBuilder.hpp>
+#include <SfmlRendering/SfmlRenderTarget.hpp>
 #include <filesystem>
 
 DisplaySfml::DisplaySfml(
     unsigned int width,
     unsigned int height,
-    std::shared_ptr<FilesStorage<TextureFile>> inputTextureStorage,
-    std::unique_ptr<SfmlRenderItemFactory> inputRenderItemFactory
+    std::unique_ptr<FilesStorage<SfmlTextureFile>> inputTextureStorage,
+    std::unique_ptr<RenderSceneBuilder> inputSceneBuilder,
+    std::unique_ptr<RenderTarget> inputRenderTarget
 )
     : window(sf::VideoMode(width, height), "")
     , isSceneVisible(false)
     , textureStorage(std::move(inputTextureStorage))
-    , renderItemFactory(std::move(inputRenderItemFactory))
-    , playerPosition()
-    , playerRotation(0.0F)
+    , sceneBuilder(std::move(inputSceneBuilder))
+    , renderTarget(std::move(inputRenderTarget))
 {
-    if (renderItemFactory == nullptr)
+    if (sceneBuilder == nullptr)
     {
-        renderItemFactory = std::make_unique<SfmlRenderItemFactory>(window, textureStorage);
+        sceneBuilder = std::make_unique<SfmlRenderSceneBuilder>(window, std::move(textureStorage));
     }
 
-    localMapTexture.create(width, height);
-    playerPosition.x = static_cast<float>(width) / 2.0F;
-    playerPosition.y = static_cast<float>(height) / 2.0F;
+    if (renderTarget == nullptr)
+    {
+        renderTarget = std::make_unique<SfmlRenderTarget>(window);
+    }
 }
 
 void DisplaySfml::addDrawable(std::shared_ptr<Drawable> drawable)
@@ -70,23 +73,18 @@ void DisplaySfml::dispach()
 
 void DisplaySfml::render()
 {
-    window.clear(sf::Color::Black);
-
-    for (auto& drawable : drawables)
-    {
-        drawable->draw(window);
-    }
-
     if (isSceneVisible)
     {
-        renderLocalMap();
+        renderTarget->render(sceneBuilder->popRenderItems());
+    }
+    else
+    {
+        window.clear(sf::Color::Black);
 
-        for (auto& item : renderItems)
+        for (auto& drawable : drawables)
         {
-            item.second->render();
+            drawable->draw(window);
         }
-
-        renderPlayer();
     }
 
     window.display();
@@ -104,60 +102,5 @@ void DisplaySfml::hide()
 
 void DisplaySfml::update(const SceneUpdate& sceneUpdate)
 {
-    loadGlobalMapIfNeeded(sceneUpdate.mapName);
-    loadLocalMap(sceneUpdate.playerGlobalPosition);
-
-    for (const auto& gameObject : sceneUpdate.sceneItems)
-    {
-        if (renderItems.find(gameObject.id) == renderItems.end())
-        {
-            addRenderItem(gameObject);
-        }
-    }
-}
-
-void DisplaySfml::loadGlobalMapIfNeeded(const MapName& mapName)
-{
-    const sf::Vector2u emptyImage { 0, 0 };
-    if (globalMapImage.getSize() == emptyImage)
-    {
-        const auto& textureFile { textureStorage->getFile(mapName) };
-        globalMapImage = textureFile.getTexture().copyToImage();
-    }
-}
-
-void DisplaySfml::loadLocalMap(const Position& playerGlobalPosition)
-{
-    const auto& displaySize { window.getSize() };
-
-    const sf::IntRect localMapTextureRect(
-        static_cast<int>(playerGlobalPosition.x) - static_cast<int>(displaySize.x),
-        static_cast<int>(playerGlobalPosition.y) - static_cast<int>(displaySize.y),
-        static_cast<int>(displaySize.x),
-        static_cast<int>(displaySize.y)
-    );
-
-    sf::Image localMapImage;
-    localMapImage.create(displaySize.x, displaySize.y);
-    localMapImage.copy(globalMapImage, 0, 0, localMapTextureRect, false);
-
-    localMapTexture.loadFromImage(localMapImage);
-    localMap.setTexture(localMapTexture);
-}
-
-void DisplaySfml::renderLocalMap()
-{
-    window.draw(localMap);
-}
-
-void DisplaySfml::renderPlayer()
-{
-    auto playerRenderItem { renderItemFactory->create(SceneItemType::PLAYER, playerPosition, playerRotation) };
-    playerRenderItem->render();
-}
-
-void DisplaySfml::addRenderItem(const SceneItem& sceneItem)
-{
-    auto renderItem { renderItemFactory->create(sceneItem.type, sceneItem.position, sceneItem.rotation) };
-    renderItems[renderItem->getId()] = std::move(renderItem);
+    sceneBuilder->build(sceneUpdate);
 }

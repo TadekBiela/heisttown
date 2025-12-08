@@ -20,7 +20,6 @@ target_include_directories(${LIB_NAME}
 target_link_libraries(${LIB_NAME}
     PUBLIC
     FilesStorage
-    Gameplay
     Rendering
     Scene
     SfmlRendering
