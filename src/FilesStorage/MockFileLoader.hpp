@@ -8,5 +8,5 @@ template <typename File>
 class MockFileLoader : public IFileLoader<File>
 {
 public:
-    MOCK_CONST_METHOD0(getLoadedData, const std::map<FileName, File>&());
+    MOCK_METHOD((const std::map<FileName, File>&), getLoadedData, (), (const, override));
 };
