@@ -1,10 +1,10 @@
 add_subdirectory(Client)
 add_subdirectory(FilesStorage)
 add_subdirectory(Gameplay)
+add_subdirectory(Input)
 add_subdirectory(MainApplication)
 add_subdirectory(Menu)
 add_subdirectory(MouseCursor)
-add_subdirectory(PlayerInput)
 add_subdirectory(Rendering)
 add_subdirectory(Scene)
 add_subdirectory(Server)
@@ -26,9 +26,9 @@ target_link_libraries(${APP_NAME}
         Client
         FilesStorage
         Gameplay
+        Input
         MainApplication
         Menu
-        PlayerInput
         Rendering
 	Scene
         Server

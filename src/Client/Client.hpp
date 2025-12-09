@@ -2,7 +2,7 @@
 
 #include <GameConnection.hpp>
 #include <GameplayUpdate.hpp>
-#include <PlayerInput.hpp>
+#include <Input.hpp>
 
 class Client
 {
@@ -12,7 +12,7 @@ public:
     virtual void connect(const GameConnection& connection) = 0;
     virtual void start() = 0;
     virtual void stop() = 0;
-    virtual void receive(const PlayerInputCommand& command) = 0;
+    virtual void receive(const InputCommand& command) = 0;
     [[nodiscard]] virtual PlayerStatus status() const = 0;
     virtual void update(const GameplayUpdate&& gameplayUpdate) = 0;
 };

@@ -34,7 +34,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     auto menuFileLoader { std::make_unique<FileLoader<TextFile>>(menuFilePath) };
     auto menuController { std::make_unique<MenuController>(std::move(menuParser), std::move(menuFileLoader)) };
 
-    // std::unique_ptr<PlayerInputSfml> input;
+    // std::unique_ptr<InputSfml> input;
 
     auto mainApplication { std::make_unique<MainApplication>(std::move(menuController), menuDisplaySfml, nullptr, []() {}) };
     mainApplication->run();

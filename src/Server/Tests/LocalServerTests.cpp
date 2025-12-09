@@ -3,7 +3,7 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
 #include <MockClient.hpp>
-#include <MockPlayerInput.hpp>
+#include <MockInput.hpp>
 #include <MockScene.hpp>
 #include <chrono>
 #include <future>
@@ -65,9 +65,9 @@ public:
             << "Server thread did not call client->status() in time";
     }
 
-    static std::unique_ptr<MockPlayerInput> getMockPlayerInput()
+    static std::unique_ptr<MockInput> getMockInput()
     {
-        auto playerInput { std::make_unique<MockPlayerInput>() };
+        auto playerInput { std::make_unique<MockInput>() };
         EXPECT_CALL(*playerInput, setInputReceiver(_));
         EXPECT_CALL(*playerInput, getPlayerStatus()).WillRepeatedly(Return(PlayerStatus {}));
         return playerInput;
@@ -77,7 +77,7 @@ public:
     {
         return std::make_shared<LocalClient>(
             std::make_unique<MockScene>(),
-            getMockPlayerInput()
+            getMockInput()
         );
     }
 

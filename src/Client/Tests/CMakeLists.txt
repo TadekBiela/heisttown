@@ -11,7 +11,6 @@ target_link_libraries(${TEST_NAME}
     PRIVATE
         GTest::gmock_main
         Client
-        PlayerInput
 )
 
 add_test(NAME ${TEST_NAME}

@@ -1,4 +1,4 @@
-set(LIB_NAME PlayerInput)
+set(LIB_NAME Input)
 
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.hpp")
 file(GLOB SRC_FILES CONFIGURE_DEPENDS "*.cpp")

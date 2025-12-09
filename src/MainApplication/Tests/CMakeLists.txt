@@ -13,7 +13,6 @@ target_link_libraries(${TEST_NAME}
         Client
         MainApplication
         Menu
-        PlayerInput
         Widgets
 )
 

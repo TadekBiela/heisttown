@@ -3,13 +3,13 @@
 
 LocalClient::LocalClient(
     std::shared_ptr<Scene> scene,
-    std::unique_ptr<PlayerInput> input
+    std::unique_ptr<Input> input
 )
     : gameConnection([](const GameCommand&) {})
     , gameScene(std::move(scene))
     , playerInput(std::move(input))
 {
-    inputReceiver = [&](const PlayerInputCommand& command)
+    inputReceiver = [&](const InputCommand& command)
     {
         this->receive(command);
     };
@@ -43,7 +43,7 @@ void LocalClient::stop()
     gameScene->hide();
 }
 
-void LocalClient::receive(const PlayerInputCommand& command)
+void LocalClient::receive(const InputCommand& command)
 {
     std::cerr << "LocalClient: " << command << "\n";
     if (command == "Keyboard: ESC")
