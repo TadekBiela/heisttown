@@ -16,8 +16,9 @@ target_include_directories(${LIB_NAME}
 
 target_link_libraries(${LIB_NAME}
     PUBLIC
-    Sfml
-    sfml-graphics
-    sfml-window
-    sfml-system
+        Input
+        Sfml
+        sfml-graphics
+        sfml-window
+        sfml-system
 )

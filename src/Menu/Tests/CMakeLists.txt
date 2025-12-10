@@ -10,9 +10,7 @@ add_executable(${TEST_NAME} ${HEADER_FILES} ${SRC_FILES})
 target_link_libraries(${TEST_NAME}
     PRIVATE
         GTest::gmock_main
-        FilesStorage
         Menu
-        Widgets
 )
 
 add_test(NAME ${TEST_NAME}

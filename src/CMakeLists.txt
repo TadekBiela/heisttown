@@ -33,6 +33,8 @@ target_link_libraries(${APP_NAME}
 	Scene
         Server
         Sfml
+        SfmlInput
+        SfmlRendering
         SfmlWidgets
         Widgets
 )

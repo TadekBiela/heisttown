@@ -20,14 +20,13 @@ target_include_directories(${LIB_NAME}
 
 target_link_libraries(${LIB_NAME}
     PUBLIC
-    FilesStorage
-    Input
-    Rendering
-    Scene
-    SfmlInput
-    SfmlRendering
-    Widgets
-    sfml-graphics
-    sfml-window
-    sfml-system
+        FilesStorage
+        Input
+        Rendering
+        Scene
+        SfmlInput
+        SfmlRendering
+        sfml-graphics
+        sfml-window
+        sfml-system
 )
