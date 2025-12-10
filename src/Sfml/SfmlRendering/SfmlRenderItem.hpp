@@ -16,14 +16,14 @@ public:
         Position position,
         Rotation rotation
     );
-    ~SfmlRenderItem() = default;
+    ~SfmlRenderItem() override = default;
 
     void render() override;
-    SceneItemId getId() const override;
-    void setPosition(Position position) override;
-    Position getPosition() const override;
-    void setRotation(Rotation rotation) override;
-    Rotation getRotation() const override;
+    SceneItemId getId() const;
+    void setPosition(Position position);
+    Position getPosition() const;
+    void setRotation(Rotation rotation);
+    Rotation getRotation() const;
 
 private:
     sf::RenderTarget& target;

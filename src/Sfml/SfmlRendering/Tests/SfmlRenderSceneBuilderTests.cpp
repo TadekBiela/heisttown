@@ -84,7 +84,8 @@ TEST_F(SfmlRenderSceneBuilderTests, build_SceneUpdateWithOnlyMapName_LoadGlobalA
 
     const auto& resultRenderItems { builder.getRenderItems() };
     ASSERT_EQ(2, resultRenderItems.size()); // Map and Player
-    const auto& resultPlayerItem { resultRenderItems.at(1).get() };
+    const auto* resultPlayerItem { dynamic_cast<SfmlRenderItem*>(resultRenderItems.at(1).get()) };
+    ASSERT_FALSE(resultPlayerItem == nullptr);
     EXPECT_FLOAT_EQ(expectedPlayerPosition.x, resultPlayerItem->getPosition().x);
     EXPECT_FLOAT_EQ(expectedPlayerPosition.y, resultPlayerItem->getPosition().y);
 }
