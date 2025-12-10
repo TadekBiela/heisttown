@@ -1,3 +1,7 @@
+if(NOT RELEASE)
+    add_subdirectory(Tests)
+endif()
+
 set(LIB_NAME Input)
 
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.hpp")
@@ -9,5 +13,3 @@ target_include_directories(${LIB_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
-
-set_target_properties(${LIB_NAME} PROPERTIES LINKER_LANGUAGE CXX)

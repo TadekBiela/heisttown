@@ -27,7 +27,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     auto textureStorage { std::make_unique<FilesStorage<SfmlTextureFile>>(std::make_unique<FileLoader<SfmlTextureFile>>(assetsPath + "Textures/")) };
     auto menuDisplaySfml { std::make_shared<DisplaySfml>(1000, 800, std::move(textureStorage)) };
 
-    auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(assetsPath), menuDisplaySfml) };
+    auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(assetsPath), menuDisplaySfml, menuDisplaySfml->getDispatcher()) };
     auto menuParser { std::make_unique<MenuParser>(std::move(widgetsFactory)) };
 
     const auto menuFilePath { assetsPath + "Menus/" };

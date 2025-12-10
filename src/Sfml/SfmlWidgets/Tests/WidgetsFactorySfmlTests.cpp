@@ -1,12 +1,11 @@
 #include "../MockDisplaySfml.hpp"
 #include "ButtonWidget.hpp"
 #include "LabelWidget.hpp"
-#include <SFML/Graphics/Font.hpp>
+#include <MockInputDispatcher.hpp>
 #include <WidgetControl.hpp>
 #include <WidgetGeometry.hpp>
 #include <WidgetType.hpp>
 #include <WidgetsFactorySfml.hpp>
-#include <filesystem>
 #include <gtest/gtest.h>
 #include <memory>
 
@@ -20,7 +19,7 @@ TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
 {
     const auto displaySfml { std::make_shared<MockDisplaySfml>() };
     EXPECT_CALL(*displaySfml, addDrawable(_));
-    WidgetsFactorySfml factory { nullptr, displaySfml };
+    WidgetsFactorySfml factory { nullptr, displaySfml, nullptr };
 
     const auto resultWidget {
         factory.create(
@@ -37,10 +36,11 @@ TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
 
 TEST_F(WidgetsFactorySfmlTests, create_ButtonType_CreateButtonWidget)
 {
+    const auto dispatcher { std::make_shared<MockInputDispatcher>() };
+    EXPECT_CALL(*dispatcher, addHandler(_));
     const auto displaySfml { std::make_shared<MockDisplaySfml>() };
     EXPECT_CALL(*displaySfml, addDrawable(_));
-    EXPECT_CALL(*displaySfml, addEventHandler(_));
-    WidgetsFactorySfml factory { nullptr, displaySfml };
+    WidgetsFactorySfml factory { nullptr, displaySfml, dispatcher };
 
     const auto resultWidget {
         factory.create(
@@ -53,4 +53,20 @@ TEST_F(WidgetsFactorySfmlTests, create_ButtonType_CreateButtonWidget)
 
     EXPECT_EQ(WidgetType::BUTTON, resultWidget->getType());
     EXPECT_TRUE(dynamic_cast<ButtonWidget*>(resultWidget.get()) != nullptr);
+}
+
+TEST_F(WidgetsFactorySfmlTests, create_UnknownType_ReturnNullptr)
+{
+    WidgetsFactorySfml factory { nullptr, nullptr, nullptr };
+
+    const auto resultWidget {
+        factory.create(
+            WidgetType::UNKNOWN,
+            WidgetGeometry {},
+            WidgetText {},
+            WidgetStyle {}
+        )
+    };
+
+    EXPECT_TRUE(resultWidget == nullptr);
 }

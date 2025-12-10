@@ -2,6 +2,7 @@ if(NOT RELEASE)
     add_subdirectory(Tests)
 endif()
 
+add_subdirectory(SfmlInput)
 add_subdirectory(SfmlRendering)
 add_subdirectory(SfmlWidgets)
 
@@ -20,8 +21,10 @@ target_include_directories(${LIB_NAME}
 target_link_libraries(${LIB_NAME}
     PUBLIC
     FilesStorage
+    Input
     Rendering
     Scene
+    SfmlInput
     SfmlRendering
     Widgets
     sfml-graphics

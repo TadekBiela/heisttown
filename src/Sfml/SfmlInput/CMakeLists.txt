@@ -2,7 +2,7 @@ if(NOT RELEASE)
     add_subdirectory(Tests)
 endif()
 
-set(LIB_NAME SfmlWidgets)
+set(LIB_NAME SfmlInput)
 
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.hpp")
 file(GLOB SRC_FILES CONFIGURE_DEPENDS "*.cpp")
@@ -16,11 +16,7 @@ target_include_directories(${LIB_NAME}
 
 target_link_libraries(${LIB_NAME}
     PUBLIC
-    FilesStorage
-    Gameplay
-    Input
     Sfml
-    Widgets
     sfml-graphics
     sfml-window
     sfml-system

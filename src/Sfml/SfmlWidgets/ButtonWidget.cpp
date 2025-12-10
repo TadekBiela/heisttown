@@ -2,6 +2,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <variant>
 
 ButtonWidget::ButtonWidget(
     const WidgetGeometry& geometry,
@@ -41,23 +42,19 @@ void ButtonWidget::connect(const ControlConnection& connection)
     controlConnection = connection;
 }
 
-bool ButtonWidget::handle(const sf::Event& event) const
+bool ButtonWidget::handle(const InputEvent& event)
 {
     if (not visible)
     {
         return false;
     }
 
-    if (event.type == sf::Event::EventType::MouseButtonPressed)
+    if (event.type == InputEventType::MouseButtonPressed)
     {
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-union-access)
-        const auto mouseButton { event.mouseButton };
-        if (mouseButton.button == sf::Mouse::Left)
+        const auto* mouseButton = std::get_if<MouseButtonData>(&event.data);
+        if (mouseButton->button == MouseButton::Left)
         {
-            const sf::Vector2f mousePosition(
-                static_cast<float>(mouseButton.x),
-                static_cast<float>(mouseButton.y)
-            );
+            const sf::Vector2f mousePosition { mouseButton->x, mouseButton->y };
 
             if (shape.getGlobalBounds().contains(mousePosition))
             {
@@ -66,5 +63,6 @@ bool ButtonWidget::handle(const sf::Event& event) const
             }
         }
     }
+
     return false;
 }

@@ -2,7 +2,7 @@
 
 #include "DisplaySfml.hpp"
 #include "Drawable.hpp"
-#include "EventHandler.hpp"
+#include <InputDispatcher.hpp>
 #include <SceneUpdate.hpp>
 #include <gmock/gmock.h>
 #include <memory>
@@ -15,7 +15,7 @@ public:
     {}
 
     MOCK_METHOD(void, addDrawable, (std::shared_ptr<Drawable>), (override));
-    MOCK_METHOD(void, addEventHandler, (std::shared_ptr<EventHandler>), (override));
+    MOCK_METHOD(std::shared_ptr<InputDispatcher>, getDispatcher,(), (override));
     MOCK_METHOD(void, display, (), (override));
     MOCK_METHOD(void, show, (), (override));
     MOCK_METHOD(void, hide, (), (override));

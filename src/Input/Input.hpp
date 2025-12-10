@@ -15,5 +15,5 @@ public:
     virtual void setInputReceiver(InputReceiver inputReceiver) = 0;
     virtual void start() = 0;
     virtual void stop() = 0;
-    virtual PlayerStatus getPlayerStatus() const = 0;
+    [[nodiscard]] virtual PlayerStatus getPlayerStatus() const = 0;
 };

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "DefaultWidgetImpl.hpp"
-#include "../EventHandler.hpp"
+#include <InputEvent.hpp>
+#include <InputHandler.hpp>
 #include <WidgetControl.hpp>
 #include <Widget.hpp>
 #include <WidgetGeometry.hpp>
@@ -10,7 +11,7 @@
 #include <SFML/Window/Event.hpp>
 #include <memory>
 
-class ButtonWidget : public WidgetControl, public DefaultWidgetImpl, public EventHandler
+class ButtonWidget : public WidgetControl, public DefaultWidgetImpl, public InputHandler
 {
 public:
     ButtonWidget(
@@ -22,7 +23,7 @@ public:
 
     [[nodiscard]] WidgetType getType() const override;
     void connect(const ControlConnection& connection) override;
-    bool handle(const sf::Event& event) const override;
+    bool handle(const InputEvent& event) override;
 
 protected:
     ControlConnection controlConnection;

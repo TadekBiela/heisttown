@@ -1,11 +1,11 @@
 #include <ButtonWidget.hpp>
-#include <SFML/Graphics/Font.hpp>
+#include <InputEvent.hpp>
 #include <WidgetControl.hpp>
 #include <WidgetGeometry.hpp>
 #include <WidgetType.hpp>
-#include <filesystem>
 #include <gtest/gtest.h>
 #include <memory>
+#include <variant>
 
 using namespace testing;
 
@@ -45,8 +45,8 @@ TEST_F(ButtonWidgetTests, connect_EmptyFunction_AsignEmptyFunctionAsConnection)
 
 TEST_F(ButtonWidgetTests, handle_NotHandledEvent_ReturnFalse)
 {
-    sf::Event event {};
-    event.type = sf::Event::EventType::Resized;
+    InputEvent event {};
+    event.type = InputEventType::KeyPressed;
     ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {} };
     button.show();
 
@@ -55,7 +55,6 @@ TEST_F(ButtonWidgetTests, handle_NotHandledEvent_ReturnFalse)
     EXPECT_FALSE(result);
 }
 
-// NOLINTBEGIN(cppcoreguidelines-pro-type-union-access)
 TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventInsideButtonShapeButButtonNotVisible_ReturnFalse)
 {
     WidgetCommand resultCommand;
@@ -63,13 +62,10 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventInsideButtonShapeBut
     {
         resultCommand = command;
     };
-    sf::Event event {};
-    event.type = sf::Event::EventType::MouseButtonPressed;
-    auto& mouseButton { event.mouseButton };
-    mouseButton.button = sf::Mouse::Button::Left;
-    mouseButton.x = 50.0;
-    mouseButton.y = 25.0;
-    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {} };
+    InputEvent event {};
+    event.type = InputEventType::MouseButtonPressed;
+    event.data = MouseButtonData { MouseButton::Left, 50.0F, 25.0F };
+    ButtonWidgetTestable button { WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F }, "TestButton", std::string {} };
     button.connect(connection);
 
     const bool result = button.handle(event);
@@ -85,13 +81,10 @@ TEST_F(ButtonWidgetTests, handle_RightMouseButtonPressedEventInsideButtonShapeAn
     {
         resultCommand = command;
     };
-    sf::Event event {};
-    event.type = sf::Event::EventType::MouseButtonPressed;
-    auto& mouseButton { event.mouseButton };
-    mouseButton.button = sf::Mouse::Button::Right;
-    mouseButton.x = 50.0;
-    mouseButton.y = 25.0;
-    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {} };
+    InputEvent event {};
+    event.type = InputEventType::MouseButtonPressed;
+    event.data = MouseButtonData { MouseButton::Right, 50.0F, 25.0F };
+    ButtonWidgetTestable button { WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F }, "TestButton", std::string {} };
     button.connect(connection);
     button.show();
 
@@ -108,13 +101,10 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventOutsideButtonShapeAn
     {
         resultCommand = command;
     };
-    sf::Event event {};
-    event.type = sf::Event::EventType::MouseButtonPressed;
-    auto& mouseButton { event.mouseButton };
-    mouseButton.button = sf::Mouse::Button::Left;
-    mouseButton.x = 150.0;
-    mouseButton.y = 25.0;
-    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, "TestButton", std::string {} };
+    InputEvent event {};
+    event.type = InputEventType::MouseButtonPressed;
+    event.data = MouseButtonData { MouseButton::Left, 150.0F, 25.0F };
+    ButtonWidgetTestable button { WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F }, "TestButton", std::string {} };
     button.connect(connection);
     button.show();
 
@@ -132,13 +122,10 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventInsideButtonShapeAnd
     {
         resultCommand = command;
     };
-    sf::Event event {};
-    event.type = sf::Event::EventType::MouseButtonPressed;
-    auto& mouseButton { event.mouseButton };
-    mouseButton.button = sf::Mouse::Button::Left;
-    mouseButton.x = 50.0;
-    mouseButton.y = 25.0;
-    ButtonWidgetTestable button { WidgetGeometry { 0.0, 0.0, 100.0, 50.0 }, expectedWidgetText, std::string {} };
+    InputEvent event {};
+    event.type = InputEventType::MouseButtonPressed;
+    event.data = MouseButtonData { MouseButton::Left, 50.0F, 25.0F };
+    ButtonWidgetTestable button { WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F }, expectedWidgetText, std::string {} };
     button.connect(connection);
     button.show();
 
@@ -147,4 +134,3 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventInsideButtonShapeAnd
     EXPECT_EQ(expectedWidgetText, resultCommand);
     EXPECT_TRUE(result);
 }
-// NOLINTEND(cppcoreguidelines-pro-type-union-access)

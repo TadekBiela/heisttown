@@ -2,8 +2,8 @@
 #include <IMenuController.hpp>
 #include <MainApplication.hpp>
 #include <MockClient.hpp>
-#include <MockMenuController.hpp>
 #include <MockInput.hpp>
+#include <MockMenuController.hpp>
 #include <MockScene.hpp>
 #include <MockServer.hpp>
 #include <gmock/gmock.h>

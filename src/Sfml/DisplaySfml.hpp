@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Drawable.hpp"
-#include "EventHandler.hpp"
+#include <InputDispatcher.hpp>
+#include <InputHandler.hpp>
 #include <RenderSceneBuilder.hpp>
 #include <RenderTarget.hpp>
 #include <SfmlRendering/SfmlTextureFile.hpp>
@@ -16,19 +17,19 @@ class DisplaySfml : public Scene
 {
 public:
     using Drawables = std::vector<std::shared_ptr<Drawable>>;
-    using EventHandlers = std::vector<std::shared_ptr<EventHandler>>;
 
     DisplaySfml(
         unsigned int width,
         unsigned int height,
         std::unique_ptr<FilesStorage<SfmlTextureFile>> inputTextureStorage,
         std::unique_ptr<RenderSceneBuilder> inputSceneBuilder = nullptr,
-        std::unique_ptr<RenderTarget> inputRenderTarget = nullptr
+        std::unique_ptr<RenderTarget> inputRenderTarget = nullptr,
+        std::shared_ptr<InputDispatcher> inputDispatcher = nullptr
     );
     virtual ~DisplaySfml() override = default;
 
     virtual void addDrawable(std::shared_ptr<Drawable> drawable);
-    virtual void addEventHandler(std::shared_ptr<EventHandler> handler);
+    virtual std::shared_ptr<InputDispatcher> getDispatcher();
     virtual void display();
 
     virtual void show() override;
@@ -40,12 +41,11 @@ protected:
 
 private:
     sf::RenderWindow window;
-    EventHandlers handlers;
     bool isSceneVisible;
     std::unique_ptr<FilesStorage<SfmlTextureFile>> textureStorage;
     std::unique_ptr<RenderSceneBuilder> sceneBuilder;
     std::unique_ptr<RenderTarget> renderTarget;
+    std::shared_ptr<InputDispatcher> dispatcher;
 
-    void dispach();
     void render();
 };

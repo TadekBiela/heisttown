@@ -2,12 +2,10 @@
 #include "ButtonWidget.hpp"
 #include "LabelWidget.hpp"
 
-WidgetsFactorySfml::WidgetsFactorySfml(
-    const std::shared_ptr<sf::Font>& font,
-    const std::shared_ptr<DisplaySfml>& displaySfml
-)
+WidgetsFactorySfml::WidgetsFactorySfml(const std::shared_ptr<sf::Font>& font, const std::shared_ptr<DisplaySfml>& displaySfml, const std::shared_ptr<InputDispatcher>& inputDispatcher)
     : widgetFont(font)
     , widgetDisplaySfml(displaySfml)
+    , dispatcher(inputDispatcher)
 {
 }
 
@@ -24,7 +22,7 @@ std::shared_ptr<Widget> WidgetsFactorySfml::create(
         {
             auto widget { std::make_shared<ButtonWidget>(geometry, text, style, widgetFont) };
             widgetDisplaySfml->addDrawable(widget);
-            widgetDisplaySfml->addEventHandler(widget);
+            dispatcher->addHandler(widget);
             return widget;
         }
         case WidgetType::LABEL:
