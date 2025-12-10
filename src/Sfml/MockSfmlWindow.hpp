@@ -1,16 +1,16 @@
 #pragma once
 
-#include "DisplaySfml.hpp"
+#include "SfmlWindow.hpp"
 #include <InputDispatcher.hpp>
 #include <SceneUpdate.hpp>
 #include <gmock/gmock.h>
 #include <memory>
 
-class MockDisplaySfml : public DisplaySfml
+class MockSfmlWindow : public SfmlWindow
 {
 public:
-    MockDisplaySfml()
-        : DisplaySfml(1, 1, nullptr)
+    MockSfmlWindow()
+        : SfmlWindow(1, 1, nullptr)
     {}
 
     MOCK_METHOD(void, add, (std::shared_ptr<RenderItem>), (override));

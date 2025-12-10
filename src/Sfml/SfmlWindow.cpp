@@ -1,4 +1,4 @@
-#include "DisplaySfml.hpp"
+#include "SfmlWindow.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
@@ -6,7 +6,7 @@
 #include <SfmlRendering/SfmlRenderSceneBuilder.hpp>
 #include <SfmlRendering/SfmlRenderTarget.hpp>
 
-DisplaySfml::DisplaySfml(
+SfmlWindow::SfmlWindow(
     unsigned int width,
     unsigned int height,
     std::unique_ptr<FilesStorage<SfmlTextureFile>> inputTextureStorage,
@@ -37,22 +37,22 @@ DisplaySfml::DisplaySfml(
     }
 }
 
-void DisplaySfml::add(std::shared_ptr<RenderItem> item)
+void SfmlWindow::add(std::shared_ptr<RenderItem> item)
 {
     renderItems.push_back(std::move(item));
 }
 
-sf::RenderTarget& DisplaySfml::getRenderTarget()
+sf::RenderTarget& SfmlWindow::getRenderTarget()
 {
     return window;
 }
 
-std::shared_ptr<InputDispatcher> DisplaySfml::getDispatcher()
+std::shared_ptr<InputDispatcher> SfmlWindow::getDispatcher()
 {
     return dispatcher;
 }
 
-void DisplaySfml::display()
+void SfmlWindow::display()
 {
     while (window.isOpen())
     {
@@ -61,7 +61,7 @@ void DisplaySfml::display()
     }
 }
 
-void DisplaySfml::render()
+void SfmlWindow::render()
 {
     if (isSceneVisible)
     {
@@ -77,17 +77,17 @@ void DisplaySfml::render()
     window.display();
 }
 
-void DisplaySfml::show()
+void SfmlWindow::show()
 {
     isSceneVisible = true;
 }
 
-void DisplaySfml::hide()
+void SfmlWindow::hide()
 {
     isSceneVisible = false;
 }
 
-void DisplaySfml::update(const SceneUpdate& sceneUpdate)
+void SfmlWindow::update(const SceneUpdate& sceneUpdate)
 {
     sceneBuilder->build(sceneUpdate);
 }

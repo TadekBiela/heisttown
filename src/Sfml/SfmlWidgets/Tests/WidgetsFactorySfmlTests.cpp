@@ -1,4 +1,4 @@
-#include "../MockDisplaySfml.hpp"
+#include "../MockSfmlWindow.hpp"
 #include "ButtonWidget.hpp"
 #include "LabelWidget.hpp"
 #include <MockInputDispatcher.hpp>
@@ -25,10 +25,10 @@ private:
 
 TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
 {
-    const auto displaySfml { std::make_shared<MockDisplaySfml>() };
-    EXPECT_CALL(*displaySfml, getRenderTarget()).WillOnce(ReturnRef(getWindow()));
-    EXPECT_CALL(*displaySfml, add(_));
-    WidgetsFactorySfml factory { nullptr, displaySfml, nullptr };
+    const auto sfmlWindow { std::make_shared<MockSfmlWindow>() };
+    EXPECT_CALL(*sfmlWindow, getRenderTarget()).WillOnce(ReturnRef(getWindow()));
+    EXPECT_CALL(*sfmlWindow, add(_));
+    WidgetsFactorySfml factory { nullptr, sfmlWindow, nullptr };
 
     const auto resultWidget {
         factory.create(
@@ -47,10 +47,10 @@ TEST_F(WidgetsFactorySfmlTests, create_ButtonType_CreateButtonWidget)
 {
     const auto dispatcher { std::make_shared<MockInputDispatcher>() };
     EXPECT_CALL(*dispatcher, addHandler(_));
-    const auto displaySfml { std::make_shared<MockDisplaySfml>() };
-    EXPECT_CALL(*displaySfml, getRenderTarget()).WillOnce(ReturnRef(getWindow()));
-    EXPECT_CALL(*displaySfml, add(_));
-    WidgetsFactorySfml factory { nullptr, displaySfml, dispatcher };
+    const auto sfmlWindow { std::make_shared<MockSfmlWindow>() };
+    EXPECT_CALL(*sfmlWindow, getRenderTarget()).WillOnce(ReturnRef(getWindow()));
+    EXPECT_CALL(*sfmlWindow, add(_));
+    WidgetsFactorySfml factory { nullptr, sfmlWindow, dispatcher };
 
     const auto resultWidget {
         factory.create(

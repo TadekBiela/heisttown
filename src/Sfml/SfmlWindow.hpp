@@ -10,10 +10,10 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <memory>
 
-class DisplaySfml : public Scene
+class SfmlWindow : public Scene
 {
 public:
-    DisplaySfml(
+    SfmlWindow(
         unsigned int width,
         unsigned int height,
         std::unique_ptr<FilesStorage<SfmlTextureFile>> inputTextureStorage,
@@ -21,7 +21,7 @@ public:
         std::unique_ptr<RenderTarget> inputRenderTarget = nullptr,
         std::shared_ptr<InputDispatcher> inputDispatcher = nullptr
     );
-    virtual ~DisplaySfml() override = default;
+    virtual ~SfmlWindow() override = default;
 
     virtual void add(std::shared_ptr<RenderItem> item);
     virtual sf::RenderTarget& getRenderTarget();

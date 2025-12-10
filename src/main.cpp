@@ -4,9 +4,9 @@
 #include "MainApplication/MainApplication.hpp"
 #include "Menu/MenuController.hpp"
 #include "Menu/MenuParser.hpp"
-#include "Sfml/DisplaySfml.hpp"
 #include "Sfml/SfmlRendering/SfmlTextureFile.hpp"
 #include "Sfml/SfmlWidgets/WidgetsFactorySfml.hpp"
+#include "Sfml/SfmlWindow.hpp"
 #include <SFML/Graphics/Font.hpp>
 #include <filesystem>
 #include <memory>
@@ -25,9 +25,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     const auto assetsPath { std::filesystem::current_path().string() + "/Assets/" };
     auto textureStorage { std::make_unique<FilesStorage<SfmlTextureFile>>(std::make_unique<FileLoader<SfmlTextureFile>>(assetsPath + "Textures/")) };
-    auto menuDisplaySfml { std::make_shared<DisplaySfml>(1000, 800, std::move(textureStorage)) };
+    auto sfmlWindow { std::make_shared<SfmlWindow>(1000, 800, std::move(textureStorage)) };
 
-    auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(assetsPath), menuDisplaySfml, menuDisplaySfml->getDispatcher()) };
+    auto widgetsFactory { std::make_unique<WidgetsFactorySfml>(getLoadedFont(assetsPath), sfmlWindow, sfmlWindow->getDispatcher()) };
     auto menuParser { std::make_unique<MenuParser>(std::move(widgetsFactory)) };
 
     const auto menuFilePath { assetsPath + "Menus/" };
@@ -36,8 +36,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 
     // std::unique_ptr<InputSfml> input;
 
-    auto mainApplication { std::make_unique<MainApplication>(std::move(menuController), menuDisplaySfml, nullptr, []() {}) };
+    auto mainApplication { std::make_unique<MainApplication>(std::move(menuController), sfmlWindow, nullptr, []() {}) };
     mainApplication->run();
-    menuDisplaySfml->display();
+    sfmlWindow->display();
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "DisplaySfml.hpp"
+#include "SfmlWindow.hpp"
 #include <FilesStorage.hpp>
 #include <MockFileLoader.hpp>
 #include <MockRenderSceneBuilder.hpp>
@@ -9,7 +9,7 @@
 
 using namespace testing;
 
-class DisplaySfmlTests : public Test
+class SfmlWindowTests : public Test
 {
 public:
     [[nodiscard]] std::unique_ptr<FilesStorage<SfmlTextureFile>> createFileStorage() const
@@ -24,11 +24,11 @@ private:
     const std::map<FileName, SfmlTextureFile> data;
 };
 
-TEST_F(DisplaySfmlTests, update_EmptySceneUpdate_BuildSceneViaSceneBuilder)
+TEST_F(SfmlWindowTests, update_EmptySceneUpdate_BuildSceneViaSceneBuilder)
 {
     auto sceneBuilder { std::make_unique<MockRenderSceneBuilder>() };
     EXPECT_CALL(*sceneBuilder, build(_));
-    DisplaySfml display { 1, 1, createFileStorage(), std::move(sceneBuilder) };
+    SfmlWindow window { 1, 1, createFileStorage(), std::move(sceneBuilder) };
 
-    display.update(SceneUpdate {});
+    window.update(SceneUpdate {});
 }
