@@ -5,11 +5,13 @@ DefaultWidgetImpl::DefaultWidgetImpl(
     const WidgetGeometry& newGeometry,
     const WidgetText& newText,
     const WidgetStyle& newStyle,
+    sf::RenderTarget& inputTarget,
     const std::shared_ptr<sf::Font>& newFont
 )
     : geometry(newGeometry)
     , style(newStyle)
     , visible(false)
+    , target(inputTarget)
     , font(newFont)
 {
     applyGeometry();
@@ -105,7 +107,7 @@ void DefaultWidgetImpl::hide()
     visible = false;
 }
 
-void DefaultWidgetImpl::draw(sf::RenderTarget& target) const
+void DefaultWidgetImpl::render()
 {
     if (not visible)
     {

@@ -11,4 +11,4 @@ public:
     virtual void render() = 0;
 };
 
-using RenderItems = std::vector<std::unique_ptr<RenderItem>>;
+using RenderItems = std::vector<std::shared_ptr<RenderItem>>;

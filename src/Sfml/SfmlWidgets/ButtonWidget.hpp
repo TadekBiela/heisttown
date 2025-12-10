@@ -8,7 +8,7 @@
 #include <WidgetGeometry.hpp>
 #include <WidgetType.hpp>
 #include <SFML/Graphics/Font.hpp>
-#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
 
 class ButtonWidget : public WidgetControl, public DefaultWidgetImpl, public InputHandler
@@ -18,6 +18,7 @@ public:
         const WidgetGeometry& geometry,
         const WidgetText& text,
         const WidgetStyle& style,
+        sf::RenderTarget& target,
         const std::shared_ptr<sf::Font>& font = nullptr
     );
 

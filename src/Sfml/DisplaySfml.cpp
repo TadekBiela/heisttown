@@ -1,12 +1,10 @@
 #include "DisplaySfml.hpp"
-#include <FileLoader.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SfmlInput/SfmlInputSource.hpp>
 #include <SfmlRendering/SfmlRenderSceneBuilder.hpp>
 #include <SfmlRendering/SfmlRenderTarget.hpp>
-#include <filesystem>
 
 DisplaySfml::DisplaySfml(
     unsigned int width,
@@ -39,9 +37,14 @@ DisplaySfml::DisplaySfml(
     }
 }
 
-void DisplaySfml::addDrawable(std::shared_ptr<Drawable> drawable)
+void DisplaySfml::add(std::shared_ptr<RenderItem> item)
 {
-    drawables.push_back(std::move(drawable));
+    renderItems.push_back(std::move(item));
+}
+
+sf::RenderTarget& DisplaySfml::getRenderTarget()
+{
+    return window;
 }
 
 std::shared_ptr<InputDispatcher> DisplaySfml::getDispatcher()
@@ -68,10 +71,7 @@ void DisplaySfml::render()
     {
         window.clear(sf::Color::Black);
 
-        for (auto& drawable : drawables)
-        {
-            drawable->draw(window);
-        }
+        renderTarget->render(renderItems);
     }
 
     window.display();

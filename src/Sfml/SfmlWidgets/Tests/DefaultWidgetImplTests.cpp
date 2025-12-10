@@ -1,9 +1,8 @@
 #include <DefaultWidgetImpl.hpp>
-#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <WidgetControl.hpp>
 #include <WidgetGeometry.hpp>
 #include <WidgetType.hpp>
-#include <filesystem>
 #include <gtest/gtest.h>
 #include <memory>
 
@@ -41,6 +40,14 @@ public:
 
 class DefaultWidgetImplTests : public Test
 {
+public:
+    sf::RenderWindow& getWindow()
+    {
+        return window;
+    }
+
+private:
+    sf::RenderWindow window;
 };
 
 TEST_F(DefaultWidgetImplTests, constructor_DefaultBehavior_ShapeAndTextWithCorrectPositionAndSizeAndNotVisible)
@@ -48,7 +55,12 @@ TEST_F(DefaultWidgetImplTests, constructor_DefaultBehavior_ShapeAndTextWithCorre
     const WidgetGeometry expectedGeometry { 100.0, 50.0, 160.0, 30.0 };
     const WidgetText expectedText { "Test" };
 
-    const DefaultWidgetImplTestable widget { expectedGeometry, expectedText, "" };
+    const DefaultWidgetImplTestable widget {
+        expectedGeometry,
+        expectedText,
+        "",
+        getWindow()
+    };
 
     EXPECT_FALSE(widget.isVisible());
     const auto& resultShape { widget.getShape() };
@@ -64,7 +76,12 @@ TEST_F(DefaultWidgetImplTests, constructor_DefaultBehavior_ShapeAndTextWithCorre
 
 TEST_F(DefaultWidgetImplTests, show_runWhenNotVisible_ChangeToVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
+    DefaultWidgetImplTestable widget {
+        WidgetGeometry {},
+        std::string {},
+        std::string {},
+        getWindow()
+    };
 
     widget.show();
 
@@ -73,7 +90,12 @@ TEST_F(DefaultWidgetImplTests, show_runWhenNotVisible_ChangeToVisible)
 
 TEST_F(DefaultWidgetImplTests, show_RunTwice_ChangeToVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
+    DefaultWidgetImplTestable widget {
+        WidgetGeometry {},
+        std::string {},
+        std::string {},
+        getWindow()
+    };
 
     widget.show();
     widget.show();
@@ -83,7 +105,12 @@ TEST_F(DefaultWidgetImplTests, show_RunTwice_ChangeToVisible)
 
 TEST_F(DefaultWidgetImplTests, hide_runWhenNotVisible_StillNotVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
+    DefaultWidgetImplTestable widget {
+        WidgetGeometry {},
+        std::string {},
+        std::string {},
+        getWindow()
+    };
 
     widget.hide();
 
@@ -92,7 +119,12 @@ TEST_F(DefaultWidgetImplTests, hide_runWhenNotVisible_StillNotVisible)
 
 TEST_F(DefaultWidgetImplTests, hide_runWhenVisible_ChangeToNotVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
+    DefaultWidgetImplTestable widget {
+        WidgetGeometry {},
+        std::string {},
+        std::string {},
+        getWindow()
+    };
     widget.show();
 
     widget.hide();
@@ -102,7 +134,12 @@ TEST_F(DefaultWidgetImplTests, hide_runWhenVisible_ChangeToNotVisible)
 
 TEST_F(DefaultWidgetImplTests, hide_runWhenVisibleTwice_ChangeToNotVisible)
 {
-    DefaultWidgetImplTestable widget { WidgetGeometry {}, std::string {}, std::string {} };
+    DefaultWidgetImplTestable widget {
+        WidgetGeometry {},
+        std::string {},
+        std::string {},
+        getWindow()
+    };
     widget.show();
 
     widget.hide();

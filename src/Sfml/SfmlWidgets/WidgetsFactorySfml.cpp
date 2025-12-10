@@ -20,15 +20,15 @@ std::shared_ptr<Widget> WidgetsFactorySfml::create(
     {
         case WidgetType::BUTTON:
         {
-            auto widget { std::make_shared<ButtonWidget>(geometry, text, style, widgetFont) };
-            widgetDisplaySfml->addDrawable(widget);
+            auto widget { std::make_shared<ButtonWidget>(geometry, text, style, widgetDisplaySfml->getRenderTarget(), widgetFont) };
+            widgetDisplaySfml->add(widget);
             dispatcher->addHandler(widget);
             return widget;
         }
         case WidgetType::LABEL:
         {
-            auto widget { std::make_shared<LabelWidget>(geometry, text, style, widgetFont) };
-            widgetDisplaySfml->addDrawable(widget);
+            auto widget { std::make_shared<LabelWidget>(geometry, text, style, widgetDisplaySfml->getRenderTarget(), widgetFont) };
+            widgetDisplaySfml->add(widget);
             return widget;
         }
         default:

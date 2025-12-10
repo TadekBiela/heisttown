@@ -13,12 +13,21 @@ using namespace testing;
 
 class WidgetsFactorySfmlTests : public Test
 {
+public:
+    sf::RenderWindow& getWindow()
+    {
+        return window;
+    }
+
+private:
+    sf::RenderWindow window;
 };
 
 TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
 {
     const auto displaySfml { std::make_shared<MockDisplaySfml>() };
-    EXPECT_CALL(*displaySfml, addDrawable(_));
+    EXPECT_CALL(*displaySfml, getRenderTarget()).WillOnce(ReturnRef(getWindow()));
+    EXPECT_CALL(*displaySfml, add(_));
     WidgetsFactorySfml factory { nullptr, displaySfml, nullptr };
 
     const auto resultWidget {
@@ -39,7 +48,8 @@ TEST_F(WidgetsFactorySfmlTests, create_ButtonType_CreateButtonWidget)
     const auto dispatcher { std::make_shared<MockInputDispatcher>() };
     EXPECT_CALL(*dispatcher, addHandler(_));
     const auto displaySfml { std::make_shared<MockDisplaySfml>() };
-    EXPECT_CALL(*displaySfml, addDrawable(_));
+    EXPECT_CALL(*displaySfml, getRenderTarget()).WillOnce(ReturnRef(getWindow()));
+    EXPECT_CALL(*displaySfml, add(_));
     WidgetsFactorySfml factory { nullptr, displaySfml, dispatcher };
 
     const auto resultWidget {

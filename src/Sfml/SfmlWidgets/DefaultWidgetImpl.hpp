@@ -1,22 +1,22 @@
 #pragma once
 
-#include "../Drawable.hpp"
+#include <RenderItem.hpp>
 #include <Widget.hpp>
 #include <WidgetGeometry.hpp>
-#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <memory>
 
-class DefaultWidgetImpl : public Widget, public Drawable
+class DefaultWidgetImpl : public Widget, public RenderItem
 {
 public:
     DefaultWidgetImpl(
         const WidgetGeometry& newGeometry,
         const WidgetText& newText,
         const WidgetStyle& newStyle,
+        sf::RenderTarget& inputTarget,
         const std::shared_ptr<sf::Font>& newFont = nullptr
     );
 
@@ -28,7 +28,7 @@ public:
     void setStyle(const WidgetStyle& newStyle) override;
     void show() override;
     void hide() override;
-    void draw(sf::RenderTarget& target) const override;
+    void render() override;
 
 protected:
     WidgetGeometry geometry;
@@ -36,6 +36,7 @@ protected:
     bool visible;
     sf::RectangleShape shape;
     sf::Text textLabel;
+    sf::RenderTarget& target;
     std::shared_ptr<sf::Font> font;
 
     void applyGeometry();

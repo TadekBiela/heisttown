@@ -1,5 +1,6 @@
 #include <ButtonWidget.hpp>
 #include <InputEvent.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <WidgetControl.hpp>
 #include <WidgetGeometry.hpp>
 #include <WidgetType.hpp>
@@ -22,11 +23,24 @@ public:
 
 class ButtonWidgetTests : public Test
 {
+public:
+    sf::RenderWindow& getWindow()
+    {
+        return window;
+    }
+
+private:
+    sf::RenderWindow window;
 };
 
 TEST_F(ButtonWidgetTests, getType_DefaultBehavior_ReturnButtonType)
 {
-    const ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {} };
+    const ButtonWidgetTestable button {
+        WidgetGeometry {},
+        std::string {},
+        std::string {},
+        getWindow()
+    };
 
     const auto resultType { button.getType() };
 
@@ -36,7 +50,12 @@ TEST_F(ButtonWidgetTests, getType_DefaultBehavior_ReturnButtonType)
 TEST_F(ButtonWidgetTests, connect_EmptyFunction_AsignEmptyFunctionAsConnection)
 {
     auto connection = [](const WidgetCommand&) {};
-    ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {} };
+    ButtonWidgetTestable button {
+        WidgetGeometry {},
+        std::string {},
+        std::string {},
+        getWindow()
+    };
 
     button.connect(connection);
 
@@ -47,7 +66,12 @@ TEST_F(ButtonWidgetTests, handle_NotHandledEvent_ReturnFalse)
 {
     InputEvent event {};
     event.type = InputEventType::KeyPressed;
-    ButtonWidgetTestable button { WidgetGeometry {}, std::string {}, std::string {} };
+    ButtonWidgetTestable button {
+        WidgetGeometry {},
+        std::string {},
+        std::string {},
+        getWindow()
+    };
     button.show();
 
     const bool result = button.handle(event);
@@ -65,7 +89,12 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventInsideButtonShapeBut
     InputEvent event {};
     event.type = InputEventType::MouseButtonPressed;
     event.data = MouseButtonData { MouseButton::Left, 50.0F, 25.0F };
-    ButtonWidgetTestable button { WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F }, "TestButton", std::string {} };
+    ButtonWidgetTestable button {
+        WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F },
+        "TestButton",
+        std::string {},
+        getWindow()
+    };
     button.connect(connection);
 
     const bool result = button.handle(event);
@@ -84,7 +113,12 @@ TEST_F(ButtonWidgetTests, handle_RightMouseButtonPressedEventInsideButtonShapeAn
     InputEvent event {};
     event.type = InputEventType::MouseButtonPressed;
     event.data = MouseButtonData { MouseButton::Right, 50.0F, 25.0F };
-    ButtonWidgetTestable button { WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F }, "TestButton", std::string {} };
+    ButtonWidgetTestable button {
+        WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F },
+        "TestButton",
+        std::string {},
+        getWindow()
+    };
     button.connect(connection);
     button.show();
 
@@ -104,7 +138,12 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventOutsideButtonShapeAn
     InputEvent event {};
     event.type = InputEventType::MouseButtonPressed;
     event.data = MouseButtonData { MouseButton::Left, 150.0F, 25.0F };
-    ButtonWidgetTestable button { WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F }, "TestButton", std::string {} };
+    ButtonWidgetTestable button {
+        WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F },
+        "TestButton",
+        std::string {},
+        getWindow()
+    };
     button.connect(connection);
     button.show();
 
@@ -125,7 +164,12 @@ TEST_F(ButtonWidgetTests, handle_LeftMouseButtonPressedEventInsideButtonShapeAnd
     InputEvent event {};
     event.type = InputEventType::MouseButtonPressed;
     event.data = MouseButtonData { MouseButton::Left, 50.0F, 25.0F };
-    ButtonWidgetTestable button { WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F }, expectedWidgetText, std::string {} };
+    ButtonWidgetTestable button {
+        WidgetGeometry { 0.0F, 0.0F, 100.0F, 50.0F },
+        expectedWidgetText,
+        std::string {},
+        getWindow()
+    };
     button.connect(connection);
     button.show();
 

@@ -5,12 +5,14 @@ LabelWidget::LabelWidget(
     const WidgetGeometry& geometry,
     const WidgetText& text,
     const WidgetStyle& style,
+    sf::RenderTarget& target,
     const std::shared_ptr<sf::Font>& font
 )
     : DefaultWidgetImpl(
           geometry,
           text,
           style,
+          target,
           font
       )
 {

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Drawable.hpp"
 #include <InputDispatcher.hpp>
-#include <InputHandler.hpp>
 #include <RenderSceneBuilder.hpp>
 #include <RenderTarget.hpp>
 #include <SfmlRendering/SfmlTextureFile.hpp>
@@ -11,13 +9,10 @@
 #include <Scene.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <memory>
-#include <vector>
 
 class DisplaySfml : public Scene
 {
 public:
-    using Drawables = std::vector<std::shared_ptr<Drawable>>;
-
     DisplaySfml(
         unsigned int width,
         unsigned int height,
@@ -28,16 +23,16 @@ public:
     );
     virtual ~DisplaySfml() override = default;
 
-    virtual void addDrawable(std::shared_ptr<Drawable> drawable);
+    virtual void add(std::shared_ptr<RenderItem> item);
+    virtual sf::RenderTarget& getRenderTarget();
     virtual std::shared_ptr<InputDispatcher> getDispatcher();
     virtual void display();
-
     virtual void show() override;
     virtual void hide() override;
     virtual void update(const SceneUpdate& sceneUpdate) override;
 
 protected:
-    Drawables drawables;
+    RenderItems renderItems;
 
 private:
     sf::RenderWindow window;

@@ -1,5 +1,4 @@
 #include "SfmlRenderTarget.hpp"
-#include <SFML/Graphics/Drawable.hpp>
 
 SfmlRenderTarget::SfmlRenderTarget(sf::RenderTarget& inputTarget)
     : target(inputTarget)
