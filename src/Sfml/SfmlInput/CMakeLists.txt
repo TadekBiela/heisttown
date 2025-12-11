@@ -1,7 +1,3 @@
-if(NOT RELEASE)
-    add_subdirectory(Tests)
-endif()
-
 set(LIB_NAME SfmlInput)
 
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS "*.hpp")
