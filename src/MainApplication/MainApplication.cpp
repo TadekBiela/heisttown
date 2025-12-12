@@ -8,7 +8,7 @@
 MainApplication::MainApplication(
     std::unique_ptr<IMenuController> controller,
     const std::shared_ptr<Scene>& scene,
-    std::unique_ptr<Input> input,
+    std::shared_ptr<InputDispatcher> inputDispatcher,
     GuiExitCallback callback,
     std::shared_ptr<Client> client,
     std::unique_ptr<Server> server
@@ -26,7 +26,7 @@ MainApplication::MainApplication(
 
     if (gameClient == nullptr)
     {
-        gameClient = std::make_shared<LocalClient>(scene, std::move(input));
+        gameClient = std::make_shared<LocalClient>(scene, inputDispatcher);
     }
     gameConnection = [&](const GameCommand& command)
     {

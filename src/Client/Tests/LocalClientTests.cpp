@@ -1,6 +1,6 @@
 #include <Client.hpp>
 #include <LocalClient.hpp>
-#include <MockInput.hpp>
+#include <MockInputDispatcher.hpp>
 #include <MockScene.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -14,40 +14,37 @@ class LocalClientTests : public Test
 
 TEST_F(LocalClientTests, start_SinglePlayerGame_ShouldStartInputReading)
 {
-    auto scene { std::make_unique<MockScene>() };
-    auto input { std::make_unique<MockInput>() };
-    EXPECT_CALL(*input, setInputReceiver(_));
-    EXPECT_CALL(*input, start());
+    auto scene { std::make_shared<MockScene>() };
+    auto dispatcher { std::make_shared<MockInputDispatcher>() };
+    EXPECT_CALL(*dispatcher, addHandler(_));
     EXPECT_CALL(*scene, show());
-    LocalClient client { std::move(scene), std::move(input) };
+    LocalClient client { scene, dispatcher };
 
     client.start();
 }
 
 TEST_F(LocalClientTests, stop_SinglePlayerGame_ShouldStopInputReading)
 {
-    auto scene { std::make_unique<MockScene>() };
-    auto input { std::make_unique<MockInput>() };
-    EXPECT_CALL(*input, setInputReceiver(_));
-    EXPECT_CALL(*input, stop());
+    auto scene { std::make_shared<MockScene>() };
+    auto dispatcher { std::make_shared<MockInputDispatcher>() };
+    EXPECT_CALL(*dispatcher, addHandler(_));
     EXPECT_CALL(*scene, hide());
-    LocalClient client { std::move(scene), std::move(input) };
+    LocalClient client { scene, dispatcher };
 
     client.stop();
 }
 
 TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 {
-    auto scene { std::make_unique<MockScene>() };
-    auto input { std::make_unique<MockInput>() };
-    EXPECT_CALL(*input, setInputReceiver(_));
-    EXPECT_CALL(*input, stop()).Times(0);
+    auto scene { std::make_shared<MockScene>() };
+    auto dispatcher { std::make_shared<MockInputDispatcher>() };
+    EXPECT_CALL(*dispatcher, addHandler(_));
     GameCommand resultCommand { GameCommand::NoCommand };
     const GameConnection connection = [&resultCommand](const GameCommand& command)
     {
         resultCommand = command;
     };
-    LocalClient client { std::move(scene), std::move(input) };
+    LocalClient client { scene, dispatcher };
     client.connect(connection);
 
     client.receive("Keyboard: Y");
@@ -57,17 +54,16 @@ TEST_F(LocalClientTests, receive_KeyboardY_ShouldDoNothing)
 
 TEST_F(LocalClientTests, receive_KeyboardESC_ShouldStopAndSendGameCommand)
 {
-    auto scene { std::make_unique<MockScene>() };
-    auto input { std::make_unique<MockInput>() };
-    EXPECT_CALL(*input, setInputReceiver(_));
-    EXPECT_CALL(*input, stop());
+    auto scene { std::make_shared<MockScene>() };
+    auto dispatcher { std::make_shared<MockInputDispatcher>() };
+    EXPECT_CALL(*dispatcher, addHandler(_));
     EXPECT_CALL(*scene, hide());
     GameCommand resultCommand { GameCommand::NoCommand };
     const GameConnection connection = [&resultCommand](const GameCommand& command)
     {
         resultCommand = command;
     };
-    LocalClient client { std::move(scene), std::move(input) };
+    LocalClient client { scene, dispatcher };
     client.connect(connection);
 
     client.receive("Keyboard: ESC");

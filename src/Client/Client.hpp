@@ -2,7 +2,7 @@
 
 #include <GameConnection.hpp>
 #include <GameplayUpdate.hpp>
-#include <Input.hpp>
+#include <InputPlayerHandler.hpp>
 
 class Client
 {

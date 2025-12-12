@@ -36,7 +36,13 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 
     // std::unique_ptr<InputSfml> input;
 
-    auto mainApplication { std::make_unique<MainApplication>(std::move(menuController), sfmlWindow, nullptr, []() {}) };
+    auto mainApplication { std::make_unique<MainApplication>(
+        std::move(menuController),
+        sfmlWindow,
+        sfmlWindow->getDispatcher(),
+        []() {}
+    )};
+
     mainApplication->run();
     sfmlWindow->display();
     return 0;

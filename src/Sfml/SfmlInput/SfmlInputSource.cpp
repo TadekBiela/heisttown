@@ -64,6 +64,12 @@ InputEvent SfmlInputSource::translateToInputEvent(const sf::Event& sfEvent)
             event.data = KeyData { translateToKeyData(sfEvent.key.code) };
             break;
         }
+        case sf::Event::KeyReleased:
+        {
+            event.type = InputEventType::KeyReleased;
+            event.data = KeyData { translateToKeyData(sfEvent.key.code) };
+            break;
+        }
         case sf::Event::Closed:
         {
             event.type = InputEventType::Quit;

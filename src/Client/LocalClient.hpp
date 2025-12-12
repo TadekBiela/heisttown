@@ -3,8 +3,9 @@
 #include "Client.hpp"
 #include <GameConnection.hpp>
 #include <GameplayUpdate.hpp>
+#include <InputDispatcher.hpp>
+#include <InputPlayerHandler.hpp>
 #include <Scene.hpp>
-#include <Input.hpp>
 #include <memory>
 
 class LocalClient : public Client
@@ -12,7 +13,7 @@ class LocalClient : public Client
 public:
     LocalClient(
         std::shared_ptr<Scene> scene,
-        std::unique_ptr<Input> input
+        const std::shared_ptr<InputDispatcher>& inputDispatcher
     );
 
     void connect(const GameConnection& connection) override;
@@ -26,5 +27,5 @@ private:
     GameConnection gameConnection;
     std::shared_ptr<Scene> gameScene;
     InputReceiver inputReceiver;
-    std::unique_ptr<Input> playerInput;
+    std::shared_ptr<InputPlayerHandler> playerInput;
 };

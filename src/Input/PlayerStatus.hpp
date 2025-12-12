@@ -4,6 +4,11 @@ struct FieldOfView
 {
     float horizontal;
     float vertical;
+
+    bool operator==(const FieldOfView& fov) const
+    {
+        return (horizontal == fov.horizontal and vertical == fov.vertical);
+    }
 };
 
 enum class Direction : char
@@ -29,9 +34,20 @@ enum class Action : char
 
 struct PlayerStatus
 {
-    FieldOfView fov { 1000, 800 };
+    FieldOfView fov { 1000.0F, 800.0F };
     Direction moveDirection { Direction::FRONT };
-    Velocity moveVelocity { 0.0 };
+    Velocity moveVelocity { 0.0F };
     Direction sightDirection { Direction::FRONT };
     Action currentAction { Action::NONE };
+
+    bool operator==(const PlayerStatus& status) const
+    {
+        return (
+            fov == status.fov and
+            moveDirection == status.moveDirection and
+            moveVelocity == status.moveVelocity and
+            sightDirection == status.sightDirection and
+            currentAction == status.currentAction
+        );
+    }
 };

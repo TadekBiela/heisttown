@@ -9,6 +9,7 @@ enum class InputEventType : std::uint8_t
     MouseButtonPressed,
     MouseButtonReleased,
     KeyPressed,
+    KeyReleased,
     Quit,
     NotSupported
 };

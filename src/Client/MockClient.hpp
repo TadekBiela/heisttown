@@ -3,7 +3,8 @@
 #include "Client.hpp"
 #include <GameConnection.hpp>
 #include <GameplayUpdate.hpp>
-#include <Input.hpp>
+#include <InputPlayerHandler.hpp>
+#include <PlayerStatus.hpp>
 #include <gmock/gmock.h>
 
 class MockClient : public Client

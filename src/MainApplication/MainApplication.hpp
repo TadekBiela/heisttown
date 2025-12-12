@@ -1,8 +1,9 @@
 #pragma once
 
 #include <Client.hpp>
-#include <Scene.hpp>
+#include <InputDispatcher.hpp>
 #include <IMenuController.hpp>
+#include <Scene.hpp>
 #include <Server.hpp>
 #include <functional>
 #include <memory>
@@ -15,7 +16,7 @@ public:
     MainApplication(
         std::unique_ptr<IMenuController> controller,
         const std::shared_ptr<Scene>& scene,
-        std::unique_ptr<Input> input,
+        std::shared_ptr<InputDispatcher> inputDispatcher,
         GuiExitCallback callback,
         std::shared_ptr<Client> client = nullptr,
         std::unique_ptr<Server> server = nullptr

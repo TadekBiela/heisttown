@@ -3,21 +3,19 @@
 
 LocalClient::LocalClient(
     std::shared_ptr<Scene> scene,
-    std::unique_ptr<Input> input
+    const std::shared_ptr<InputDispatcher>& inputDispatcher
 )
     : gameConnection([](const GameCommand&) {})
     , gameScene(std::move(scene))
-    , playerInput(std::move(input))
+    , playerInput(std::make_shared<InputPlayerHandler>())
 {
     inputReceiver = [&](const InputCommand& command)
     {
         this->receive(command);
     };
 
-    if (playerInput)
-    {
-        playerInput->setInputReceiver(inputReceiver);
-    }
+    playerInput->setInputReceiver(inputReceiver);
+    inputDispatcher->addHandler(playerInput);
 }
 
 void LocalClient::connect(const GameConnection& connection)
@@ -27,19 +25,11 @@ void LocalClient::connect(const GameConnection& connection)
 
 void LocalClient::start()
 {
-    if (playerInput)
-    {
-        playerInput->start();
-    }
     gameScene->show();
 }
 
 void LocalClient::stop()
 {
-    if (playerInput)
-    {
-        playerInput->stop();
-    }
     gameScene->hide();
 }
 
@@ -55,8 +45,7 @@ void LocalClient::receive(const InputCommand& command)
 
 PlayerStatus LocalClient::status() const
 {
-    // return playerInput->getPlayerStatus();
-    return PlayerStatus {};
+    return playerInput->getPlayerStatus();
 }
 
 void LocalClient::update(const GameplayUpdate&& gameplayUpdate)
