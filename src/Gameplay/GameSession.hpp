@@ -16,8 +16,6 @@ public:
     explicit GameSession(std::unique_ptr<SceneItemFactory> inputFactory = nullptr);
     virtual ~GameSession() = default;
 
-    virtual void start();
-    virtual void stop();
     [[nodiscard]] virtual PlayerID addPlayer();
     virtual void removePlayer(const PlayerID& playerId);
     virtual void queuePlayerStatus(const PlayerID& playerId, const PlayerStatus& playerStatus);

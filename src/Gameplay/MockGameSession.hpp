@@ -12,8 +12,6 @@ public:
         : GameSession(nullptr)
     {}
 
-    MOCK_METHOD(void, start, (), (override));
-    MOCK_METHOD(void, stop, (), (override));
     MOCK_METHOD(PlayerID, addPlayer, (), (override));
     MOCK_METHOD(void, removePlayer, (const PlayerID&), (override));
     MOCK_METHOD(void, queuePlayerStatus, (const PlayerID&, const PlayerStatus&), (override));

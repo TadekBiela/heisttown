@@ -9,14 +9,6 @@ GameSession::GameSession(std::unique_ptr<SceneItemFactory> inputFactory)
     }
 }
 
-void GameSession::start()
-{
-}
-
-void GameSession::stop()
-{
-}
-
 GameSession::PlayerID GameSession::addPlayer()
 {
     playersObjects[playerIdCounter] = factory->create(SceneItemType::PLAYER, { 2500.0, 2500.0 }, 0.0);
