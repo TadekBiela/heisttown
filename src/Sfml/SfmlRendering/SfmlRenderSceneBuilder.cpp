@@ -24,7 +24,8 @@ void SfmlRenderSceneBuilder::build(const SceneUpdate& sceneUpdate)
     loadGlobalMapIfNeeded(sceneUpdate.mapName);
     loadLocalMapTexture(sceneUpdate.playerGlobalPosition);
 
-    renderItems.push_back(std::make_unique<SfmlRenderItem>(window, mapId, localMapTexture, Position { 0.0F, 0.0F }, 0.0F));
+    const auto mapTextureSize { localMapTexture.getSize() };
+    renderItems.push_back(std::make_unique<SfmlRenderItem>(window, mapId, localMapTexture, Position { mapTextureSize.x / 2, mapTextureSize.y / 2 }, 0.0F));
 
     for (const auto& sceneItem : sceneUpdate.sceneItems)
     {
@@ -88,16 +89,7 @@ void SfmlRenderSceneBuilder::loadLocalMapTexture(const Position& playerGlobalPos
 
 std::unique_ptr<SfmlRenderItem> SfmlRenderSceneBuilder::createItem(const SceneItemType& type, const Position& position, const Rotation& rotation)
 {
-    const auto& texture { getTexture(type) };
-    const Position textureOffset {
-        static_cast<float>(texture.getSize().x / 2),
-        static_cast<float>(texture.getSize().y / 2)
-    };
-    const Position itemPosition {
-        position.x - textureOffset.x,
-        position.y - textureOffset.y
-    };
-    return std::make_unique<SfmlRenderItem>(window, itemIdCounter++, texture, itemPosition, rotation);
+    return std::make_unique<SfmlRenderItem>(window, itemIdCounter++, getTexture(type), position, rotation);
 }
 
 const sf::Texture& SfmlRenderSceneBuilder::getTexture(const SceneItemType& type) const
