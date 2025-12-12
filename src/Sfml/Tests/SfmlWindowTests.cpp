@@ -24,6 +24,11 @@ private:
     const std::map<FileName, SfmlTextureFile> data;
 };
 
+TEST_F(SfmlWindowTests, constructor_DefaultBehavior_NoThrowExceptions)
+{
+    EXPECT_NO_THROW(SfmlWindow(1, 1, createFileStorage()));
+}
+
 TEST_F(SfmlWindowTests, update_EmptySceneUpdate_BuildSceneViaSceneBuilder)
 {
     auto sceneBuilder { std::make_unique<MockRenderSceneBuilder>() };
