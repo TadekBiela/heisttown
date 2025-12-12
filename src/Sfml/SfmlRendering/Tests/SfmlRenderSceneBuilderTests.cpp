@@ -25,6 +25,11 @@ public:
     {
         return renderItems;
     }
+
+    SceneItemId getItemIdCounter() const
+    {
+        return itemIdCounter;
+    }
 };
 
 class SfmlRenderSceneBuilderTests : public Test
@@ -88,4 +93,18 @@ TEST_F(SfmlRenderSceneBuilderTests, build_SceneUpdateWithOnlyMapName_LoadGlobalA
     ASSERT_FALSE(resultPlayerItem == nullptr);
     EXPECT_FLOAT_EQ(expectedPlayerPosition.x, resultPlayerItem->getPosition().x);
     EXPECT_FLOAT_EQ(expectedPlayerPosition.y, resultPlayerItem->getPosition().y);
+}
+
+TEST_F(SfmlRenderSceneBuilderTests, popRenderItems_TwoRenderItems_ReturnTwoRenderItemsClearInsideRenderITemsAndResetIdCounter)
+{
+    SceneUpdate update;
+    update.mapName = "map01";
+    SfmlRenderSceneBuilderTestable builder { getWindow(), createFileStorage() };
+    builder.build(update);
+
+    const auto resultRenderItems { builder.popRenderItems() };
+
+    EXPECT_EQ(2, resultRenderItems.size());
+    EXPECT_EQ(0, builder.getRenderItems().size());
+    EXPECT_EQ(1, builder.getItemIdCounter());
 }

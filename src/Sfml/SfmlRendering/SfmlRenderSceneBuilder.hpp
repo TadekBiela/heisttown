@@ -26,10 +26,10 @@ public:
 protected:
     sf::Texture localMapTexture;
     RenderItems renderItems;
+    SceneItemId itemIdCounter;
 
 private:
     const SceneItemId mapId { 0 };
-    SceneItemId itemIdCounter;
     sf::RenderWindow& window;
     std::shared_ptr<FilesStorage<SfmlTextureFile>> textureStorage;
     MapName loadedGlobalMapName;
