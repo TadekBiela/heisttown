@@ -12,14 +12,14 @@ SfmlWindow::SfmlWindow(
     std::unique_ptr<FilesStorage<SfmlTextureFile>> inputTextureStorage,
     std::unique_ptr<RenderSceneBuilder> inputSceneBuilder,
     std::unique_ptr<RenderTarget> inputRenderTarget,
-    std::shared_ptr<InputDispatcher> inputDispatcher
+    const std::shared_ptr<InputDispatcher>& inputDispatcher
 )
     : window(sf::VideoMode(width, height), "")
     , isSceneVisible(false)
     , textureStorage(std::move(inputTextureStorage))
     , sceneBuilder(std::move(inputSceneBuilder))
     , renderTarget(std::move(inputRenderTarget))
-    , dispatcher(std::move(inputDispatcher))
+    , dispatcher(inputDispatcher)
 {
     if (sceneBuilder == nullptr)
     {

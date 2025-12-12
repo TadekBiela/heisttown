@@ -53,15 +53,17 @@ bool ButtonWidget::handle(const InputEvent& event)
 
     if (event.type == InputEventType::MouseButtonPressed)
     {
-        const auto* mouseButton = std::get_if<MouseButtonData>(&event.data);
-        if (mouseButton->button == MouseButton::Left)
+        if (const auto* mouseButton = std::get_if<MouseButtonData>(&event.data))
         {
-            const sf::Vector2f mousePosition { mouseButton->x, mouseButton->y };
-
-            if (shape.getGlobalBounds().contains(mousePosition))
+            if (mouseButton->button == MouseButton::Left)
             {
-                controlConnection(DefaultWidgetImpl::getText());
-                return true;
+                const sf::Vector2f mousePosition { mouseButton->x, mouseButton->y };
+
+                if (shape.getGlobalBounds().contains(mousePosition))
+                {
+                    controlConnection(DefaultWidgetImpl::getText());
+                    return true;
+                }
             }
         }
     }

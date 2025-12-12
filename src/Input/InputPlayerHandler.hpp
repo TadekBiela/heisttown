@@ -26,6 +26,4 @@ private:
     bool isDownPressed;
     bool isLeftPressed;
     bool isRightPressed;
-
-    static bool isMoveKey(const Key& key);
 };

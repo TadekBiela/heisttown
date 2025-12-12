@@ -130,72 +130,63 @@ struct MovePlayerParams
     Rotation expectedPlayerRotation;
 };
 
+inline void PrintTo(const MovePlayerParams& params, std::ostream* stream)
+{
+    *stream << "MovePlayerParams: direction=" << static_cast<int>(params.moveDirection)
+            << ", velocity=" << params.moveVelocity
+            << ", expectedPos=(" << params.expectedPlayerPosition.x
+            << ", " << params.expectedPlayerPosition.y << ")"
+            << ", expectedRotation=" << params.expectedPlayerRotation;
+}
+
 class GameSessionTestsWithMovePlayer : public TestWithParam<MovePlayerParams>
 {
 };
 
 const std::vector<MovePlayerParams> movePlayerParams {
-    {
-        Direction::FRONT,
-        0.0F,
-        { 2500.0F, 2500.0F },
-        0.0F,
-    },
-    {
-        Direction::FRONT,
-        1.0F,
-        { 2500.0F, 2499.0F },
-        0.0F,
-    },
-    {
-        Direction::FRONT_RIGHT,
-        2.0F,
-        { 2502.0F, 2498.0F },
-        45.0F,
-    },
-    {
-        Direction::RIGHT,
-        1.0F,
-        { 2501.0F, 2500.0F },
-        90.0F,
-    },
-    {
-        Direction::BACK_RIGHT,
-        1.0F,
-        { 2501.0F, 2501.0F },
-        135.0F,
-    },
-    {
-        Direction::BACK,
-        1.0F,
-        { 2500.0F, 2501.0F },
-        180.0F,
-    },
-    {
-        Direction::BACK_LEFT,
-        1.0F,
-        { 2499.0F, 2501.0F },
-        225.0F,
-    },
-    {
-        Direction::LEFT,
-        1.0F,
-        { 2499.0F, 2500.0F },
-        270.0F,
-    },
-    {
-        Direction::FRONT_LEFT,
-        1.0F,
-        { 2499.0F, 2499.0F },
-        315.0F,
-    }
+    { Direction::FRONT,
+      0.0F,
+      { 2500.0F, 2500.0F },
+      0.0F },
+    { Direction::FRONT,
+      1.0F,
+      { 2500.0F, 2499.0F },
+      0.0F },
+    { Direction::FRONT_RIGHT,
+      2.0F,
+      { 2502.0F, 2498.0F },
+      45.0F },
+    { Direction::RIGHT,
+      1.0F,
+      { 2501.0F, 2500.0F },
+      90.0F },
+    { Direction::BACK_RIGHT,
+      1.0F,
+      { 2501.0F, 2501.0F },
+      135.0F },
+    { Direction::BACK,
+      1.0F,
+      { 2500.0F, 2501.0F },
+      180.0F },
+    { Direction::BACK_LEFT,
+      1.0F,
+      { 2499.0F, 2501.0F },
+      225.0F },
+    { Direction::LEFT,
+      1.0F,
+      { 2499.0F, 2500.0F },
+      270.0F },
+    { Direction::FRONT_LEFT,
+      1.0F,
+      { 2499.0F, 2499.0F },
+      315.0F }
 };
 
 TEST_P(GameSessionTestsWithMovePlayer, updateGameWorld_PlayerMove_UpdatePlayerPositionAndRotation)
 {
     const auto& params = GetParam();
     auto factory { std::make_unique<MockSceneItemFactory>() };
-    EXPECT_CALL(*factory, create(_, _, _)).WillOnce(Return(SceneItem { 0, SceneItemType::PLAYER, Position{ 2500.0F, 2500.0F }, 0.0F }));
+    EXPECT_CALL(*factory, create(_, _, _)).WillOnce(Return(SceneItem { 0, SceneItemType::PLAYER, Position { 2500.0F, 2500.0F }, 0.0F }));
     GameSessionTestable gameSession { std::move(factory) };
     const auto playerId { gameSession.addPlayer() };
     PlayerStatus status;

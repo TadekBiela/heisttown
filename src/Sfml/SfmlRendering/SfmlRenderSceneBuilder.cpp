@@ -25,7 +25,11 @@ void SfmlRenderSceneBuilder::build(const SceneUpdate& sceneUpdate)
     loadLocalMapTexture(sceneUpdate.playerGlobalPosition);
 
     const auto mapTextureSize { localMapTexture.getSize() };
-    renderItems.push_back(std::make_unique<SfmlRenderItem>(window, mapId, localMapTexture, Position { mapTextureSize.x / 2, mapTextureSize.y / 2 }, 0.0F));
+    const Position mapPosition {
+        static_cast<float>(mapTextureSize.x / 2),
+        static_cast<float>(mapTextureSize.y / 2)
+    };
+    renderItems.push_back(std::make_unique<SfmlRenderItem>(window, mapId, localMapTexture, mapPosition, 0.0F));
 
     for (const auto& sceneItem : sceneUpdate.sceneItems)
     {

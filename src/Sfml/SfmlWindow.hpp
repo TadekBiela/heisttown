@@ -19,7 +19,7 @@ public:
         std::unique_ptr<FilesStorage<SfmlTextureFile>> inputTextureStorage,
         std::unique_ptr<RenderSceneBuilder> inputSceneBuilder = nullptr,
         std::unique_ptr<RenderTarget> inputRenderTarget = nullptr,
-        std::shared_ptr<InputDispatcher> inputDispatcher = nullptr
+        const std::shared_ptr<InputDispatcher>& inputDispatcher = nullptr
     );
     virtual ~SfmlWindow() override = default;
 

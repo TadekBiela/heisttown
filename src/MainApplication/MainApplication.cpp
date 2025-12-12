@@ -8,7 +8,7 @@
 MainApplication::MainApplication(
     std::unique_ptr<IMenuController> controller,
     const std::shared_ptr<Scene>& scene,
-    std::shared_ptr<InputDispatcher> inputDispatcher,
+    const std::shared_ptr<InputDispatcher>& inputDispatcher,
     GuiExitCallback callback,
     std::shared_ptr<Client> client,
     std::unique_ptr<Server> server

@@ -41,7 +41,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         sfmlWindow,
         sfmlWindow->getDispatcher(),
         []() {}
-    )};
+    ) };
 
     mainApplication->run();
     sfmlWindow->display();

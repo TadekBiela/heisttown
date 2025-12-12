@@ -11,8 +11,11 @@ SfmlRenderItem::SfmlRenderItem(
     , id(inputId)
 {
     sprite.setTexture(texture);
+
     auto textureSize { texture.getSize() };
-    sprite.setOrigin({ textureSize.x / 2, textureSize.y / 2 });
+    sprite.setOrigin({ static_cast<float>(textureSize.x / 2),
+                       static_cast<float>(textureSize.y / 2) });
+
     sprite.setRotation(rotation);
     sprite.setPosition({ position.x, position.y });
 }

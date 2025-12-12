@@ -6,7 +6,8 @@ InputPlayerHandler::InputPlayerHandler()
     , isDownPressed(false)
     , isLeftPressed(false)
     , isRightPressed(false)
-{}
+{
+}
 
 bool InputPlayerHandler::handle(const InputEvent& event)
 {
@@ -15,10 +16,9 @@ bool InputPlayerHandler::handle(const InputEvent& event)
     {
         case InputEventType::KeyPressed:
         {
-            const auto* keyData = std::get_if<KeyData>(&event.data);
-            if(isMoveKey(keyData->key))
+            if (const auto* keyData = std::get_if<KeyData>(&event.data))
             {
-                switch(keyData->key)
+                switch (keyData->key)
                 {
                     case Key::Up:
                     {
@@ -40,20 +40,19 @@ bool InputPlayerHandler::handle(const InputEvent& event)
                         isRightPressed = true;
                         break;
                     }
+                    case Key::None:
+                    {
+                        return false;
+                    }
                 }
-            }
-            else
-            {
-                return false;
             }
             break;
         }
         case InputEventType::KeyReleased:
         {
-            const auto* keyData = std::get_if<KeyData>(&event.data);
-            if(isMoveKey(keyData->key))
+            if (const auto* keyData = std::get_if<KeyData>(&event.data))
             {
-                switch(keyData->key)
+                switch (keyData->key)
                 {
                     case Key::Up:
                     {
@@ -75,11 +74,11 @@ bool InputPlayerHandler::handle(const InputEvent& event)
                         isRightPressed = false;
                         break;
                     }
+                    case Key::None:
+                    {
+                        return false;
+                    }
                 }
-            }
-            else
-            {
-                return false;
             }
             break;
         }
@@ -87,46 +86,41 @@ bool InputPlayerHandler::handle(const InputEvent& event)
             return false;
     }
 
-    if(isUpPressed)
+    if (isUpPressed)
     {
         playerStatus.moveDirection = Direction::FRONT;
-        if(isRightPressed)
+        if (isRightPressed)
         {
             playerStatus.moveDirection = Direction::FRONT_RIGHT;
         }
-        else if(isLeftPressed)
+        else if (isLeftPressed)
         {
             playerStatus.moveDirection = Direction::FRONT_LEFT;
         }
     }
-    else if(isDownPressed)
+    else if (isDownPressed)
     {
         playerStatus.moveDirection = Direction::BACK;
-        if(isRightPressed)
+        if (isRightPressed)
         {
             playerStatus.moveDirection = Direction::BACK_RIGHT;
         }
-        else if(isLeftPressed)
+        else if (isLeftPressed)
         {
             playerStatus.moveDirection = Direction::BACK_LEFT;
         }
     }
-    else if(isRightPressed)
+    else if (isRightPressed)
     {
         playerStatus.moveDirection = Direction::RIGHT;
     }
-    else if(isLeftPressed)
+    else if (isLeftPressed)
     {
         playerStatus.moveDirection = Direction::LEFT;
     }
 
     playerStatus.moveVelocity = (isUpPressed or isDownPressed or isLeftPressed or isRightPressed) ? 1.0F : 0.0F;
     return true;
-}
-
-bool InputPlayerHandler::isMoveKey(const Key& key)
-{
-    return key != Key::None;
 }
 
 void InputPlayerHandler::setInputReceiver(InputReceiver inputReceiver)

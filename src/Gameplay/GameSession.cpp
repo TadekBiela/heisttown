@@ -27,10 +27,10 @@ void GameSession::queuePlayerStatus(const PlayerID& playerId, const PlayerStatus
 
 void GameSession::updateGameWorld()
 {
-    for(const auto& status : queuedPlayerStatuses)
+    for (const auto& status : queuedPlayerStatuses)
     {
         auto& player { playersObjects[status.first] };
-        switch(status.second.moveDirection)
+        switch (status.second.moveDirection)
         {
             case Direction::FRONT:
             {
