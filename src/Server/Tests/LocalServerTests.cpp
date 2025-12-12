@@ -85,6 +85,11 @@ private:
     std::future<void> firstTickFuture;
 };
 
+TEST_F(LocalServerTests, constructor_DefaultBehavior_NotThrowExceptions)
+{
+    EXPECT_NO_THROW(LocalServer());
+}
+
 TEST_F(LocalServerTests, connect_AddOneClient_ClientsContainsOneElement)
 {
     const GameSession::PlayerID expectedPlayerId { 42 };
