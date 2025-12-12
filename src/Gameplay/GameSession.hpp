@@ -28,4 +28,5 @@ protected:
 
 private:
     PlayerID playerIdCounter { 0 };
+    std::map<PlayerID, PlayerStatus> queuedPlayerStatuses;
 };
