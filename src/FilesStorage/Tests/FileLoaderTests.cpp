@@ -16,7 +16,7 @@ TEST_F(FileLoaderTests, constructor_DirectoryContainsThreeFiles_ShouldLoadThreeF
     const FileLoader<TextFile> loader { inputDirectory };
 
     const auto& result = loader.getLoadedData();
-    EXPECT_EQ(3, result.size());
+    ASSERT_EQ(3, result.size());
     ASSERT_EQ(1, result.count("test1"));
     EXPECT_EQ(0, result.at("test1").getContent().size());
     ASSERT_EQ(1, result.count("test2"));
@@ -27,5 +27,5 @@ TEST_F(FileLoaderTests, constructor_DirectoryContainsThreeFiles_ShouldLoadThreeF
 
 TEST_F(FileLoaderTests, constructor_WrongDirectory_ShouldThrowException)
 {
-    ASSERT_THROW(FileLoader<TextFile> { "wrong/directory/" }, std::runtime_error);
+    EXPECT_THROW(FileLoader<TextFile> { "wrong/directory/" }, std::runtime_error);
 }

@@ -131,7 +131,7 @@ TEST_F(LocalServerTests, disconnect_ClientThatNotConnected_DoNothing)
     server.disconnect(client);
 
     const auto& resultClients { server.getClients() };
-    ASSERT_EQ(0, resultClients.size());
+    EXPECT_EQ(0, resultClients.size());
 }
 
 TEST_F(LocalServerTests, disconnect_ClientConnected_RemoveClientFromGameplay)
@@ -147,7 +147,7 @@ TEST_F(LocalServerTests, disconnect_ClientConnected_RemoveClientFromGameplay)
     server.disconnect(client);
 
     const auto& resultClients { server.getClients() };
-    ASSERT_EQ(0, resultClients.size());
+    EXPECT_EQ(0, resultClients.size());
 }
 
 TEST_F(LocalServerTests, disconnect_ClientConnectedTryDisconnectwice_RemoveClientFromGameplayOnlyOnce)
@@ -164,7 +164,7 @@ TEST_F(LocalServerTests, disconnect_ClientConnectedTryDisconnectwice_RemoveClien
     server.disconnect(client);
 
     const auto& resultClients { server.getClients() };
-    ASSERT_EQ(0, resultClients.size());
+    EXPECT_EQ(0, resultClients.size());
 }
 
 TEST_F(LocalServerTests, stop_NotStarted_StillRunningFalse)
@@ -172,7 +172,7 @@ TEST_F(LocalServerTests, stop_NotStarted_StillRunningFalse)
     auto gameSession = std::make_unique<MockGameSession>();
     LocalServerTestable server { std::move(gameSession) };
 
-    EXPECT_NO_THROW(server.stop());
+    ASSERT_NO_THROW(server.stop());
 
     EXPECT_FALSE(server.isRunning());
 }
@@ -184,7 +184,7 @@ TEST_F(LocalServerTests, stop_ServerStarted_StopAndSetRunningFalse)
     server.start();
 
     const bool isRunningBeforeStop { server.isRunning() };
-    EXPECT_NO_THROW(server.stop());
+    ASSERT_NO_THROW(server.stop());
 
     EXPECT_TRUE(isRunningBeforeStop);
     EXPECT_FALSE(server.isRunning());

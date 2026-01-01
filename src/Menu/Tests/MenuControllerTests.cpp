@@ -91,7 +91,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsOneMenuWithButton_ShouldCon
 
     const MenuControllerTestable controller(std::move(parser), std::move(source));
 
-    EXPECT_EQ(1, controller.getMenus().size());
+    ASSERT_EQ(1, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
 }
 
@@ -99,7 +99,7 @@ TEST_F(MenuControllerTests, constructor_ParserReturnsThreeMenus_ShouldContainsAl
 {
     const MenuControllerTestable controller { prepareMenuControllerWithMenu() };
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
 }
 
@@ -109,7 +109,7 @@ TEST_F(MenuControllerTests, handle_SinglePlayer_ShouldSwitchCurrentMenuToSingleP
 
     controller.handle("SinglePlayer");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
 }
 
@@ -119,7 +119,7 @@ TEST_F(MenuControllerTests, handle_Settings_ShouldSwitchCurrentMenuToSettings)
 
     controller.handle("Settings");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("Settings"), controller.getCurrentMenu());
 }
 
@@ -130,7 +130,7 @@ TEST_F(MenuControllerTests, handle_SinglePlayerNextToSettings_ShouldSwitchCurren
     controller.handle("SinglePlayer");
     controller.handle("Settings");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("Settings"), controller.getCurrentMenu());
 }
 
@@ -141,7 +141,7 @@ TEST_F(MenuControllerTests, handle_SinglePlayerAndBack_ShouldSwitchCurrentMenuTo
     controller.handle("SinglePlayer");
     controller.handle("Back");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
 }
 
@@ -158,7 +158,7 @@ TEST_F(MenuControllerTests, handle_SinglePlayerAndPlay_ShouldSwitchCurrentMenuTo
     controller.handle("SinglePlayer");
     controller.handle("Play");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
     EXPECT_EQ(MenuCommand::StartSinglePlayer, result);
 }
@@ -173,7 +173,7 @@ TEST_F(MenuControllerTests, handle_SinglePlayerPlayAndPause_ShouldSwitchCurrentM
     controller.handle("Play");
     controller.handle("Pause");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("Pause"), controller.getCurrentMenu());
 }
 
@@ -192,7 +192,7 @@ TEST_F(MenuControllerTests, handle_SinglePlayerPlayPauseAndAbort_ShouldSwitchCur
     controller.handle("Pause");
     controller.handle("Abort");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
     EXPECT_EQ(MenuCommand::Abort, result);
 }
@@ -212,7 +212,7 @@ TEST_F(MenuControllerTests, handle_SinglePlayerPlayPauseAndConitnue_ShouldStayCu
     controller.handle("Pause");
     controller.handle("Continue");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("SinglePlayer"), controller.getCurrentMenu());
     EXPECT_EQ(MenuCommand::Continue, result);
 }
@@ -223,7 +223,7 @@ TEST_F(MenuControllerTests, handle_WrongCommand_ShouldIgnoreCommand)
 
     controller.handle("WringCommand");
 
-    EXPECT_EQ(4, controller.getMenus().size());
+    ASSERT_EQ(4, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
 }
 
@@ -247,6 +247,6 @@ TEST_F(MenuControllerTests, showMenu_DefaultMainMenu_ShouldShowMainMenu)
 
     controller.showMenu();
 
-    EXPECT_EQ(1, controller.getMenus().size());
+    ASSERT_EQ(1, controller.getMenus().size());
     EXPECT_EQ(controller.getMenus().find("MainMenu"), controller.getCurrentMenu());
 }

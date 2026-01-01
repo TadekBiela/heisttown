@@ -39,6 +39,7 @@ TEST_F(WidgetsFactorySfmlTests, create_LabelType_CreateLabelWidget)
         )
     };
 
+    ASSERT_TRUE(resultWidget != nullptr);
     EXPECT_EQ(WidgetType::LABEL, resultWidget->getType());
     EXPECT_TRUE(dynamic_cast<LabelWidget*>(resultWidget.get()) != nullptr);
 }
@@ -61,6 +62,7 @@ TEST_F(WidgetsFactorySfmlTests, create_ButtonType_CreateButtonWidget)
         )
     };
 
+    ASSERT_TRUE(resultWidget != nullptr);
     EXPECT_EQ(WidgetType::BUTTON, resultWidget->getType());
     EXPECT_TRUE(dynamic_cast<ButtonWidget*>(resultWidget.get()) != nullptr);
 }

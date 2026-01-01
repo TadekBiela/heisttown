@@ -66,7 +66,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputNoStyle_ShouldReturnMe
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(1, result.size());
+    EXPECT_EQ(1, result.size());
 }
 
 TEST_F(MenuParserTests, parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsTwoButtons)
@@ -88,7 +88,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoButtonsOnInputNoStyle_ShouldReturnM
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(1, result.size());
+    EXPECT_EQ(1, result.size());
 }
 
 TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsOneLAbel)
@@ -105,7 +105,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputNoStyle_ShouldReturnMen
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(1, result.size());
+    EXPECT_EQ(1, result.size());
 }
 
 TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMenusWithMainMenuContainsTwoLabels)
@@ -128,7 +128,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsOnInputNoStyle_ShouldReturnMe
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(1, result.size());
+    EXPECT_EQ(1, result.size());
 }
 
 TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnMenusWithMainMenuContainsOneButtonWithStyle)
@@ -169,7 +169,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneButtonOnInputOneStyle_ShouldReturnM
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(1, result.size());
+    EXPECT_EQ(1, result.size());
 }
 
 TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMenusWithMainMenuContainsOneLabelWithStyle)
@@ -210,7 +210,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileOneLabelOnInputOneStyle_ShouldReturnMe
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(1, result.size());
+    EXPECT_EQ(1, result.size());
 }
 
 TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyles_ShouldReturnMenusWithMainMenuContainsAllWidgetsWithProperStyles)
@@ -270,7 +270,7 @@ TEST_F(MenuParserTests, parse_MainMenuFileTwoLabelsAndThreeButtonsOnInputTwoStyl
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(1, result.size());
+    EXPECT_EQ(1, result.size());
 }
 
 TEST_F(MenuParserTests, parse_TwoFilesWithoutWidgetsNoStyle_ShouldReturnMenusWithTwoEmptyMenus)
@@ -286,7 +286,7 @@ TEST_F(MenuParserTests, parse_TwoFilesWithoutWidgetsNoStyle_ShouldReturnMenusWit
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(2, result.size());
+    EXPECT_EQ(2, result.size());
 }
 
 TEST_F(MenuParserTests, parse_TwoFilesWithWidgetsNoStyle_ShouldReturnMenusWithTwoFilledMenus)
@@ -303,5 +303,5 @@ TEST_F(MenuParserTests, parse_TwoFilesWithWidgetsNoStyle_ShouldReturnMenusWithTw
 
     const Menus result { parser.parse(std::move(fileLoader)) };
 
-    ASSERT_EQ(2, result.size());
+    EXPECT_EQ(2, result.size());
 }

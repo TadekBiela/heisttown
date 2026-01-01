@@ -30,8 +30,8 @@ TEST_F(GameSessionTests, addPlayer_OneNewPlayer_ReturnNewPlayerIdAndAddPlayerSce
 
     EXPECT_EQ(0, resultPlayerId);
     const auto& resultPlayerObjects { gameSession.getPlayersObjects() };
-    EXPECT_EQ(1, resultPlayerObjects.size());
-    EXPECT_NO_THROW(resultPlayerObjects.at(resultPlayerId));
+    ASSERT_EQ(1, resultPlayerObjects.size());
+    EXPECT_NE(resultPlayerObjects.end(), resultPlayerObjects.find(resultPlayerId));
 }
 
 TEST_F(GameSessionTests, addPlayer_TwoNewPlayers_ReturnUniqueIdPerPlayerAndAddPlayerSceneItems)
@@ -46,9 +46,9 @@ TEST_F(GameSessionTests, addPlayer_TwoNewPlayers_ReturnUniqueIdPerPlayerAndAddPl
     EXPECT_EQ(0, resultPlayer1Id);
     EXPECT_EQ(1, resultPlayer2Id);
     const auto& resultPlayerObjects { gameSession.getPlayersObjects() };
-    EXPECT_EQ(2, resultPlayerObjects.size());
-    EXPECT_NO_THROW(resultPlayerObjects.at(resultPlayer1Id));
-    EXPECT_NO_THROW(resultPlayerObjects.at(resultPlayer2Id));
+    ASSERT_EQ(2, resultPlayerObjects.size());
+    EXPECT_NE(resultPlayerObjects.end(), resultPlayerObjects.find(resultPlayer1Id));
+    EXPECT_NE(resultPlayerObjects.end(), resultPlayerObjects.find(resultPlayer2Id));
 }
 
 TEST_F(GameSessionTests, removePlayer_PlayerIdMatch_RemovePlayerFromSession)
@@ -74,7 +74,7 @@ TEST_F(GameSessionTests, removePlayer_PlayerIdNotMatch_DoNothing)
     ASSERT_NO_THROW(gameSession.removePlayer(542));
 
     const auto& resultPlayerObjects { gameSession.getPlayersObjects() };
-    EXPECT_FALSE(resultPlayerObjects.empty());
+    ASSERT_FALSE(resultPlayerObjects.empty());
     EXPECT_NO_THROW(resultPlayerObjects.at(playerId));
 }
 

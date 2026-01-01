@@ -34,7 +34,7 @@ TEST_F(TextFileTests, defaultConstructor_OnlyDefaultValues_ShouldReturnEmptyPath
 
 TEST_F(TextFileTests, constructor_WrongFilePathWithoutRawContent_ShouldThrowException)
 {
-    ASSERT_THROW(TextFile { "wrong/file/path.txt" }, std::runtime_error);
+    EXPECT_THROW(TextFile { "wrong/file/path.txt" }, std::runtime_error);
 }
 
 TEST_F(TextFileTests, constructor_CorrectFilePathFile_ShouldOpenRealFileAndLoadContent)
