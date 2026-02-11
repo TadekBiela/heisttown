@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GameConnection.hpp>
+#include <GameSession.hpp>
 #include <GameplayUpdate.hpp>
 #include <InputPlayerHandler.hpp>
 
@@ -15,4 +16,5 @@ public:
     virtual void receive(const InputCommand& command) = 0;
     [[nodiscard]] virtual PlayerStatus status() const = 0;
     virtual void update(const GameplayUpdate&& gameplayUpdate) = 0;
+    virtual PlayerID getPlayerId() const = 0;
 };

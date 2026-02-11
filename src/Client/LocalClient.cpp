@@ -8,6 +8,7 @@ LocalClient::LocalClient(
     : gameConnection([](const GameCommand&) {})
     , gameScene(std::move(scene))
     , playerInput(std::make_shared<InputPlayerHandler>())
+    , playerId(INVALID_PLAYER_ID)
 {
     inputReceiver = [&](const InputCommand& command)
     {
@@ -51,4 +52,9 @@ PlayerStatus LocalClient::status() const
 void LocalClient::update(const GameplayUpdate&& gameplayUpdate)
 {
     gameScene->update(gameplayUpdate.gameSceneUpdate);
+}
+
+PlayerID LocalClient::getPlayerId() const
+{
+    return playerId;
 }

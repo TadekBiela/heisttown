@@ -21,32 +21,50 @@ LocalServer::~LocalServer()
 
 void LocalServer::start()
 {
-    running = true;
+    running.store(true);
 
-    runningThread = std::thread(
-        [this]()
-        {
-            while (running)
+    runningThread = std::thread([this]()
+                                {
+            while (running.load())
             {
-                for (const auto& client : clients)
+                std::vector<std::pair<PlayerID, std::shared_ptr<Client>>> activeClients;
+
                 {
-                    gameSession->queuePlayerStatus(client.first, client.second->status());
+                    const std::lock_guard lock(clientsMutex);
+                    for (auto it = clients.begin(); it != clients.end(); )
+                    {
+                        if (auto client = it->second.lock())
+                        {
+                            activeClients.emplace_back(it->first, client);
+                            ++it;
+                        }
+                        else
+                        {
+                            it = clients.erase(it);
+                        }
+                    }
+                }
+
+                for (auto& [id, client] : activeClients)
+                {
+                    gameSession->queuePlayerStatus(id, client->status());
                 }
 
                 gameSession->updateGameWorld();
 
-                for (auto& client : clients)
+                for (auto& [id, client] : activeClients)
                 {
-                    client.second->update(gameSession->getUpdateForPlayer(client.first));
+                    client->update(gameSession->getUpdateForPlayer(id));
                 }
-            }
-        }
+
+                std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            } }
     );
 }
 
 void LocalServer::stop()
 {
-    running = false;
+    running.store(false);
 
     if (runningThread.joinable())
     {
@@ -54,12 +72,18 @@ void LocalServer::stop()
     }
 }
 
-void LocalServer::connect(std::shared_ptr<Client> client)
+PlayerID LocalServer::connect(const std::shared_ptr<Client>& client)
 {
+    PlayerID newPlayerId { -1 };
+
+    const std::lock_guard<std::mutex> lockClients(clientsMutex);
     if (not isConnected(client))
     {
-        clients[gameSession->addPlayer()] = client;
+        newPlayerId = gameSession->addPlayer();
+        clients[newPlayerId] = client;
     }
+
+    return newPlayerId;
 }
 
 bool LocalServer::isConnected(const std::shared_ptr<Client>& client) const
@@ -68,35 +92,24 @@ bool LocalServer::isConnected(const std::shared_ptr<Client>& client) const
         std::find_if(
             clients.begin(),
             clients.end(),
-            [&client](const auto& gameplayClient)
+            [&client](const auto& gameplayClientPtr)
             {
-                return gameplayClient.second == client;
+                if (auto gameplayClient = gameplayClientPtr.second.lock())
+                {
+                    return gameplayClient == client;
+                }
+                return false;
             }
         ) != clients.end()
     );
 }
 
-void LocalServer::disconnect(std::shared_ptr<Client> client)
+void LocalServer::disconnect(const PlayerID& playerID)
 {
-    if (isConnected(client))
+    const std::lock_guard<std::mutex> lockClients(clientsMutex);
+    if (clients.find(playerID) != clients.cend())
     {
-        const auto removingPlayerId { getPlayerId(client) };
-        gameSession->removePlayer(removingPlayerId);
-        clients.erase(removingPlayerId);
+        gameSession->removePlayer(playerID);
+        clients.erase(playerID);
     }
-}
-
-const GameSession::PlayerID& LocalServer::getPlayerId(const std::shared_ptr<Client>& client) const
-{
-    const auto& gameplayClient {
-        std::find_if(
-            clients.begin(),
-            clients.end(),
-            [&client](const auto& gameplayClient)
-            {
-                return gameplayClient.second == client;
-            }
-        )
-    };
-    return gameplayClient->first;
 }

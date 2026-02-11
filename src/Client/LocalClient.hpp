@@ -2,6 +2,7 @@
 
 #include "Client.hpp"
 #include <GameConnection.hpp>
+#include <GameSession.hpp>
 #include <GameplayUpdate.hpp>
 #include <InputDispatcher.hpp>
 #include <InputPlayerHandler.hpp>
@@ -22,10 +23,12 @@ public:
     void receive(const InputCommand& command) override;
     [[nodiscard]] PlayerStatus status() const override;
     void update(const GameplayUpdate&& gameplayUpdate) override;
+    PlayerID getPlayerId() const override;
 
 private:
     GameConnection gameConnection;
     std::shared_ptr<Scene> gameScene;
     InputReceiver inputReceiver;
     std::shared_ptr<InputPlayerHandler> playerInput;
+    PlayerID playerId;
 };

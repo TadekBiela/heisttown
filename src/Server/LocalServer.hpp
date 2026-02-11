@@ -1,18 +1,19 @@
 #pragma once
 
-#include "GameSession.hpp"
 #include "Server.hpp"
 #include <Client.hpp>
+#include <GameSession.hpp>
 #include <atomic>
-#include <memory>
-#include <thread>
 #include <map>
+#include <memory>
+#include <mutex>
+#include <thread>
 #include <utility>
 
 class LocalServer : public Server
 {
 public:
-    using GameplayClient = std::pair<GameSession::PlayerID, std::shared_ptr<Client>>;
+    using GameplayClient = std::pair<PlayerID, std::weak_ptr<Client>>;
     using Clients = std::map<GameplayClient::first_type, GameplayClient::second_type>;
 
     explicit LocalServer(std::unique_ptr<GameSession> newGameSession = nullptr);
@@ -20,17 +21,17 @@ public:
 
     void start() override;
     void stop() override;
-    void connect(std::shared_ptr<Client> client) override;
-    void disconnect(std::shared_ptr<Client> client) override;
+    PlayerID connect(const std::shared_ptr<Client>& client) override;
+    void disconnect(const PlayerID& playerID) override;
 
 protected:
     std::atomic<bool> running { false };
     Clients clients;
+    mutable std::mutex clientsMutex;
 
 private:
     std::thread runningThread;
     std::unique_ptr<GameSession> gameSession;
 
     [[nodiscard]] bool isConnected(const std::shared_ptr<Client>& client) const;
-    [[nodiscard]] const GameSession::PlayerID& getPlayerId(const std::shared_ptr<Client>& client) const;
 };

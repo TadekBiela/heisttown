@@ -2,6 +2,7 @@
 
 #include "Client.hpp"
 #include <GameConnection.hpp>
+#include <GameSession.hpp>
 #include <GameplayUpdate.hpp>
 #include <InputPlayerHandler.hpp>
 #include <PlayerStatus.hpp>
@@ -16,4 +17,5 @@ public:
     MOCK_METHOD(void, receive, (const InputCommand&), (override));
     MOCK_METHOD(PlayerStatus, status, (), (const, override));
     MOCK_METHOD(void, update, (const GameplayUpdate&&), (override));
+    MOCK_METHOD(PlayerID, getPlayerId, (), (const, override));
 };

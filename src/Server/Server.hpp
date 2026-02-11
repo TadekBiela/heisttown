@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Client.hpp>
+#include <GameSession.hpp>
 #include <memory>
 
 class Server
@@ -10,6 +11,6 @@ public:
 
     virtual void start() = 0;
     virtual void stop() = 0;
-    virtual void connect(std::shared_ptr<Client>) = 0;
-    virtual void disconnect(std::shared_ptr<Client>) = 0;
+    virtual PlayerID connect(const std::shared_ptr<Client>&) = 0;
+    virtual void disconnect(const PlayerID&) = 0;
 };

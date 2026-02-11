@@ -7,10 +7,13 @@
 #include <map>
 #include <memory>
 
+constexpr int INVALID_PLAYER_ID{ -1 };
+
+using PlayerID = int;
+
 class GameSession
 {
 public:
-    using PlayerID = int;
     using PlayersObjects = std::map<PlayerID, SceneItem>;
 
     explicit GameSession(std::unique_ptr<SceneItemFactory> inputFactory = nullptr);
